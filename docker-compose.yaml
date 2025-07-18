@@ -25,7 +25,7 @@ services:
       - "8080:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-      - ./database/servers.json/servers.json:/pgadmin4/servers.json
+      - ./database/servers.json:/pgadmin4/servers.json
     depends_on:
       - db
 
