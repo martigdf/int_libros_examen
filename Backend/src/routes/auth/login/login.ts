@@ -1,9 +1,43 @@
-import { FastifyPluginAsync } from 'fastify'
+import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
+import { query } from '../../../services/database.js';
 
-const example: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
-  fastify.get('/', async function (request, reply) {
-    return 'this is an example'
+const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
+  fastify.post('/', {
+    schema: {
+      tags: ['auth'],
+      summary: "Ruta para loguearse",
+      description: "Permite a un usuario autenticarse y obtener un token de acceso",
+      body: {
+        type: 'object',
+        required: ["email", "password"],
+        properties: {
+          email: { type: "string"},
+          password: { type: "string" },
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      const { email } = request.body as { email:string, password: string};
+      const res = await query(
+        `SELECT * FROM users WHERE email = '${email}'`,
+      );
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "Usuario no encontrado" });
+        return;
+      }
+      const user = res.rows[0];
+      const token = fastify.jwt.sign({ id: user.id }, { expiresIn: "3h" });
+      reply.send({
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          lastname: user.lastname,
+          role: user.role,
+        },
+      });
+    }
   })
 }
 
-export default example
+export default authRoute
