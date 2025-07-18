@@ -10,6 +10,54 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(10) CHECK (role IN ('admin', 'user')) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS books (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    author TEXT NOT NULL,
+    state TEXT NOT NULL CHECK (state IN ('available', 'unavailable')),
+);
+
+CREATE TABLE IF NOT EXISTS publications (
+    id SERIAL PRIMARY KEY,
+    creation_date TIMESTAMP DEFAULT NOW() NOT NULL,
+    location TEXT NOT NULL,
+    id_user INTEGER REFERENCES users(id),
+    id_book INTEGER REFERENCES books(id)
+);
+
+CREATE TABLE IF NOT EXISTS gender (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    id_book INTEGER REFERENCES books(id)
+);
+
+CREATE TABLE IF NOT EXISTS requests (
+    id SERIAL PRIMARY KEY,
+    creation_date TIMESTAMP DEFAULT NOW() NOT NULL,
+    estado VARCHAR(50),
+    id_user_applicant INTEGER REFERENCES users(id),
+    id_user INTEGER REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS requests_books (
+    id_request INTEGER REFERENCES requests(id),
+    id_book INTEGER REFERENCES books(id),
+    PRIMARY KEY (id_request, id_book)
+);
+
+CREATE TABLE IF NOT EXISTS loans (
+    id SERIAL PRIMARY KEY,
+    date_loan TIMESTAMP DEFAULT NOW() NOT NULL,
+    id_request INTEGER REFERENCES requests(id)
+);
+
+CREATE TABLE IF NOT EXISTS devolutions (
+    id_loan INTEGER PRIMARY KEY REFERENCES loans(id),
+    opinion TEXT NOT NULL,
+    calification INTEGER CHECK (calification BETWEEN 1 AND 5)
+);
+
+
 INSERT INTO users (name, lastname, username, email, role, password) VALUES 
     ('Jorge', 'Melnik', 'melnik_1','jorgemelnik@gmail.com', 'admin', crypt('contraseña', gen_salt('bf'))),
     ('Martina', 'Guzmán', 'marti_42', 'martina@gmail.com', 'user', crypt('contraseña', gen_salt('bf'))),
