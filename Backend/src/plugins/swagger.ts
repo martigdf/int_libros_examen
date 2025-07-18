@@ -18,6 +18,7 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
         }
       ],
       tags: [
+        { name: 'requests', description: 'Operations related to requests' },
         { name: 'examples', description: 'Examples end points.' },
         { name: 'auth', description: 'Authentication related end-points' },
         { name: 'users', description: 'User management end-points' },
