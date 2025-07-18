@@ -2,6 +2,10 @@
 
 ## Iniciar el entorno de desarrollo
 
+Todo lo realizado esta en main.
+
+Archivo .env-example con ejemplo de .env 
+
 Para levantar el entorno de desarrollo, ejecuta (desde la carpeta Backend):
 
 ```bash
