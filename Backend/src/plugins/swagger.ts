@@ -20,7 +20,8 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
       tags: [
         { name: 'examples', description: 'Examples end points.' },
         { name: 'auth', description: 'Authentication related end-points' },
-        { name: 'users', description: 'User management end-points' }
+        { name: 'users', description: 'User management end-points' },
+        { name: 'admin', description: 'Admin management end-points' }
       ],
       components: {
         securitySchemes: {
