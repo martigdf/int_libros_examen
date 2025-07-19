@@ -14,7 +14,17 @@ CREATE TABLE IF NOT EXISTS books (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     author TEXT NOT NULL,
-    state TEXT NOT NULL CHECK (state IN ('available', 'unavailable')),
+    state VARCHAR(10) CHECK (
+        state IN (
+            'available',
+            'requested',
+            'reserved',
+            'loaned',
+            'returned',
+            'cancelled',
+            'unavailable'
+        )
+    ) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS publications (
@@ -25,16 +35,29 @@ CREATE TABLE IF NOT EXISTS publications (
     id_book INTEGER REFERENCES books(id)
 );
 
-CREATE TABLE IF NOT EXISTS gender (
+CREATE TABLE IF NOT EXISTS genres (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    id_book INTEGER REFERENCES books(id)
+    name TEXT NOT NULL
+);
+
+-- Agregamos esta tabla para que exista una relacion N:M correcta
+CREATE TABLE IF NOT EXISTS books_genres (
+    id_book INTEGER REFERENCES books(id),
+    id_genre INTEGER REFERENCES genres(id),
+    PRIMARY KEY (id_book, id_genre)
 );
 
 CREATE TABLE IF NOT EXISTS requests (
     id SERIAL PRIMARY KEY,
     creation_date TIMESTAMP DEFAULT NOW() NOT NULL,
-    estado VARCHAR(50),
+    state VARCHAR(20) CHECK (
+        state IN (
+            'pending',
+            'accepted',
+            'rejected', 
+            'cancelled'
+        )
+    ) NOT NULL,
     id_user_applicant INTEGER REFERENCES users(id),
     id_user INTEGER REFERENCES users(id)
 );
@@ -57,10 +80,21 @@ CREATE TABLE IF NOT EXISTS devolutions (
     calification INTEGER CHECK (calification BETWEEN 1 AND 5)
 );
 
-
 INSERT INTO users (name, lastname, username, email, role, password) VALUES 
     ('Jorge', 'Melnik', 'melnik_1','jorgemelnik@gmail.com', 'admin', crypt('contraseña', gen_salt('bf'))),
     ('Martina', 'Guzmán', 'marti_42', 'martina@gmail.com', 'user', crypt('contraseña', gen_salt('bf'))),
     ('Luis', 'Di Muro', 'luis_89', 'luis@gmail.com', 'user', crypt('contraseña', gen_salt('bf'))),
     ('Lucas', 'Rodriguez', 'luquitas_77', 'lucas@gmail.com', 'user', crypt('contraseña', gen_salt('bf')))
 ;
+
+INSERT INTO books (name, author, state) VALUES
+  ('1984', 'George Orwell', 'available'),
+  ('The Hobbit', 'J.R.R. Tolkien', 'available'),
+  ('Dune', 'Frank Herbert', 'available'),
+  ('El Principito', 'Antoine de Saint-Exupéry', 'available');
+
+INSERT INTO genres (name) VALUES
+  ('Science Fiction'),
+  ('Fantasy'),
+  ('Classic'),
+  ('Children');
