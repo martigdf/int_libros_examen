@@ -1,0 +1,24 @@
+/
+├── / (GET)
+├── /admin
+│   ├── /users (GET)
+│   ├── /users/:id (GET)
+│   ├── /users/:id (DELETE)
+│   └── /books
+│       ├── /books (GET)
+│       └── /books/:id (DELETE)
+├── /auth
+│   └── /login (POST)
+├── /books
+│   ├── /books (GET, POST)
+│   ├── /books/:id (GET)
+│   └── /my-books (GET)
+├── /users
+│   ├── /:id (GET)
+│   └── /register (POST)
+├── /requests
+│   ├── / (POST)
+│   ├── /sent (GET)
+│   └── /received (GET)
+└── /example
+    └── / (GET)
