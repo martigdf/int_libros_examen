@@ -1,19 +1,21 @@
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
-import { query } from '../../../services/database.js';
-import myBooksRoute from '../books/my-books.js';
+//import { query } from '../../services/database.js';
+//import myBooksRoute from '../books/my-books.js';
 
 const showBooksRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
   
     fastify.delete('/books/:id', {
-        schema: 
+        schema: {
         tags: ['admin'],
         summary: "Route for deleting a published book",
         description: "Deletes a specific published book",
-        body: {
+        params: {
             type: 'object',
-            // required: [  ],
-            properties: {  },
-        },
+            properties: {
+                id: { type: 'string' }
+            },
+            required: ['id']
+        }
         },
         handler: async (request, reply) => {
         
@@ -23,15 +25,10 @@ const showBooksRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
     });
 
     fastify.get('/books', {
-        schema: 
+        schema: {
         tags: ['admin'],
         summary: "Route for listing all the published books",
-        description: "Shows all the published books",
-        body: {
-            type: 'object',
-            // required: [  ],
-            properties: {  },
-        },
+        description: "Shows all the published books"
         },
         handler: async (request, reply) => {
         
@@ -41,4 +38,4 @@ const showBooksRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
     })
 }
 
-export default myBooksRoute
+export default showBooksRoute

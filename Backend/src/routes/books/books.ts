@@ -1,5 +1,5 @@
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
-import { query } from '../../../services/database.js';
+//import { query } from '../../services/database.js';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
   
@@ -7,12 +7,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     schema: {
       tags: ['books'],
       summary: "Route for listing all the published books",
-      description: "Shows all the published books",
-      body: {
-        type: 'object',
-        // required: [  ],
-        properties: {  },
-      },
+      description: "Shows all the published books"
     },
     handler: async (request, reply) => {
       
@@ -22,7 +17,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
   });
 
   fastify.post('/books', {
-    schema: 
+    schema: {
       tags: ['books'],
       summary: "Route for publishing a new book",
       description: "Lets the user publish a new book",
@@ -40,22 +35,24 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
   });
 
   fastify.get('/books/:id', {
-    schema: 
+    schema: {
       tags: ['books'],
       summary: "Route for retrieving a specific book's data",
       description: "Shows the user a specific book's data",
-      body: {
+      params: {
         type: 'object',
-        // required: [  ],
-        properties: {  },
-      },
+        properties: {
+          id: { type: 'string' }
+        },
+        required: ['id']
+      }
     },
     handler: async (request, reply) => {
       
         return {  }
       
     }
-
+  });
 }
 
 export default bookRoutes
