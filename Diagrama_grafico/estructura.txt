@@ -19,6 +19,11 @@
 ├── /requests
 │   ├── / (POST)
 │   ├── /sent (GET)
-│   └── /received (GET)
+│   ├── /received (GET)
+│   ├── /:id/accept (PATCH)
+│   ├── /:id/reject (PATCH)
+│   ├── /:id/confirm-pickup (PATCH)
+│   ├── /:id/confirm-return (PATCH)
+│   └── /:id/cancel-no-pickup (PATCH)
 └── /example
     └── / (GET)
