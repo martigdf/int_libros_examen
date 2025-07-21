@@ -7,7 +7,7 @@ export const BookIdSchema = Type.Object({
 export const GenreSchema = Type.Object({
     id: Type.Number(),
     name: Type.String({ minLength: 2, maxLength: 30 }),
-});
+}, { $id: 'GenreSchema' });
 
 export const BookSchema = Type.Object({
     id: Type.Number(),
@@ -15,7 +15,7 @@ export const BookSchema = Type.Object({
     description: Type.String({ minLength: 10, maxLength: 500 }),
     author: Type.String({ minLength: 2, maxLength: 50 }),
     genre: Type.Array(
-        Type.Ref(GenreSchema),
+        Type.String({ minLength: 2, maxLength: 30 }),
         { minItems: 1, description: 'Lista de géneros del libro' }
     ),
     date_published: Type.String({ format: 'date', description: 'Fecha de publicación del libro' }),
@@ -33,7 +33,7 @@ export const BookPostSchema = Type.Object({
     description: Type.String({ minLength: 10, maxLength: 500 }),
     author: Type.String({ minLength: 2, maxLength: 50 }),
     genre: Type.Array(
-        Type.Ref(GenreSchema),
+        Type.String({ minLength: 2, maxLength: 30 }),
         { minItems: 1, description: 'Lista de géneros del libro' }
     ),
     location: Type.String({ minLength: 5, maxLength: 100 }),

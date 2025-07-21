@@ -55,6 +55,8 @@ const requestsRoutes: FastifyPluginAsync = async (
     }
   });
 
+  // Combinar /:id/accept y /:id/reject en un solo endpoint (/:id/response)
+
   fastify.patch('/:id/accept', {
     schema: {
       tags: ['requests'],

@@ -1,6 +1,7 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox'
 import { UserIdSchema, UserIdType, UserSchema, UserType } from '../../schemas/user/userSchema.js'
 import { query } from '../../services/database.js'
+import { BookIdType } from '../../schemas/book/bookSchema.js';
 
 // Mas adelante agregar verificacion de si es admin o no mediante 
 // el prepasing sacando del token el id de usuario.   
@@ -107,8 +108,17 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         },
         handler: async (request, reply) => {
         
-            return {  }
-      
+          const { id } = request.params as BookIdType;
+
+          const check = await query('SELECT id FROM books WHERE id = $1', [id]);
+          if (check.rowCount === 0) {
+            return reply.status(404).send({ message: 'Libro no encontrado' });
+          }
+
+          await query('DELETE FROM books WHERE id = $1', [id]);
+         
+          return reply.send({ message: 'Libro eliminado correctamente' });
+          
         }
     })
 }

@@ -29,6 +29,66 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
+  fastify.get('/:id/sent-requests', {
+    schema: {
+      tags: ['users'],
+      summary: 'Ruta para obtener las solicitudes enviadas por un usuario',
+      description: 'Permite obtener las solicitudes enviadas por un usuario',
+      params: UserIdSchema,
+      response: {
+        200: Type.Array(Type.Object({
+          id_request: Type.String(),
+          creation_date: Type.String(),
+          status: Type.String(),
+          requester_user_id: Type.String(),
+          receiver_user_id: Type.String()
+        })),
+        404: Type.Object({message: Type.String()})
+      }
+    },
+    handler: async function (request, reply) {
+      const { id } = request.params as { id: number };
+      const res = await query(
+        `SELECT * FROM requests WHERE sender_user_id = $1`,
+        [id]
+      );
+      if (res.rowCount === 0) {
+        return reply.status(404).send({ message: "No se encontraron solicitudes enviadas por este usuario" });
+      }
+      return res.rows;
+    }
+  });
+
+  fastify.get('/:id/received-requests', {
+    schema: {
+      tags: ['users'],
+      summary: 'Ruta para obtener las solicitudes recibidas por un usuario',
+      description: 'Permite obtener las solicitudes recibidas por un usuario',
+      params: UserIdSchema,
+      response: {
+        200: Type.Array(Type.Object({
+          id_request: Type.String(),
+          creation_date: Type.String(),
+          status: Type.String(),
+          requester_user_id: Type.String(),
+          receiver_user_id: Type.String()
+        })),
+        404: Type.Object({message: Type.String()})
+      }
+    },
+    handler: async function (request, reply) {
+      const { id } = request.params as { id: number };
+      const res = await query(
+        `SELECT * FROM requests WHERE receiver_user_id = $1`,
+        [id]
+      );
+      if (res.rowCount === 0) {
+        return reply.status(404).send({ message: "No se encontraron solicitudes recibidas por este usuario" });
+      }
+      return res.rows;
+    }
+  });
+
   fastify.post('/register', {
     schema: {
       tags: ['users'],
