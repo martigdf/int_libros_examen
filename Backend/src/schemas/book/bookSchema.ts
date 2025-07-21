@@ -1,5 +1,9 @@
 import { Static, Type } from '@sinclair/typebox';
 
+export const BookIdSchema = Type.Object({
+    id: Type.Number(),
+}, { $id: 'BookIdSchema' });
+
 export const GenreSchema = Type.Object({
     id: Type.Number(),
     name: Type.String({ minLength: 2, maxLength: 30 }),
@@ -36,5 +40,8 @@ export const BookPostSchema = Type.Object({
     image_url: Type.Optional(Type.String({ format: 'uri', description: 'URL de la imagen del libro' })),
 });
 
-export type UserType = Static<typeof BookSchema>;
+export const BookIdReference = Type.Ref(BookIdSchema);
+export type BookIdRef = Static<typeof BookIdReference>;
+export type BookIdType = Static<typeof BookIdSchema>;
+export type BookType = Static<typeof BookSchema>;
 export type BookPostType = Static<typeof BookPostSchema>;

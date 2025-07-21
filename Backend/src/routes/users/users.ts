@@ -26,7 +26,6 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       }
       const user = res.rows[0];
       return user;
-
     }
   });
 
