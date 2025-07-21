@@ -1,58 +1,141 @@
-import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
-//import { query } from '../../services/database.js';
+import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
+import { query } from "../../services/database.js";
+import { BookPostSchema, BookPostType, BookSchema } from '../../schemas/book/bookSchema.js';
+import { UserType } from '../../schemas/user/userSchema.js';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
-  
-  fastify.get('/books', {
+
+  fastify.get('/', {
     schema: {
       tags: ['books'],
-      summary: "Route for listing all the published books",
-      description: "Shows all the published books"
+      summary: "Ruta para listar todos los libros publicados",
+      description: "Muestra todos los libros publicados",
+      response: {
+        200: Type.Array(BookSchema, {
+          description: "Lista de libros publicados"
+        }),
+        404: Type.Object({ message: Type.String() }),
+      }
     },
-    handler: async (request, reply) => {
-      
-        return {  }
-      
+  handler: async (request, reply) => {
+      const res = await query (
+        `SELECT * FROM libros'`
+      );
+      if (res.rowCount === 0) {
+        return reply.status(404).send({ message: "No hay ningún libro publicado" });
+      }
+      const all_books = res.rows;
+      return all_books;
     }
   });
 
-  fastify.post('/books', {
+  fastify.get('/:id', {
     schema: {
       tags: ['books'],
-      summary: "Route for publishing a new book",
-      description: "Lets the user publish a new book",
-      body: {
-        type: 'object',
-        // required: [  ],
-        properties: {  },
-      },
-    },
-    handler: async (request, reply) => {
-      
-        return {  }
-      
-    }
-  });
-
-  fastify.get('/books/:id', {
-    schema: {
-      tags: ['books'],
-      summary: "Route for retrieving a specific book's data",
-      description: "Shows the user a specific book's data",
+      summary: "Ruta para obtener un libro por ID",
+      description: "Permite al usuario obtener los datos de un libro por su ID",
       params: {
         type: 'object',
         properties: {
           id: { type: 'string' }
         },
         required: ['id']
+      },
+      response: {
+        200: BookSchema,
+        404: Type.Object({message: Type.String()}),
       }
     },
     handler: async (request, reply) => {
+      const {id} = request.params as { id: number };
+      const res = await query (
+        `SELECT * FROM libros WHERE id = $1`,
+        [id]
+      );
+      if (res.rowCount === 0) {
+        return reply.status(404).send({ message: "Libro no encontrado" });
+      }
+      const book = res.rows[0];
+      return book;
+    }
+  });
+
+  fastify.get('/owned', {
+    schema: {
+      tags: ['books'],
+      summary: "Ruta para mostrar todos los libros publicados por el usuario",
+      description: "Muestra los libros que hayan sido publicados por el usuario",
+      response: {
+        200: Type.Array(BookSchema, {
+          description: "Lista de libros publicados por el usuario"
+        }),
+        401: Type.Object({ message: Type.String() }),
+        404: Type.Object({ message: Type.String() }),
+      },
+    },
+    preHandler: [fastify.authenticate],
+    handler: async (request, reply) => {
       
-        return {  }
+      await request.jwtVerify();
+            
+      const user = request.user as UserType;
+
+      const res = await query (
+        `SELECT * FROM libros WHERE owner_id = $1`, [user.id]
+      );
+      if (res.rowCount === 0) {
+        return reply.status(404).send({ message: "No hay ningún libro publicado por el usuario" });
+      }
+      const owned_books = res.rows;
+      return owned_books;
       
     }
   });
+
+  fastify.post('/publish', {
+    schema: {
+      tags: ['books'],
+      summary: "Ruta para publicar un libro",
+      description: "Permite al usuario publicar un libro",
+      body: BookPostSchema,
+      response: {
+        201: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+            bookId: { type: "number" }
+          }
+        },
+        404: {
+          description: "Error al publicar libro",
+          type: "object",
+          properties: {
+            message: { type: "string" }
+          }
+        }
+      }
+    },
+    handler: async function (request, reply) {
+      const bookPost = request.body as BookPostType;
+      const name = bookPost.name;
+      const description = bookPost.description;
+      const author = bookPost.author;
+      const genre = bookPost.genre;
+      const location = bookPost.location;
+      const image_url = bookPost.image_url;
+
+      /*const res = await query(
+        `INSERT INTO libros (name, description, author, genre, published_date, owner_id) 
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+        [name, description, author, genre, published_date, owner_id]
+      );*/
+
+      reply.code(201).send({
+        message: 'Libro publicado correctamente',
+        bookId: 0 //res.rows[0].id
+      });
+    }
+  })
 }
 
 export default bookRoutes

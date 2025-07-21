@@ -4,7 +4,32 @@ import { query } from '../../services/database.js'
 
 // Mas adelante agregar verificacion de si es admin o no mediante 
 // el prepasing sacando del token el id de usuario.   
-const adminRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
+const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
+  
+  fastify.addHook("onRequest", async (request, reply) => {
+
+    try {
+      
+      await request.jwtVerify();
+      
+      const user = request.user as UserType;
+
+      if (user.role !== "admin") {
+        
+        return reply.status(403).send({ error: "Acceso denegado" });
+        //throw new Error("Acceso denegado");
+
+      }
+
+    } catch (err) {
+      
+      return reply.status(401).send({ error: "No autorizado" });
+      //throw new Error("No autorizado");
+    
+    }
+
+  });
+
   fastify.get('/users', {
       schema: {
         tags: ['admin'],
@@ -32,6 +57,7 @@ const adminRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       }
     },
     handler: async function (request, reply) {
+
       const { id } = request.params as UserIdType;
       const res = await query('SELECT * FROM users WHERE id = $1', [id]);
 
@@ -66,7 +92,25 @@ const adminRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   })
 
-
+  fastify.delete('/books/:id', {
+        schema: {
+        tags: ['admin'],
+        summary: "Ruta para eliminar un libro por ID",
+        description: "Elimina un libro por su ID",
+        params: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' }
+            },
+            required: ['id']
+        }
+        },
+        handler: async (request, reply) => {
+        
+            return {  }
+      
+        }
+    })
 }
 
-export default adminRoute
+export default adminRoutes
