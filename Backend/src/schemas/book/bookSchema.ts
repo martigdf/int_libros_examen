@@ -15,6 +15,7 @@ export const BookSchema = Type.Object({
     description: Type.String({ minLength: 10, maxLength: 500 }),
     author: Type.String({ minLength: 2, maxLength: 50 }),
     genre: Type.Array(
+        //Type.Ref(GenreSchema),
         Type.String({ minLength: 2, maxLength: 30 }),
         { minItems: 1, description: 'Lista de géneros del libro' }
     ),
@@ -33,6 +34,7 @@ export const BookPostSchema = Type.Object({
     description: Type.String({ minLength: 10, maxLength: 500 }),
     author: Type.String({ minLength: 2, maxLength: 50 }),
     genre: Type.Array(
+        //Type.Ref(GenreSchema),
         Type.String({ minLength: 2, maxLength: 30 }),
         { minItems: 1, description: 'Lista de géneros del libro' }
     ),
