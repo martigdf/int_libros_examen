@@ -2,12 +2,12 @@ import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
 //import { query } from '../../services/database.js';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
-  
-  fastify.get('/books', {
+
+  fastify.get('/', {
     schema: {
       tags: ['books'],
-      summary: "Route for listing all the published books",
-      description: "Shows all the published books"
+      summary: "Ruta para listar todos los libros publicados",
+      description: "Muestra todos los libros publicados"
     },
     handler: async (request, reply) => {
       
@@ -16,29 +16,11 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
-  fastify.post('/books', {
+  fastify.get('/:id', {
     schema: {
       tags: ['books'],
-      summary: "Route for publishing a new book",
-      description: "Lets the user publish a new book",
-      body: {
-        type: 'object',
-        // required: [  ],
-        properties: {  },
-      },
-    },
-    handler: async (request, reply) => {
-      
-        return {  }
-      
-    }
-  });
-
-  fastify.get('/books/:id', {
-    schema: {
-      tags: ['books'],
-      summary: "Route for retrieving a specific book's data",
-      description: "Shows the user a specific book's data",
+      summary: "Ruta para obtener un libro por ID",
+      description: "Permite al usuario obtener los datos de un libro por su ID",
       params: {
         type: 'object',
         properties: {
@@ -53,6 +35,37 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       
     }
   });
+
+  fastify.get('/owned', {
+    schema: {
+      tags: ['books'],
+      summary: "Ruta para mostrar todos los libros publicados por el usuario",
+      description: "Muestra los libros que hayan sido publicados por el usuario",
+    },
+    handler: async (request, reply) => {
+      
+        return {  }
+      
+    }
+  });
+
+  fastify.post('/publish', {
+    schema: {
+      tags: ['books'],
+      summary: "Ruta para publicar un libro",
+      description: "Permite al usuario publicar un libro",
+      body: {
+        type: 'object',
+        // required: [  ],
+        properties: {  },
+      },
+    },
+    handler: async (request, reply) => {
+      
+        return {  }
+      
+    }
+  })
 }
 
 export default bookRoutes
