@@ -1,4 +1,4 @@
-import { Type } from '@sinclair/typebox';
+import { Type } from '../../../node_modules/@sinclair/typebox/build/cjs/index.js';
 
 // valido el body cuando se crea una solicitud
 export const CreateRequestBodySchema = Type.Object({
