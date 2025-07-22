@@ -1,6 +1,7 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
 import { UserIdSchema, UserSchema, UserPostType, UserPostSchema } from '../../schemas/user/userSchema.js';
+import { RequestBaseSchema } from '../../schemas/requests/requestSchema.js';
 import bcrypt from 'bcryptjs';
 
 const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
@@ -38,7 +39,10 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       response: {
         200: {
           type: 'array',
-          items: { $ref: 'RequestSchema#' },
+          items: {
+            type: 'object',
+            properties: RequestBaseSchema.properties
+          },
           description: "Lista de solicitudes enviadas por el usuario"
         },
         404: Type.Object({message: Type.String()})
@@ -47,7 +51,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     handler: async function (request, reply) {
       const { id } = request.params as { id: number };
       const res = await query(
-        `SELECT * FROM requests WHERE sender_user_id = $1`,
+        `SELECT * FROM requests WHERE requester_user_id = $1`,
         [id]
       );
       if (res.rowCount === 0) {
@@ -66,7 +70,10 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       response: {
         200: {
           type: 'array',
-          items: { $ref: 'RequestSchema#' },
+          items: {
+            type: 'object',
+            properties: RequestBaseSchema.properties
+          },
           description: "Lista de solicitudes recibidas por el usuario"
         },
         404: Type.Object({message: Type.String()})

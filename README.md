@@ -43,5 +43,6 @@ Asegúrate de tener instaladas las dependencias con:
 ```bash
 npm install
 ```
-
+El diagrama gráfico con las rutas ordenadas en forma de arbol con raíz /
+Se encuentra en carpeta: Diagrama_grafico --> estructura.txt
 ---

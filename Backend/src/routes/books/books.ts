@@ -14,7 +14,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         //Devolver lista de libros
         200: {
           type: 'array',
-          items: { $ref: 'BookSchema#' },
+          params: BookSchema,
           description: "Lista de libros publicados"
         },
         404: Type.Object({ message: Type.String() }),
@@ -71,7 +71,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       response: {
         200: {
           type: 'array',
-          items: { $ref: 'BookSchema#' },
+          params: BookSchema,
           description: "Lista de libros publicados por el usuario"
         },
         401: Type.Object({ message: Type.String() }),

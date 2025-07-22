@@ -39,7 +39,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         response: {
           200: {
           type: 'array',
-          items: { $ref: 'UserSchema#' },
+          params: UserSchema,
           description: "Lista de todos los usuarios registrados"
         },
         }
