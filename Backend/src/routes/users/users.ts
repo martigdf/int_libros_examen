@@ -36,13 +36,11 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       description: 'Permite obtener las solicitudes enviadas por un usuario',
       params: UserIdSchema,
       response: {
-        200: Type.Array(Type.Object({
-          id_request: Type.String(),
-          creation_date: Type.String(),
-          status: Type.String(),
-          requester_user_id: Type.String(),
-          receiver_user_id: Type.String()
-        })),
+        200: {
+          type: 'array',
+          items: { $ref: 'RequestSchema#' },
+          description: "Lista de solicitudes enviadas por el usuario"
+        },
         404: Type.Object({message: Type.String()})
       }
     },
@@ -66,13 +64,11 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       description: 'Permite obtener las solicitudes recibidas por un usuario',
       params: UserIdSchema,
       response: {
-        200: Type.Array(Type.Object({
-          id_request: Type.String(),
-          creation_date: Type.String(),
-          status: Type.String(),
-          requester_user_id: Type.String(),
-          receiver_user_id: Type.String()
-        })),
+        200: {
+          type: 'array',
+          items: { $ref: 'RequestSchema#' },
+          description: "Lista de solicitudes recibidas por el usuario"
+        },
         404: Type.Object({message: Type.String()})
       }
     },
