@@ -11,9 +11,12 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       summary: "Ruta para listar todos los libros publicados",
       description: "Muestra todos los libros publicados",
       response: {
-        200: Type.Array(BookSchema, {
+        //Devolver lista de libros
+        200: {
+          type: 'array',
+          params: BookSchema,
           description: "Lista de libros publicados"
-        }),
+        },
         404: Type.Object({ message: Type.String() }),
       }
     },
@@ -66,9 +69,11 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       summary: "Ruta para mostrar todos los libros publicados por el usuario",
       description: "Muestra los libros que hayan sido publicados por el usuario",
       response: {
-        200: Type.Array(BookSchema, {
+        200: {
+          type: 'array',
+          params: BookSchema,
           description: "Lista de libros publicados por el usuario"
-        }),
+        },
         401: Type.Object({ message: Type.String() }),
         404: Type.Object({ message: Type.String() }),
       },

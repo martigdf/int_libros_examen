@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS requests (
             'cancelled'
         )
     ) NOT NULL,
-    id_user_applicant INTEGER REFERENCES users(id),
-    id_user INTEGER REFERENCES users(id)
+    requester_user_id INTEGER REFERENCES users(id),
+    receiver_user_id INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS requests_books (
@@ -98,3 +98,9 @@ INSERT INTO genres (name) VALUES
   ('Fantasy'),
   ('Classic'),
   ('Children');
+
+  INSERT INTO requests (creation_date, state, requester_user_id, receiver_user_id) VALUES
+  (CURRENT_TIMESTAMP, 'pending', 3, 1),   -- Luis → Jorge
+  (CURRENT_TIMESTAMP, 'accepted', 2, 1),  -- Martina → Jorge
+  (CURRENT_TIMESTAMP, 'pending', 4, 2),   -- Lucas → Martina
+  (CURRENT_TIMESTAMP, 'rejected', 1, 3);  -- Jorge → Luis
