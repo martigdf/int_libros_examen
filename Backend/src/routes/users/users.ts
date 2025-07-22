@@ -1,7 +1,7 @@
-import { FastifyPluginAsyncTypebox, Type } from '../../../node_modules/@fastify/type-provider-typebox/dist/cjs/index.js';
+import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
 import { UserIdSchema, UserSchema, UserPostType, UserPostSchema } from '../../schemas/user/userSchema.js';
-import bcrypt from '../../../node_modules/bcryptjs/umd/index.js';
+import bcrypt from 'bcryptjs';
 
 const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
   fastify.get('/:id',  {
