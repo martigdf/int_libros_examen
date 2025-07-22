@@ -37,7 +37,11 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         summary: 'Ruta siendo admin para ver todos los usuarios',
         description: 'Admin puede ver todos los usuarios',
         response: {
-          200: Type.Array(UserSchema)
+          200: {
+          type: 'array',
+          items: { $ref: 'UserSchema#' },
+          description: "Lista de todos los usuarios registrados"
+        },
         }
       },
       handler: async function (request, reply) {
