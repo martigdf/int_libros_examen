@@ -3,12 +3,6 @@ import { authenticatedGuardGuard } from './guards/authenticated.guard';
 
 export const routes: Routes = [
   {
-    path: 'auth/login',
-    pathMatch: 'full',
-    loadComponent: () =>
-      import('./routes/auth/pages/login/login.page').then((m) => m.LoginPage),
-  },
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
@@ -19,9 +13,15 @@ export const routes: Routes = [
       import('./routes/home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'auth/login',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./routes/auth/pages/login/login.page').then((m) => m.LoginPage),
+  },
+  {
     path: 'protegida',
     pathMatch: 'full',
-    canActivate: [authenticatedGuardGuard],
+    //canActivate: [authenticatedGuardGuard],
     loadComponent: () =>
       import('./routes/protegida/protegida.page').then((m) => m.ProtegidaPage),
   },
