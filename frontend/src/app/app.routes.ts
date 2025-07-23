@@ -54,12 +54,12 @@ export const routes: Routes = [
       import('./pages/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
   },
   {
-    path: 'view-book',
+    path: 'panel-admin/view-books',
     loadComponent: () =>
       import('./pages/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
   },
   {
-    path: 'view-users',
+    path: 'panel-admin/view-users',
     loadComponent: () =>
       import('./pages/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
   },
