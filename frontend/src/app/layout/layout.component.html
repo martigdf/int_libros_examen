@@ -1,9 +1,6 @@
-<div class="h-screen flex flex-col">
-  <header class="w-full">
-    <app-navbar></app-navbar> <!-- solo header, sin ion-menu -->
-  </header>
+<!-- app-layout.component.html -->
+<ion-header>
+  <app-navbar></app-navbar>
+</ion-header>
 
-  <main class="flex-grow">
-    <ng-content></ng-content> <!-- Aquí se inyectan las páginas -->
-  </main>
-</div>
+<ion-content></ion-content>
