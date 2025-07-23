@@ -14,8 +14,10 @@
     </ion-content>
   </ion-menu>
 
-  <!-- Contenedor principal -->
+  <!-- Contenido principal -->
   <div class="ion-page" id="main-content">
-    <app-layout></app-layout> <!-- Tu layout con app-navbar + ng-content -->
+    <app-layout>
+      <router-outlet></router-outlet> <!-- Aquí se cargan las páginas -->
+    </app-layout>
   </div>
 </ion-app>

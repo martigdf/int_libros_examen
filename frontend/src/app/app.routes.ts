@@ -1,13 +1,15 @@
-import { Routes } from '@angular/router';
+import { mapToCanActivate, Routes } from '@angular/router';
+import { AuthLoginGuard } from './guards/authLogin.guard';
 
 export const routes: Routes = [
   {
-    path: ' ',
+    path: '',
     pathMatch: 'full',
-    redirectTo: 'home',
+    redirectTo: 'login',
   },
   {
     path: 'home',
+    //canActivate: [AuthLoginGuard],
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
   },
