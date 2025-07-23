@@ -24,7 +24,7 @@ export const routes: Routes = [
       import('./pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
-    path: 'book',
+    path: 'book/:id',
     loadComponent: () =>
       import('./pages/book/book.page').then((m) => m.BookPage),
   },
@@ -34,12 +34,12 @@ export const routes: Routes = [
       import('./pages/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
   },
   {
-    path: 'loans-rece',
+    path: 'menu-loans/loans-rece',
     loadComponent: () =>
       import('./pages/loans-rece/loans-rece.page').then((m) => m.LoansRecePage),
   },
   {
-    path: 'loans-reque',
+    path: 'menu-loans/loans-reque',
     loadComponent: () =>
       import('./pages/loans-reque/loans-reque.page').then((m) => m.LoansRequePage),
   },
