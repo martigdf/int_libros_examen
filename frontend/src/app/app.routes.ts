@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authenticatedGuardGuard } from './guards/authenticated.guard';
 
 export const routes: Routes = [
   {
@@ -9,12 +10,19 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
-    path: 'folder/:id',
+    path: 'home',
     loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
+      import('./routes/home/home.page').then((m) => m.HomePage),
+  },
+  {
+    path: 'protegida',
+    pathMatch: 'full',
+    canActivate: [authenticatedGuardGuard],
+    loadComponent: () =>
+      import('./routes/protegida/protegida.page').then((m) => m.ProtegidaPage),
   },
 ];

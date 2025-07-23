@@ -1,3 +1,18 @@
-<p>
-  login-form works!
-</p>
+<form class="ion-padding">
+  <ion-row>
+    <ion-col size="12">
+      <ion-input label="Nombre de usuario" label-placement="floating" fill="outline" placeholder="Ingresar nombre de usuario" name="username" [(ngModel)]="this.username"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-input label="Contraseña" label-placement="floating" fill="outline" placeholder="Ingresar contraseña" name="password" [(ngModel)]="this.password"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-button expand="full" type="submit" (click)="onSubmit()">Iniciar Sesión</ion-button>
+    </ion-col>
+  </ion-row>
+</form>
+USUARIO: {{ this.username() }}

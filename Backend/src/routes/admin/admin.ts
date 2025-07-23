@@ -36,12 +36,13 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         tags: ['admin'],
         summary: 'Ruta siendo admin para ver todos los usuarios',
         description: 'Admin puede ver todos los usuarios',
+        security: [{ bearerAuth: [] }],
         response: {
           200: {
-          type: 'array',
-          params: UserSchema,
-          description: "Lista de todos los usuarios registrados"
-        },
+            type: 'array',
+            params: UserSchema,
+            description: "Lista de todos los usuarios registrados"
+          },
         }
       },
       handler: async function (request, reply) {
@@ -55,6 +56,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
       tags: ['admin'],
       summary: 'Ruta para obtener un usuario por ID',
       description: 'Obtener un solo usuario mediante ID',
+      security: [{ bearerAuth: [] }],
       params: UserIdSchema,
       response: {
         200: UserSchema,
@@ -78,6 +80,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
     schema: {
       tags: ['admin'],
       summary: 'Ruta para eliminar un usuario por ID',
+      security: [{ bearerAuth: [] }],
       params: UserIdSchema,
       response: {
         200: Type.Object({ message: Type.String() }),
@@ -102,6 +105,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         tags: ['admin'],
         summary: "Ruta para eliminar un libro por ID",
         description: "Elimina un libro por su ID",
+        security: [{ bearerAuth: [] }],
         params: {
             type: 'object',
             properties: {
