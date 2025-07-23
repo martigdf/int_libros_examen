@@ -2,19 +2,63 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'auth/login',
+    path: ' ',
     pathMatch: 'full',
-    loadComponent: () =>
-      import('./routes/auth/pages/login/login.page').then((m) => m.LoginPage),
+    redirectTo: 'home',
   },
   {
-    path: '',
-    redirectTo: 'folder/inbox',
-    pathMatch: 'full',
+    path: 'home',
+    loadComponent: () =>
+      import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
-    path: 'folder/:id',
+    path: 'login',
     loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
+      import('./pages/login/login.page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./pages/register/register.page').then((m) => m.RegisterPage),
+  },
+  {
+    path: 'book',
+    loadComponent: () =>
+      import('./pages/book/book.page').then((m) => m.BookPage),
+  },
+  {
+    path: 'menu-loans',
+    loadComponent: () =>
+      import('./pages/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
+  },
+  {
+    path: 'loans-rece',
+    loadComponent: () =>
+      import('./pages/loans-rece/loans-rece.page').then((m) => m.LoansRecePage),
+  },
+  {
+    path: 'loans-reque',
+    loadComponent: () =>
+      import('./pages/loans-reque/loans-reque.page').then((m) => m.LoansRequePage),
+  },
+  {
+    path: 'user-profile',
+    loadComponent: () =>
+      import('./pages/user-profile/user-profile.page').then((m) => m.UserProfilePage),
+  },
+  {
+    path: 'panel-admin',
+    loadComponent: () =>
+      import('./pages/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
+  },
+  {
+    path: 'view-book',
+    loadComponent: () =>
+      import('./pages/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
+  },
+  {
+    path: 'view-users',
+    loadComponent: () =>
+      import('./pages/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
   },
 ];
