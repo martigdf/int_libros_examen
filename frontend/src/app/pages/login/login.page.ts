@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonCol, IonRow, IonInput, IonButton, IonContent, IonApp } from "@ionic/angular/standalone";
+import { IonCol, IonRow, IonInput, IonButton, IonContent, IonApp, IonGrid } from "@ionic/angular/standalone";
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular/standalone';
 
@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular/standalone';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [IonCol, IonRow, IonInput, IonButton, FormsModule, IonContent, IonApp]
+  imports: [IonCol, IonRow, IonInput, IonButton, FormsModule, IonContent, IonApp, IonGrid]
 })
 
 @Injectable({
