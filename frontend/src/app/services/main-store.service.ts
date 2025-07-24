@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { User } from '../model/user';
 
 
@@ -7,7 +7,7 @@ import { User } from '../model/user';
 })
 export class MainStoreService {
 
-  public usuario?:User;
+  public usuario = signal<User | undefined>(undefined);
 
   constructor() { }
 }

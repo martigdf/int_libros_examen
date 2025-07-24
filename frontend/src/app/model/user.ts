@@ -3,3 +3,15 @@ export interface User {
     nombre: string;
     roles: string[];
 }
+
+export interface Token {
+
+    token: string
+
+}
+
+export interface Login {
+
+    
+
+}
