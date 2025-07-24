@@ -24,5 +24,9 @@ export const routes: Routes = [
     //canActivate: [authenticatedGuardGuard],
     loadComponent: () =>
       import('./routes/protegida/protegida.page').then((m) => m.ProtegidaPage),
+  },  {
+    path: 'usuarios-listado',
+    loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then( m => m.UsuariosListadoPage)
   },
+
 ];
