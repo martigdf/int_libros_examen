@@ -101,18 +101,9 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       response: {
         201: {
           type: "object",
-          properties: {
-            message: { type: "string" },
-            userId: { type: "number" }
-          }
+          properties: UserSchema.properties,
         },
-        404: {
-          description: "Error al registrar usuario",
-          type: "object",
-          properties: {
-            message: { type: "string" }
-          }
-        }
+        404: { description: "Error al registrar usuario" },
       }
     },
     handler: async function (request, reply) {
@@ -125,15 +116,30 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       const role = userPost.role;
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const res = await query(
-        `INSERT INTO users (name, lastname, username, email, password, role) 
-          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-        [name, lastname, username, email, hashedPassword, role]
-      );
-      reply.code(201).send({
-        message: 'Usuario registrado correctamente',
-        userId: res.rows[0].id
-      });
+      try {
+        const res = await query(
+          `INSERT INTO users (name, lastname, username, email, password, role) 
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+          [name, lastname, username, email, hashedPassword, role]
+        );
+        if (res.rowCount === 0) {
+          reply.code(404).send({ message: "Failed to insert user" });
+          return;
+        }
+        const id = res.rows[0].id;
+        reply.code(201).send({
+          id,
+          name,
+          lastname,
+          email,
+          role,
+        });
+      }catch (error){
+        console.error("Error al registrar al usuario:", error);
+        reply.code(500).send({
+          message: "Error al registrar al usuario en la base de datos",
+        });
+      }
     }
   });
 }
