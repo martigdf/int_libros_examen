@@ -1,5 +1,6 @@
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 import { query } from '../../../services/database.js';
+import bcrypt from 'bcryptjs';
 
 const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
   fastify.post('/', {
@@ -17,7 +18,7 @@ const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void
       },
     },
     handler: async (request, reply) => {
-      const { email } = request.body as { email:string, password: string};
+      const { email, password } = request.body as { email:string, password: string};
       const res = await query(
         `SELECT * FROM users WHERE email = '${email}'`,
       );
@@ -26,6 +27,10 @@ const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void
         return;
       }
       const user = res.rows[0];
+      if (!(await bcrypt.compare(password, user.password))) {
+        reply.code(401).send({ message: "Contraseña incorrecta" });
+        return;
+      }
       const token = fastify.jwt.sign({ id: user.id }, { expiresIn: "3h" });
       reply.send({
         token,
