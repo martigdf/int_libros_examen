@@ -1,4 +1,4 @@
-import { Static, Type } from '@sinclair/typebox';
+import { Static, Type } from '../../../node_modules/@sinclair/typebox/build/cjs/index.js';
 
 export const UserIdSchema = Type.Object({
     id: Type.Number(),
