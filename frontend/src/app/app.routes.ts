@@ -31,7 +31,7 @@ export const routes: Routes = [
   {
     path: 'books/:id',
     loadComponent: () =>
-      import('./pages/book/book.page').then((m) => m.BookPage),
+      import('./routes/book/book.page').then((m) => m.BookPage),
   },
   {
     path: 'menu-loans',
@@ -51,7 +51,7 @@ export const routes: Routes = [
   {
     path: 'user-profile',
     loadComponent: () =>
-      import('./pages/user-profile/user-profile.page').then((m) => m.UserProfilePage),
+      import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
   },
   {
     path: 'panel-admin',
@@ -76,5 +76,21 @@ export const routes: Routes = [
     path: 'usuarios-listado',
     canActivate: [authenticatedGuardGuard],
     loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
+  },
+  {
+    path: 'modificar-usuario',
+    loadComponent: () => import('./routes/protegida/modificar-usuario/modificar-usuario.page').then( m => m.ModificarUsuarioPage)
+  },
+  {
+    path: 'publish-book',
+    loadComponent: () => import('./routes/publish-book/publish-book.page').then( m => m.PublishBookPage)
+  },
+  {
+    path: 'my-books',
+    loadComponent: () => import('./routes/my-books/my-books.page').then( m => m.MyBooksPage)
+  },
+  {
+    path: 'modify-user',
+    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
   }
 ];
