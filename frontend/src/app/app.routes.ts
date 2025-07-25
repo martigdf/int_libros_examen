@@ -26,7 +26,7 @@ export const routes: Routes = [
     path: 'home',
     canActivate: [authenticatedGuardGuard],
     loadComponent: () =>
-      import('./pages/home/home.page').then((m) => m.HomePage),
+      import('./routes/home/home.page').then((m) => m.HomePage),
   },
   {
     path: 'books/:id',

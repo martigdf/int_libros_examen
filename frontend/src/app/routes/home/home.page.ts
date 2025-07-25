@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonButton, IonContent, IonRow, IonGrid, IonCol } from "@ionic/angular/standalone";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,11 @@ import { IonButton, IonContent, IonRow, IonGrid, IonCol } from "@ionic/angular/s
 })
 export class HomePage  implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
+  verUsuariosList() {
+    this.router.navigate(['/usuarios-listado']);
+  }
 }
