@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { authenticatedGuardGuard } from './guards/authenticated.guard';
-import { LoginPage } from './routes/auth/pages/login/login.page';
 
 export const routes: Routes = [
   {
@@ -73,4 +72,8 @@ export const routes: Routes = [
     path: 'logout',
     loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
   },
+  {
+    path: 'usuarios-listado',
+    loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
+  }
 ];

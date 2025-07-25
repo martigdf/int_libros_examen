@@ -16,7 +16,7 @@ export class UsuariosService {
   private mainStore = inject(MainStoreService);
 
   async getAll() {
-    return firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users"))
+    return firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/all"))
   }
 
   async postUser(data: UserPost) {

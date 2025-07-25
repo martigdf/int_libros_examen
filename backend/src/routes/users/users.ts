@@ -30,6 +30,23 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
+    fastify.get('/all', {
+    schema: {
+      tags: ['users'],
+      summary: 'Ruta para obtener todos los usuarios',
+      description: 'Devuelve una lista con todos los usuarios registrados',
+      response: {
+        200: Type.Array(UserSchema)
+      }
+    },
+    handler: async function (request, reply) {
+  const res = await query(`SELECT * FROM users`);
+  console.log("Usuarios:", res.rows);
+  return res.rows;
+}
+  });
+
+
   fastify.get('/:id/sent-requests', {
     schema: {
       tags: ['users'],

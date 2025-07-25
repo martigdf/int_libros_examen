@@ -7,7 +7,8 @@ export const authenticatedGuardGuard: CanActivateFn = (route, state) => {
   const mainStore = inject(MainStoreService);
   const usuario = mainStore.usuario();
 
-  if (!usuario) {
+  const token = mainStore.token();
+  if (!usuario || !token) {
     const router = inject(Router);
     router.navigate(['/login']);
     return false;

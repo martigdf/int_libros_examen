@@ -18,7 +18,6 @@ export class UsuariosListadoPage implements OnInit {
   public usuariosSignal = resource({
 
     loader : () => this.usuarioService.getAll()
-    
   });
 
   constructor() { }
