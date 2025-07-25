@@ -25,7 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    //canActivate: [AuthLoginGuard],
+    canActivate: [authenticatedGuardGuard],
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
   },
@@ -68,6 +68,14 @@ export const routes: Routes = [
     path: 'panel-admin/view-users',
     loadComponent: () =>
       import('./pages/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
+  },
+  {
+    path: 'logout',
+    loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
+  },
+  {
+    path: 'logout',
+    loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
   },
 
 ];
