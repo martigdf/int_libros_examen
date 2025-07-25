@@ -73,9 +73,4 @@ export const routes: Routes = [
     path: 'logout',
     loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
   },
-  {
-    path: 'logout',
-    loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
-  },
-
 ];
