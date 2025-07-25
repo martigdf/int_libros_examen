@@ -1,23 +1,36 @@
 <ion-app>
-  <!-- Menú lateral -->
   <ion-menu contentId="main-content">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menú</ion-title>
+        <ion-title>Menu Content</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
-      <ion-menu-toggle auto-hide="true">
-        <ion-button expand="block" routerLink="/user-profile">Ir a Perfil</ion-button>
-        <ion-button expand="block" routerLink="/menu-loans">Ir a Préstamos</ion-button>
-      </ion-menu-toggle>
+    <ion-content class="ion-padding">
+      <ion-button 
+        expand="block" 
+        color="danger" 
+        [class.ion-hide]="!isLoggedIn()" 
+        (click)="logout()">
+        Cerrar Sesión
+      </ion-button>
     </ion-content>
   </ion-menu>
-
-  <!-- Contenido principal -->
   <div class="ion-page" id="main-content">
-    <app-layout>
-      <router-outlet></router-outlet> <!-- Aquí se cargan las páginas -->
-    </app-layout>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding"> 
+      <ion-router-outlet id="main-content"></ion-router-outlet> 
+    </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-title>Footer</ion-title>
+      </ion-toolbar>
+    </ion-footer>
   </div>
 </ion-app>

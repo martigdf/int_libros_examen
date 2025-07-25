@@ -1,15 +1,55 @@
 services: 
+  nginx:
+    image: nginx:alpine
+    build: ./proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/proxy.conf.template:/etc/nginx/templates/default.conf.template:ro
+    container_name: proxy
+    depends_on:
+      - frontend
+      - backend
+      - db
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT}
+      - FRONTEND_URL=${FRONTEND_URL}
+
+  backend: 
+    image: backend
+    build:
+      context: ./backend
+    environment:
+      PGHOST: ${PGHOST}
+      PGPORT: ${PGPORT}
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: ${PGDATABASE}
+      FASTIFY_SECRET: ${FASTIFY_SECRET}
+      FASTIFY_LOG_LEVEL: ${FASTIFY_LOG_LEVEL}
+    container_name: backend
+    volumes:
+      - ./backend:/backend
+    
+  frontend: 
+    image: node:alpine
+    container_name: frontend
+    command: sh -c "npm install && npm start"
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/frontend
   db : 
-    image: postgres:16
+    image: database
     container_name: db
+    build:
+      context: ./database
     environment: 
       POSTGRES_USER: ${PGUSER}
       POSTGRES_PASSWORD: ${PGPASSWORD}
       POSTGRES_DB: ${PGDATABASE}
-    ports: 
-      - 5432:5432
-    volumes:
-    - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
     #   - pgdata:/var/lib/postgresql/data
 
   pgadmin:

@@ -1,28 +1,46 @@
 
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonHeader, IonToolbar, IonTitle, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
-import { LayoutComponent } from './layout/layout.component';
-;
+import { IonApp, IonMenu, IonContent, IonRouterOutlet, IonToolbar, IonHeader, IonTitle, IonButtons, IonMenuButton, IonFooter, IonButton } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { MainStoreService } from './services/main-store.service';
+import { MenuController } from '@ionic/angular';
+import { UsuariosService } from './services/usuarios.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [RouterLink, LayoutComponent, RouterOutlet, RouterLinkActive, IonApp, IonHeader, IonToolbar, IonTitle, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet],
+  imports: [IonApp, IonMenu, IonContent, IonRouterOutlet, IonToolbar, IonHeader, IonTitle, IonButtons, IonMenuButton, IonFooter, IonButton],
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+  
+  constructor() { }
+
+  private mainStore = inject(MainStoreService);
+  private router = inject(Router);
+  private menuCtrl = inject(MenuController);
+  private usuariosService = inject(UsuariosService);
+  private apiUrl = environment.apiUrl;
+  private httpClient = inject(HttpClient);
+
+  isLoggedIn(): boolean {
+    return this.mainStore.token() !== null;
+  }
+
+  async logout() {
+    try {
+      await this.httpClient.post(`${this.apiUrl}auth/logout`, {}, {
+        headers: { Authorization: `Bearer ${this.mainStore.token()}` }
+      }).toPromise();
+    } catch {
+      console.warn('El backend no respondió al logout, continuamos.');
+    }
+
+    this.mainStore.clearAuth();
+    this.router.navigate(['/login']).then(() => {
+      location.reload(); 
+    });
   }
 }

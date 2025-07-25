@@ -13,7 +13,7 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
       },
       servers: [
         {
-          url: 'http://localhost:3000',
+          url: 'http://localhost/backend',
           description: 'Development server'
         }
       ],
@@ -42,7 +42,7 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
   });
 
   await fastify.register(swaggerui, {
-    routePrefix: '/docs',
+    routePrefix: 'docs',
     uiConfig: {
       docExpansion: 'none',
       deepLinking: false

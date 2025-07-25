@@ -1,0 +1,91 @@
+<ion-content class="ion-padding" fullscreen>
+  <ion-grid class="h-100">
+    <ion-row justify-content-center align-items-center class="h-100">
+      <ion-col size="12" size-md="6" size-lg="4">
+        <form class="ion-padding">
+          <ion-grid class="h-100">
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-input 
+                  label="Nombre"
+                  label-placement="floating"
+                  fill="outline"
+                  name="name"
+                  (ionInput)="name = $event.detail.value ?? ''">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-input 
+                  label="Apellido"
+                  label-placement="floating"
+                  fill="outline"
+                  name="lastname"
+                  (ionInput)="lastname = $event.detail.value ?? ''">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-input 
+                  label="Correo electrónico"
+                  label-placement="floating"
+                  fill="outline"
+                  type="email"
+                  name="email"
+                  (ionInput)="email = $event.detail.value ?? ''">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-input 
+                  label="Nombre de usuario"
+                  label-placement="floating"
+                  fill="outline"
+                  name="username"
+                  (ionInput)="username = $event.detail.value ?? ''">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-input 
+                  label="Contraseña"
+                  label-placement="floating"
+                  fill="outline"
+                  type="password"
+                  name="password"
+                  (ionInput)="password = $event.detail.value ?? ''">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-button expand="full" type="button" (click)="onRegister()">
+                  REGISTRARSE
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12" class="ion-text-center" style="margin-top:16px">
+                <span>¿Ya tienes una cuenta?
+                  <a (click)="goToLogin()" style="text-decoration: underline;">Iniciar sesión</a>
+                </span>
+              </ion-col>
+            </ion-row>
+
+          </ion-grid>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
