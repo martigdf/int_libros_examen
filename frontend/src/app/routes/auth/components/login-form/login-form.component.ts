@@ -10,7 +10,6 @@ import { MainStoreService } from 'src/app/services/main-store.service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss'],
   imports: [IonCol, IonRow, IonInput, IonButton, FormsModule]
 })
 

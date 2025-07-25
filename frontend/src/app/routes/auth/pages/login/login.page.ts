@@ -9,7 +9,6 @@ import { Login, Token, User } from 'src/app/model/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
   imports: [LoginFormComponent]
 })
 export class LoginPage implements OnInit {
