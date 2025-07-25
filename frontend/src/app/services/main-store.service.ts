@@ -30,6 +30,7 @@ export class MainStoreService {
   clearAuth() {
     this.usuario.set(undefined);
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     this.token.set(null);
   }
 

@@ -6,7 +6,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-
+      <ion-button 
+        expand="block" 
+        color="danger" 
+        [class.ion-hide]="!isLoggedIn()" 
+        (click)="logout()">
+        Cerrar Sesión
+      </ion-button>
     </ion-content>
   </ion-menu>
   <div class="ion-page" id="main-content">
