@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { Login, Token, User } from 'src/app/model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,22 +17,31 @@ export class LoginPage implements OnInit {
   private httpClient = inject(HttpClient);
   private apiUrl = environment.apiUrl;
   private mainStore = inject(MainStoreService);
+  private router = inject(Router);
 
   constructor(){ }
 
   ngOnInit(){ }
 
   public async doAuth(data: Login) {
-  
-    const tokenObject: Token = await firstValueFrom(this.httpClient.post<Token>(this.apiUrl + "auth/login", data));
+   try{
+      const tokenObject: Token & { user: User }= await firstValueFrom(
+        this.httpClient.post<Token & { user: User }>(this.apiUrl + "auth/login/", data  
+      ));
 
-    const usuario = await firstValueFrom(this.httpClient.get<User>(this.apiUrl + "auth/profile", { headers : {"Authorization" : "Bearer " + tokenObject.token} }));
-    
-    return firstValueFrom(
+      const userId = tokenObject.user.id;
+      this.mainStore.setToken(tokenObject.token);
+
+      const usuario = await firstValueFrom(
+        this.httpClient.get<User>(this.apiUrl + `users/${userId}`, { headers : {"Authorization" : "Bearer " + tokenObject.token} 
+      }));
       
-      this.httpClient.post<Token>(this.apiUrl, data)
-
-    );
+      this.mainStore.setUser(usuario);
+      this.router.navigate(['/home']);
+    }
+    catch (error) {
+      console.error("Login failed", error);
+    }
 
   }
 

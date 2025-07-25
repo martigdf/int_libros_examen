@@ -1,27 +1,33 @@
 import { Routes } from '@angular/router';
 import { authenticatedGuardGuard } from './guards/authenticated.guard';
+import { LoginPage } from './routes/auth/pages/login/login.page';
 
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'login',
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./routes/auth/pages/login/login.page').then((m) => m.LoginPage),
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./routes/auth/pages/register/register.page').then((m) => m.RegisterPage),
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login',
+      }
+    ]
   },
   {
     path: 'home',
     //canActivate: [AuthLoginGuard],
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
-  },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.page').then((m) => m.LoginPage),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
     path: 'books/:id',
