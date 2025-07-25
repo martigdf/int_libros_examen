@@ -1,4 +1,4 @@
-import { FastifyPluginAsyncTypebox, Type } from '../../../node_modules/@fastify/type-provider-typebox/dist/cjs/index.js';
+import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
 import { UserIdSchema, UserSchema, UserPostType, UserPostSchema } from '../../schemas/user/userSchema.js';
 import { RequestBaseSchema } from '../../schemas/requests/requestSchema.js';

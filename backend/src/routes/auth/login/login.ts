@@ -1,4 +1,4 @@
-import { FastifyPluginAsyncTypebox } from '../../../../node_modules/@fastify/type-provider-typebox/dist/cjs/index.js';
+import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 import { query } from '../../../services/database.js';
 
 const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {

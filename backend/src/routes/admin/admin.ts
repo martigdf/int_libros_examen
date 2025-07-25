@@ -1,6 +1,6 @@
-import { FastifyPluginAsyncTypebox, Type } from '../../../node_modules/@fastify/type-provider-typebox/dist/cjs/index.js'
+import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { UserIdSchema, UserIdType, UserSchema, UserType } from '../../schemas/user/userSchema.js'
-import { query } from '../../services/database.js'
+import { query } from '../../services/database.js';
 import { BookIdType } from '../../schemas/book/bookSchema.js';
 
 // Mas adelante agregar verificacion de si es admin o no mediante 
