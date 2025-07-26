@@ -1,26 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>user-profile</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-grid style="height: 100%;">
-    <ion-row justify-content-center align-items-center style="height: 100%;">
-      <ion-col size="12" size-md="8" size-lg="6" style="margin: 0 auto;">
+<ion-content 
+  [fullscreen]="true" 
+  class="ion-padding">
+  <ion-grid 
+    style="height: 100%;">
+    <ion-row 
+      justify-content-center 
+      align-items-center 
+      style="height: 100%;">
+      <ion-col 
+        size="12" 
+        size-md="8" 
+        size-lg="6" 
+        style="margin: 0 auto;">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Menú de Usuario</ion-card-title>
+            <ion-card-title>Mi cuenta</ion-card-title>
           </ion-card-header>
 
-          <ion-card-content>
-            <ion-button expand="block" routerLink="/home">Home</ion-button>
-            <ion-button expand="block" routerLink="/books/:id">Mirar libro a detalle</ion-button>
-            <ion-button expand="block" routerLink="/register">Registro</ion-button>
-            <ion-button expand="block" routerLink="/menu-loans">Menú de préstamos</ion-button>
-            <ion-button expand="block" routerLink="/panel-admin">Panel del administrador</ion-button>
-            <ion-button expand="block" routerLink="/panel-admin/view-books">Lista de libros como admin</ion-button>
-            <ion-button expand="block" routerLink="/panel-admin/view-users">Ver usuarios como admin</ion-button>
+          <ion-card-content 
+            class="ion-padding">
+  
+            <ion-label 
+              class="ion-margin-bottom">
+              <h2>Nombre</h2>
+              <ion-text>{{ user.name }} {{ user.last_name }}</ion-text>
+            </ion-label>
+
+            <ion-label 
+              class="ion-margin-bottom">
+              <h2>Email</h2>
+              <ion-text>{{ user.email }}</ion-text>
+            </ion-label>
+
+            <!-- Botón para eliminarse -->
+            <ion-button 
+              color="danger" 
+              expand="block" 
+              (click)="deleteSelf()">
+              Eliminar mi cuenta
+            </ion-button>
+
+            <!-- Botón de volver al Home -->
+            <ion-button 
+              expand="block" 
+              (click)="goToHome()">
+              Volver al Home
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>

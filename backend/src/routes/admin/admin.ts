@@ -54,7 +54,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
     }
   })
 
-  fastify.delete('/users/:id/', {
+  fastify.delete('/users/:id', {
     schema: {
       tags: ['admin'],
       summary: 'Ruta para eliminar un usuario por ID',
@@ -65,7 +65,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         404: Type.Object({ message: Type.String() })
       }
     },
-    onRequest: fastify.verifyAdmin,
+    onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply) {
       const { id } = request.params as UserIdType;
 
@@ -73,6 +73,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
       if (check.rowCount === 0) {
         return reply.status(404).send({ message: 'Usuario no encontrado' });
       }
+      await query('DELETE FROM requests WHERE requester_user_id = $1 OR receiver_user_id = $1', [id]);
 
       await query('DELETE FROM users WHERE id = $1', [id]);
       return reply.send({ message: 'Usuario eliminado correctamente' });

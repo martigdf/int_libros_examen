@@ -49,7 +49,7 @@ export const routes: Routes = [
       import('./pages/loans-reque/loans-reque.page').then((m) => m.LoansRequePage),
   },
   {
-    path: 'user-profile',
+    path: 'user-profile/:id',
     loadComponent: () =>
       import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
   },

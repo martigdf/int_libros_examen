@@ -48,6 +48,13 @@ export class UsuariosService {
       headers: { Authorization: `Bearer ${token}` }
     }));
   }
+
+  async deleteUser(id: number) {
+    return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}admin/users/${id}`, {
+      headers: { Authorization: `Bearer ${this.mainStore.token()}`
+      }
+    }));
+  }
   
   constructor() { }
 

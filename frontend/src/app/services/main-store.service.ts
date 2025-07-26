@@ -30,10 +30,21 @@ export class MainStoreService {
     localStorage.setItem('authToken', token);
   }
 
+  getUser(): User | undefined {
+    return this.usuario();
+  }
+
   setUser(user: User) {
     this.usuario.set(user);
     const userString = JSON.stringify(user)
     localStorage.setItem("user", userString);
+  }
+
+  clearSession() {
+    this.usuario.set(undefined);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    this.token.set(null);
   }
 
   clearAuth() {
