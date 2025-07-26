@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>publish-book</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
     <form (ngSubmit)="onSubmit()">
 
@@ -60,6 +54,13 @@
       class="ion-margin-top" 
       color="success">
       Publicar
+    </ion-button>
+    <ion-button 
+      expand="block" 
+      class="ion-margin-top" 
+      color="primary"
+      (click)="goHome()">
+      Volver
     </ion-button>
   </form>
 </ion-content>

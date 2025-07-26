@@ -23,12 +23,12 @@ export const UserPostSchema = Type.Object({
 });
 
 export const UserPutSchema = Type.Partial(Type.Object({
-  name: Type.String({ minLength: 2, maxLength: 50 }),
-  lastname: Type.String({ minLength: 2, maxLength: 50 }),
-  username: Type.String({ minLength: 2, maxLength: 50 }),
-  email: Type.String({ format: 'email' }),
-  password: Type.String({ minLength: 6, maxLength: 100 }),
-  role: Type.Union([Type.Literal("admin"), Type.Literal("user")])
+  name: Type.Optional(Type.String()),
+  lastname: Type.Optional(Type.String()),
+  username: Type.Optional(Type.String()),
+  email: Type.Optional(Type.String({ format: 'email' })),
+  password: Type.Optional(Type.String()),
+  role: Type.Optional(Type.Union([Type.Literal("admin"), Type.Literal("user")]))
 }), { $id: 'UserPutSchema' });
 
 export const UserIdReference = Type.Ref(UserIdSchema);

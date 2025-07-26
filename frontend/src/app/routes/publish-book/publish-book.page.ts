@@ -42,4 +42,8 @@ export class PublishBookPage implements OnInit {
       alert('Error al publicar libro');
     }
   }
+
+  goHome() {
+    this.router.navigate(['/home']);
+  }
 }
