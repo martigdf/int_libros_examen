@@ -22,8 +22,18 @@ export const UserPostSchema = Type.Object({
   role:Type.Union([Type.Literal("admin"), Type.Literal("user")]),
 });
 
+export const UserPutSchema = Type.Partial(Type.Object({
+  name: Type.String({ minLength: 2, maxLength: 50 }),
+  lastname: Type.String({ minLength: 2, maxLength: 50 }),
+  username: Type.String({ minLength: 2, maxLength: 50 }),
+  email: Type.String({ format: 'email' }),
+  password: Type.String({ minLength: 6, maxLength: 100 }),
+  role: Type.Union([Type.Literal("admin"), Type.Literal("user")])
+}), { $id: 'UserPutSchema' });
+
 export const UserIdReference = Type.Ref(UserIdSchema);
 export type UserIdRef = Static<typeof UserIdReference>;
 export type UserIdType = Static<typeof UserIdSchema>;
 export type UserType = Static<typeof UserSchema>;
 export type UserPostType = Static<typeof UserPostSchema>;
+export type UserPutType = Static<typeof UserPutSchema>;

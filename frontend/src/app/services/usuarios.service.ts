@@ -40,6 +40,14 @@ export class UsuariosService {
       })
     );
   }
+
+  async getById(id_usuario:number){
+    const token = this.mainStore.token(); 
+    return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario,
+      {
+      headers: { Authorization: `Bearer ${token}` }
+    }));
+  }
   
   constructor() { }
 
