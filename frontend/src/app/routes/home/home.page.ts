@@ -17,4 +17,8 @@ export class HomePage  implements OnInit {
   verUsuariosList() {
     this.router.navigate(['/usuarios-listado']);
   }
+
+  publicarLibro() {
+    this.router.navigate(['/publish-book']);
+  }
 }

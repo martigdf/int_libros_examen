@@ -40,7 +40,6 @@ export const BookPostSchema = Type.Object({
         Type.Number({ description: 'ID del género del libro' }),
         { minItems: 1, description: 'Lista de géneros del libro' }
     ),
-    owner_id: Type.Number({ description: 'ID del propietario del libro' }),
     location: Type.String({ minLength: 5, maxLength: 100 }),
     //image_url: Type.Optional(Type.String({ format: 'uri', description: 'URL de la imagen del libro' })),
 });

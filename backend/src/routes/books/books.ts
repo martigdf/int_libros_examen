@@ -121,48 +121,48 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         }
       }
     },
+    preHandler: [fastify.authenticate],
     handler: async function (request, reply) {
-      const bookPost = request.body as BookPostType;
-      const name = bookPost.name;
-      const description = bookPost.description;
-      const author = bookPost.author;
-      const genres = bookPost.genres;
-      const owner_id = bookPost.owner_id;
-      const location = bookPost.location;
+      try {
+        await request.jwtVerify();
 
-      // Validar que todos los campos requeridos estén presentes
-      if (!name || !description || !location || !author || !genres?.length) {
-        return reply.status(400).send({ message: "Todos los campos son obligatorios" });
+        const user = request.user as { id: number };
+        const { name, description, author, genres, location } = request.body as BookPostType;
+
+        // Validar que todos los campos requeridos estén presentes
+        if (!name || !description || !location || !author || !genres?.length) {
+          return reply.status(400).send({ message: "Todos los campos son obligatorios" });
+        }
+        
+        const res = await query(
+          `INSERT INTO books (name, description, author, owner_id, state) 
+            VALUES ($1, $2, $3, $4, 'available') RETURNING id`,
+          [name, description, author, user.id]
+        );
+
+        const bookId = res.rows[0].id;
+
+        for (const genreId of genres) {
+          await query(`INSERT INTO books_genres (id_book, id_genre) VALUES ($1,$2)`, [bookId, genreId]);
+        }
+
+        await query(
+          `INSERT INTO publications (location, id_user, id_book) VALUES ($1,$2,$3)`,
+          [location, user.id, bookId]
+        );
+
+        reply.code(201).send({
+          message: 'Libro publicado correctamente',
+          bookId: res.rows[0].id
+        });
+      } catch (error) {
+        console.error("Error al publicar el libro:", error);
+        reply.status(500).send({ message: "Error al publicar el libro" });
       }
-      
-      const res = await query(
-        `INSERT INTO books (name, description, author, owner_id, state) 
-          VALUES ($1, $2, $3, $4, 'available') RETURNING id`,
-        [name, description, author, owner_id]
-      );
-      if (res.rowCount === 0) {
-        return reply.status(500).send({ message: "Error al publicar el libro" });
-      }
-
-      const bookId = res.rows[0].id;
-
-      for (const genreId of genres) {
-        await query(`INSERT INTO books_genres (id_book, id_genre) VALUES ($1,$2)`, [bookId, genreId]);
-      }
-
-      await query(
-        `INSERT INTO publications (location, id_user, id_book) VALUES ($1,$2,$3)`,
-        [location, owner_id, bookId]
-      );
-
-      reply.code(201).send({
-        message: 'Libro publicado correctamente',
-        bookId: res.rows[0].id
-      });
     }
   })
 
-  fastify.get('/', {
+  fastify.get('/genres', {
     schema: {
       tags: ['genres'],
       summary: 'Obtener todos los géneros',

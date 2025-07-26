@@ -35,6 +35,7 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
           }
         }
       },
+      security: [{ bearerAuth: [] }],
       externalDocs: {
         url: 'https://swagger.io',
         description: 'Find more info here'

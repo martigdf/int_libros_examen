@@ -7,6 +7,15 @@ import { User } from '../model/user';
 })
 export class MainStoreService {
 
+  constructor() { 
+    // Esto asegura que el usuario esté disponible inmediatamente al cargar la aplicación
+    // y no dependa de la carga de un componente específico.
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.usuario.set(JSON.parse(storedUser));
+    }
+  }
+
   public usuario = signal<User | undefined>(undefined);
 
   private efecto = effect(() => {
@@ -33,9 +42,4 @@ export class MainStoreService {
     localStorage.removeItem('user');
     this.token.set(null);
   }
-
-  
-
-
-  constructor() { }
 }

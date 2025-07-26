@@ -1,20 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Genre } from 'src/app/model/genre';
+import { BookPost } from 'src/app/model/book';
+import { BookService } from 'src/app/services/book.service';
+import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publish-book',
   templateUrl: './publish-book.page.html',
   styleUrls: ['./publish-book.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [ IonicModule, CommonModule, FormsModule ]
 })
 export class PublishBookPage implements OnInit {
 
-  constructor() { }
+  book: BookPost = {
+    name: '',
+    description: '',
+    author: '',
+    location: '',
+    genres: []
+  };
 
-  ngOnInit() {
+  genres: Genre[] = [];
+
+  constructor(private bookService: BookService, private router: Router) { }
+
+  async ngOnInit() {
+    this.genres = await this.bookService.getGenres();
   }
 
+  async onSubmit() {
+    try {
+      await this.bookService.publishBook(this.book);
+      alert('Libro publicado correctamente!!');
+      this.router.navigate(['/home']);
+    } catch (err) {
+      console.error('Error al publicar libro :(', err);
+      alert('Error al publicar libro');
+    }
+  }
 }
