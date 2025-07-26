@@ -78,8 +78,8 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
   },
   {
-    path: 'modificar-usuario',
-    loadComponent: () => import('./routes/protegida/modificar-usuario/modificar-usuario.page').then( m => m.ModificarUsuarioPage)
+    path: 'modify-user',
+    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
   },
   {
     path: 'publish-book',
