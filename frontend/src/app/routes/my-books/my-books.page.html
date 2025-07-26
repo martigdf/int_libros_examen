@@ -8,8 +8,8 @@
     <ion-row>
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let book of books">
         <ion-card (click)="goToBook(book.id)" button>
-          <ng-container *ngIf="book.image; else placeholder">
-            <img [src]="book.image" alt="Book cover" />
+          <ng-container *ngIf="book; else placeholder">
+            <img [src]="book" alt="Book cover" />
           </ng-container>
           <ng-template #placeholder>
             <div class="image-placeholder"></div>

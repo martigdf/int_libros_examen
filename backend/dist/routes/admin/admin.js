@@ -1,0 +1,104 @@
+import { Type } from '@fastify/type-provider-typebox';
+import { UserIdSchema, UserSchema } from '../../schemas/user/userSchema.js';
+import { query } from '../../services/database.js';
+const adminRoutes = async (fastify, opts) => {
+    fastify.addHook("onRequest", async (request, reply) => {
+        try {
+            await request.jwtVerify();
+            const user = request.user;
+            if (user.role !== "admin") {
+                return reply.status(403).send({ error: "Acceso denegado" });
+            }
+        }
+        catch (err) {
+            return reply.status(401).send({ error: "No autorizado" });
+        }
+    });
+    fastify.get('/users', {
+        schema: {
+            tags: ['admin'],
+            summary: 'Ruta siendo admin para ver todos los usuarios',
+            description: 'Admin puede ver todos los usuarios',
+            security: [{ bearerAuth: [] }],
+            response: {
+                200: {
+                    type: 'array',
+                    params: UserSchema,
+                    description: "Lista de todos los usuarios registrados"
+                },
+            }
+        },
+        handler: async function (request, reply) {
+            const res = await query('SELECT * FROM users');
+            return res.rows;
+        }
+    });
+    fastify.get('/users/:id', {
+        schema: {
+            tags: ['admin'],
+            summary: 'Ruta para obtener un usuario por ID',
+            description: 'Obtener un solo usuario mediante ID',
+            security: [{ bearerAuth: [] }],
+            params: UserIdSchema,
+            response: {
+                200: UserSchema,
+                404: Type.Object({ message: Type.String() })
+            }
+        },
+        handler: async function (request, reply) {
+            const { id } = request.params;
+            const res = await query('SELECT * FROM users WHERE id = $1', [id]);
+            if (res.rowCount === 0) {
+                return reply.status(404).send({ message: 'Usuario no encontrado' });
+            }
+            return res.rows[0];
+        }
+    });
+    fastify.delete('/users/:id/', {
+        schema: {
+            tags: ['admin'],
+            summary: 'Ruta para eliminar un usuario por ID',
+            security: [{ bearerAuth: [] }],
+            params: UserIdSchema,
+            response: {
+                200: Type.Object({ message: Type.String() }),
+                404: Type.Object({ message: Type.String() })
+            }
+        },
+        handler: async function (request, reply) {
+            const { id } = request.params;
+            const check = await query('SELECT id FROM users WHERE id = $1', [id]);
+            if (check.rowCount === 0) {
+                return reply.status(404).send({ message: 'Usuario no encontrado' });
+            }
+            await query('DELETE FROM users WHERE id = $1', [id]);
+            return reply.send({ message: 'Usuario eliminado correctamente' });
+        }
+    });
+    fastify.delete('/books/:id', {
+        schema: {
+            tags: ['admin'],
+            summary: "Ruta para eliminar un libro por ID",
+            description: "Elimina un libro por su ID",
+            security: [{ bearerAuth: [] }],
+            params: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' }
+                },
+                required: ['id']
+            }
+        },
+        handler: async (request, reply) => {
+            const { id } = request.params;
+            const check = await query('SELECT id FROM books WHERE id = $1', [id]);
+            if (check.rowCount === 0) {
+                return reply.status(404).send({ message: 'Libro no encontrado' });
+            }
+            await query('DELETE FROM books WHERE id = $1', [id]);
+            return reply.send({ message: 'Libro eliminado correctamente' });
+        }
+    });
+};
+export default adminRoutes;
+//# sourceMappingURL=admin.js.map

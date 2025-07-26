@@ -13,6 +13,7 @@ const jwtOptions: FastifyJWTOptions = {
 
 export default fp<FastifyJWTOptions>(async (fastify) => {
   //Recordar que string '' es falsy.
+
   if (!jwtOptions.secret) throw new UCUError("Falta setear el secret.");
   
   fastify.register(jwt, jwtOptions);
