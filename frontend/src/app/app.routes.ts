@@ -56,17 +56,17 @@ export const routes: Routes = [
   {
     path: 'panel-admin',
     loadComponent: () =>
-      import('./pages/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
+      import('./routes/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
   },
   {
     path: 'panel-admin/view-books',
     loadComponent: () =>
-      import('./pages/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
+      import('./routes/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
   },
   {
     path: 'panel-admin/view-users',
     loadComponent: () =>
-      import('./pages/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
+      import('./routes/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
   },
   {
     path: 'logout',
