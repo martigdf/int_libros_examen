@@ -32,6 +32,15 @@ export class UsuariosService {
     );
   }
 
+  async putUser(id: number, data: Partial<User>): Promise<User> {
+    const token = this.mainStore.token();
+    return await firstValueFrom(
+      this.httpClient.put<User>(`${this.apiUrl}users/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+    );
+  }
+  
   constructor() { }
 
 }
