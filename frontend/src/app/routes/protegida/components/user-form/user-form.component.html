@@ -12,7 +12,7 @@
             minlength="3"
             appReservado="Jorge"
             #name="ngModel"
-            errorText="{{ name.errors | errorMessage: 'name'}}"
+            errorText="{{ name.errors | errorMessage: 'nombre'}}"
         >
         </ion-input>
     </ion-col>
@@ -20,42 +20,47 @@
       {{ name.errors | json }}
     </ion-col>
   </ion-row>
-  <ion-row>
-      <ion-col size="12">
-        <ion-label>Roles</ion-label>
-        @for (rol of this.totalRoles(); track rol) {
-          <ion-item >
-            <ion-checkbox
-              slot="start"
-              [checked]="this.roles().includes(role)"
-              (ionChange)="onRoleChange($event, role)"
-              >
-            </ion-checkbox>
-            <ion-label>{{ role }}</ion-label>
-          </ion-item>
-        }
-      </ion-col>
+    <ion-row>
+    <ion-col size="12">
+        <ion-input 
+            fill="outline"
+            label="Apellido"
+            labelPlacement="floating"
+            type="text" 
+            name="last_name" 
+            [(ngModel)]="this.last_name" 
+            required
+            minlength="3"
+            appReservado="Jorge"
+            #last_name="ngModel"
+            errorText="{{ last_name.errors | errorMessage: 'apellido'}}"
+        >
+        </ion-input>
+    </ion-col>
+    <ion-col>
+      {{ last_name.errors | json }}
+    </ion-col>
   </ion-row>
   <ion-row>
-  <ion-col size="12">
-      {{ roles.errors | json }}
-      <ion-select
-        label="Roles"
-        labelPlacement="floating"
-        fill="outline"
-        multiple="true" 
-        name="roles"
-        (ionChange)="onSelectChange($event)"
-        [(ngModel)]="this.roles"
-        helperText="Selecciona uno o más roles."
-        required
-        #roles="ngModel"
-        >
-        @for (rol of this.totalRoles(); track rol) {
-          <ion-select-option selected [value]="role">{{ role }}</ion-select-option>
-        }
-      </ion-select>
-  </ion-col>
+    <ion-col size="12">
+        {{ roles.errors | json }}
+        <ion-select
+          label="Roles"
+          labelPlacement="floating"
+          fill="outline"
+          multiple="true" 
+          name="roles"
+          (ionChange)="onSelectChange($event)"
+          [(ngModel)]="this.roles"
+          helperText="Selecciona uno o más roles."
+          required
+          #roles="ngModel"
+          >
+          @for (rol of this.totalRoles(); track rol) {
+            <ion-select-option selected [value]="rol">{{ rol }}</ion-select-option>
+          }
+        </ion-select>
+    </ion-col>
 </ion-row>
   <ion-row>
       <ion-col size="12">

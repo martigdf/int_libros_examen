@@ -16,13 +16,15 @@ export class UserFormComponent  implements OnInit {
 
   public totalRoles = input<string[]>(['admin', 'user']);
   public usuario = input<User>({
-    name: '', role: ["admin", "user"],
+    name: '', role: [''],
     id: 0,
     last_name: '',
     email: ''
   });  //Si no se setea arranca con usuario vacío.
   public name = signal<string>(this.usuario().name);
   public roles = signal<string[]>(this.usuario().role);
+  public last_name = signal<string>(this.usuario().last_name);
+  public email = signal<string>(this.usuario().email);
   public cambiado = output<User>();
   role: any;
 
@@ -30,6 +32,7 @@ export class UserFormComponent  implements OnInit {
 
   ngOnInit() {}
 
+  /*
   onRoleChange (event:any,rol:string) {
     console.log({event});
     console.log(rol);
@@ -41,18 +44,12 @@ export class UserFormComponent  implements OnInit {
     }
     console.log("ROLES: ",this.roles());
   }
+  */
 
   onSelectChange (event:any) {
     console.log({event});
-    const actual = this.roles();
-    const rol = event.detail.value;
-    console.log({rol});
-    if (event.detail.checked) {
-      this.role.set([...actual, rol]);
-    } else {
-      this.role.set(actual.filter(r => r !== rol));
-    }
-    console.log("ROLES: ",this.role());
+    this.roles.set(event.detail.value);
+    console.log("ROLES: ",this.roles());
   }
 
   onSubmit(){
@@ -60,8 +57,8 @@ export class UserFormComponent  implements OnInit {
       id: this.usuario().id,
       name: this.name(),
       role: this.roles(),
-      last_name: '',
-      email: ''
+      last_name: this.last_name(),
+      email: this.email()
     }
     this.cambiado.emit(usuarioModificado);
   }
