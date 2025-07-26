@@ -79,7 +79,7 @@ export const routes: Routes = [
   },
   {
     path: 'modificar-usuario',
-    loadComponent: () => import('./routes/protegida/modificar-usuario/modificar-usuario.page').then( m => m.ModificarUsuarioPage)
+    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
   },
   {
     path: 'publish-book',

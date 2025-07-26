@@ -6,30 +6,6 @@ import { BookIdType } from '../../schemas/book/bookSchema.js';
 // Mas adelante agregar verificacion de si es admin o no mediante 
 // el prepasing sacando del token el id de usuario.   
 const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
-  
-  fastify.addHook("onRequest", async (request, reply) => {
-
-    try {
-      
-      await request.jwtVerify();
-      
-      const user = request.user as UserType;
-
-      if (user.role !== "admin") {
-        
-        return reply.status(403).send({ error: "Acceso denegado" });
-        //throw new Error("Acceso denegado");
-
-      }
-
-    } catch (err) {
-      
-      return reply.status(401).send({ error: "No autorizado" });
-      //throw new Error("No autorizado");
-    
-    }
-
-  });
 
   fastify.get('/users', {
       schema: {
@@ -45,11 +21,12 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
           },
         }
       },
+      onRequest: fastify.verifyAdmin,
       handler: async function (request, reply) {
         const res = await query('SELECT * FROM users');
         return res.rows as UserType[];
       }
-    });
+  });
 
   fastify.get('/users/:id', {
     schema: {
@@ -63,6 +40,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         404: Type.Object({ message: Type.String() })
       }
     },
+    onRequest: fastify.verifyAdmin,
     handler: async function (request, reply) {
 
       const { id } = request.params as UserIdType;
@@ -87,6 +65,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         404: Type.Object({ message: Type.String() })
       }
     },
+    onRequest: fastify.verifyAdmin,
     handler: async function (request, reply) {
       const { id } = request.params as UserIdType;
 
@@ -114,6 +93,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
             required: ['id']
         }
         },
+        onRequest: fastify.verifyAdmin,
         handler: async (request, reply) => {
         
           const { id } = request.params as BookIdType;

@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS books (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
+    description TEXT NOT NULL,
     author TEXT NOT NULL,
+    owner_id INTEGER REFERENCES users(id),
     state VARCHAR(10) CHECK (
         state IN (
             'available',

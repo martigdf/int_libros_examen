@@ -23,7 +23,8 @@ export default fp<FastifySwaggerOptions>(async (fastify) => {
         { name: 'auth', description: 'Authentication related end-points' },
         { name: 'admin', description: 'Admin related end-points' },
         { name: 'users', description: 'User management end-points' },
-        { name: 'books', description: 'Book related end-points' }
+        { name: 'books', description: 'Book related end-points' },
+        { name: 'genres', description: 'Genre related end-points' },
       ],
       components: {
         securitySchemes: {

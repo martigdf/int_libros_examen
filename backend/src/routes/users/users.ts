@@ -16,6 +16,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         404: Type.Object({message: Type.String()}),
       }
     },
+    onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply){
       const {id} = request.params as { id: number };
       const res = await query (
@@ -30,7 +31,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
-    fastify.get('/all', {
+  fastify.get('/all', {
     schema: {
       tags: ['users'],
       summary: 'Ruta para obtener todos los usuarios',
@@ -40,10 +41,10 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       }
     },
     handler: async function (request, reply) {
-  const res = await query(`SELECT * FROM users`);
-  console.log("Usuarios:", res.rows);
-  return res.rows;
-}
+      const res = await query(`SELECT * FROM users`);
+      console.log("Usuarios:", res.rows);
+      return res.rows;
+    }
   });
 
 

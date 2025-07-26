@@ -2,6 +2,7 @@ import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox'
 import { query } from "../../services/database.js";
 import { BookPostSchema, BookPostType, BookSchema } from '../../schemas/book/bookSchema.js';
 import { UserType } from '../../schemas/user/userSchema.js';
+import { GenresResponseSchema } from '../../schemas/book/bookSchema.js';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
 
@@ -22,7 +23,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     },
   handler: async (request, reply) => {
       const res = await query (
-        `SELECT * FROM libros'`
+        `SELECT * FROM libros`
       );
       if (res.rowCount === 0) {
         return reply.status(404).send({ message: "No hay ningún libro publicado" });
@@ -100,8 +101,8 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
   fastify.post('/publish', {
     schema: {
       tags: ['books'],
-      summary: "Ruta para publicar un libro",
-      description: "Permite al usuario publicar un libro",
+      summary: "Ruta para publicar un nuevo libro",
+      description: "Permite al usuario publicar un libro y asociarlo a un genero",
       body: BookPostSchema,
       response: {
         201: {
@@ -125,28 +126,53 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       const name = bookPost.name;
       const description = bookPost.description;
       const author = bookPost.author;
-      const genre = bookPost.genre;
+      const genres = bookPost.genres;
+      const owner_id = bookPost.owner_id;
       const location = bookPost.location;
-      const image_url = bookPost.image_url;
 
-      return [name, description, author, genre, location, image_url].forEach((field) => {
-        if (!field || field.length === 0) {
-          return reply.status(404).send({ message: "Todos los campos son obligatorios" });
-        }
-      });
+      // Validar que todos los campos requeridos estén presentes
+      if (!name || !description || !location || !author || !genres?.length) {
+        return reply.status(400).send({ message: "Todos los campos son obligatorios" });
+      }
       
-      /*const res = await query(
-        `INSERT INTO libros (name, description, author, genre, published_date, owner_id) 
-          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-        [name, description, author, genre, published_date, owner_id]
-      );*/
+      const res = await query(
+        `INSERT INTO books (name, description, author, owner_id, state) 
+          VALUES ($1, $2, $3, $4, 'available') RETURNING id`,
+        [name, description, author, owner_id]
+      );
+      if (res.rowCount === 0) {
+        return reply.status(500).send({ message: "Error al publicar el libro" });
+      }
+
+      const bookId = res.rows[0].id;
+
+      for (const genreId of genres) {
+        await query(`INSERT INTO books_genres (id_book, id_genre) VALUES ($1,$2)`, [bookId, genreId]);
+      }
+
+      await query(
+        `INSERT INTO publications (location, id_user, id_book) VALUES ($1,$2,$3)`,
+        [location, owner_id, bookId]
+      );
 
       reply.code(201).send({
         message: 'Libro publicado correctamente',
-        bookId: 0 //res.rows[0].id
+        bookId: res.rows[0].id
       });
     }
   })
-}
+
+  fastify.get('/', {
+    schema: {
+      tags: ['genres'],
+      summary: 'Obtener todos los géneros',
+      response: { 200: GenresResponseSchema }
+    },
+    handler: async () => {
+      const res = await query('SELECT id, name FROM genres ORDER BY name');
+      return res.rows;
+    }
+  });
+};
 
 export default bookRoutes
