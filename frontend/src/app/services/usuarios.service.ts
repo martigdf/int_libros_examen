@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User, UserPost } from '../model/user';
 import { firstValueFrom } from 'rxjs';
 import { MainStoreService } from './main-store.service';
+import { signal, effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,14 @@ export class UsuariosService {
   private httpClient = inject(HttpClient);
   private mainStore = inject(MainStoreService);
 
+  public id = signal<User | undefined>(undefined);
+
   async getAll() {
     return firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/all"))
+  }
+
+  getUserId(): User | undefined {
+    return this.id();
   }
 
   async postUser(data: UserPost) {

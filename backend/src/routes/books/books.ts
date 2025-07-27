@@ -161,6 +161,54 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   })
 
+  fastify.delete('/:id', {
+    schema: {
+      tags: ['books'],
+      summary: "Eliminar un libro publicado por el usuario autenticado",
+      description: "Permite a un usuario eliminar uno de sus libros publicados. Solo el propietario puede eliminarlo.",
+      params: BookIdSchema,
+      response: {
+        200: Type.Object({ message: Type.String() }),
+        401: Type.Object({ message: Type.String() }),
+        403: Type.Object({ message: Type.String() }),
+        404: Type.Object({ message: Type.String() })
+      }
+    },
+    preHandler: [fastify.authenticate],
+    handler: async (request, reply) => {
+      try {
+        await request.jwtVerify();
+
+        const user = request.user as UserType;
+        const { id } = request.params as { id: number };
+
+        // Verifica que el libro pertenece al usuario
+        const check = await query(
+          `SELECT b.id 
+           FROM books b
+           INNER JOIN publications p ON b.id = p.id_book
+           WHERE b.id = $1 AND p.id_user = $2`,
+          [id, user.id]
+        );
+
+        if (check.rowCount === 0) {
+          return reply.status(403).send({ message: "No tienes permiso para eliminar este libro o no existe" });
+        }
+
+        // Elimina registros relacionados (FK con publications, books_genres, etc.)
+        await query(`DELETE FROM publications WHERE id_book = $1`, [id]);
+        await query(`DELETE FROM books_genres WHERE id_book = $1`, [id]);
+        await query(`DELETE FROM books WHERE id = $1`, [id]);
+
+        return reply.status(200).send({ message: "Libro eliminado correctamente" });
+      } catch (error) {
+        console.error("Error al eliminar libro:", error);
+        return reply.status(500).send({ message: "Error interno al eliminar el libro" });
+      }
+    }
+  });
+
+
   fastify.get('/genres', {
     schema: {
       tags: ['genres'],
