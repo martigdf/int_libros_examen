@@ -6,6 +6,7 @@ import { Genre } from 'src/app/model/genre';
 import { firstValueFrom } from 'rxjs';
 import { BookPost } from 'src/app/model/book';
 import { HttpHeaders } from '@angular/common/http';
+import { Book } from 'src/app/model/book';
 
 @Injectable({
   providedIn: 'root'
