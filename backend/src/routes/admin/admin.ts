@@ -6,30 +6,6 @@ import { BookIdType } from '../../schemas/book/bookSchema.js';
 // Mas adelante agregar verificacion de si es admin o no mediante 
 // el prepasing sacando del token el id de usuario.   
 const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
-  
-  fastify.addHook("onRequest", async (request, reply) => {
-
-    try {
-      
-      await request.jwtVerify();
-      
-      const user = request.user as UserType;
-
-      if (user.role !== "admin") {
-        
-        return reply.status(403).send({ error: "Acceso denegado" });
-        //throw new Error("Acceso denegado");
-
-      }
-
-    } catch (err) {
-      
-      return reply.status(401).send({ error: "No autorizado" });
-      //throw new Error("No autorizado");
-    
-    }
-
-  });
 
   fastify.get('/users', {
       schema: {
@@ -45,11 +21,12 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
           },
         }
       },
+      onRequest: fastify.verifyAdmin,
       handler: async function (request, reply) {
         const res = await query('SELECT * FROM users');
         return res.rows as UserType[];
       }
-    });
+  });
 
   fastify.get('/users/:id', {
     schema: {
@@ -63,6 +40,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         404: Type.Object({ message: Type.String() })
       }
     },
+    onRequest: fastify.verifyAdmin,
     handler: async function (request, reply) {
 
       const { id } = request.params as UserIdType;
@@ -76,7 +54,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
     }
   })
 
-  fastify.delete('/users/:id/', {
+  fastify.delete('/users/:id', {
     schema: {
       tags: ['admin'],
       summary: 'Ruta para eliminar un usuario por ID',
@@ -87,6 +65,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         404: Type.Object({ message: Type.String() })
       }
     },
+    onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply) {
       const { id } = request.params as UserIdType;
 
@@ -94,6 +73,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
       if (check.rowCount === 0) {
         return reply.status(404).send({ message: 'Usuario no encontrado' });
       }
+      await query('DELETE FROM requests WHERE requester_user_id = $1 OR receiver_user_id = $1', [id]);
 
       await query('DELETE FROM users WHERE id = $1', [id]);
       return reply.send({ message: 'Usuario eliminado correctamente' });
@@ -114,6 +94,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
             required: ['id']
         }
         },
+        onRequest: fastify.verifyAdmin,
         handler: async (request, reply) => {
         
           const { id } = request.params as BookIdType;

@@ -9,7 +9,7 @@
       <ion-button 
         expand="block" 
         color="danger" 
-        [class.ion-hide]="!isLoggedIn()" 
+        *ngIf="isLoggedIn()" 
         (click)="logout()">
         Cerrar Sesión
       </ion-button>

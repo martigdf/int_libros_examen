@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
-import { UserIdSchema, UserSchema, UserPostType, UserPostSchema } from '../../schemas/user/userSchema.js';
+import { UserIdSchema, UserSchema, UserPostType, UserPostSchema, UserPutType, UserPutSchema } from '../../schemas/user/userSchema.js';
 import { RequestBaseSchema } from '../../schemas/requests/requestSchema.js';
 import bcrypt from 'bcryptjs';
 
@@ -16,6 +16,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         404: Type.Object({message: Type.String()}),
       }
     },
+    onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply){
       const {id} = request.params as { id: number };
       const res = await query (
@@ -29,6 +30,56 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       return user;
     }
   });
+
+  fastify.put('/:id', {
+    schema: {
+      tags: ['users'],
+      summary: 'Ruta para actualizar un usuario',
+      description: 'Permite actualizar los datos de un usuario existente, usuario propio o admin.',
+      params: UserIdSchema,
+      body: UserPutSchema,
+      response: {
+        200: Type.Object({ message: Type.String() }),
+        404: Type.Object({ message: Type.String() }),
+        500: Type.Object({ message: Type.String() }),
+      }
+    },
+    onRequest: fastify.verifySelfOrAdmin,
+    handler: async function (request, reply) {
+      const { id } = request.params as { id: number };
+      const userUpdate = request.body as UserPutType;
+
+      try {
+        if (userUpdate.password) {
+          userUpdate.password = await bcrypt.hash(userUpdate.password, 10);
+        }
+
+        const fields = Object.keys(userUpdate);
+        if (fields.length === 0) {
+          return reply.status(400).send({ message: "No se enviaron datos para actualizar" });
+        }
+
+        const setClause = fields.map((f, i) => `${f} = $${i + 1}`).join(', ');
+        const values = Object.values(userUpdate);
+
+        const res = await query(
+          `UPDATE users SET ${setClause} WHERE id = $${fields.length + 1}`,
+          [...values, id]
+        );
+
+        if (res.rowCount === 0) {
+          return reply.status(404).send({ message: "Usuario no encontrado" });
+        }
+
+        reply.code(200).send({ message: "Usuario actualizado correctamente" });
+
+      } catch (err) {
+        console.error("Error al actualizar usuario:", err);
+        reply.code(500).send({ message: "Error interno al actualizar usuario" });
+      }
+    }
+  });
+
 
   fastify.get('/all', {
     schema: {
@@ -45,7 +96,6 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       return res.rows;
     }
   });
-
 
   fastify.get('/:id/sent-requests', {
     schema: {

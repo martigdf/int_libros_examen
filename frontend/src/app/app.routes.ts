@@ -49,24 +49,24 @@ export const routes: Routes = [
       import('./pages/loans-reque/loans-reque.page').then((m) => m.LoansRequePage),
   },
   {
-    path: 'user-profile',
+    path: 'user-profile/:id',
     loadComponent: () =>
       import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
   },
   {
     path: 'panel-admin',
     loadComponent: () =>
-      import('./pages/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
+      import('./routes/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
   },
   {
     path: 'panel-admin/view-books',
     loadComponent: () =>
-      import('./pages/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
+      import('./routes/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
   },
   {
     path: 'panel-admin/view-users',
     loadComponent: () =>
-      import('./pages/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
+      import('./routes/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
   },
   {
     path: 'logout',
@@ -78,8 +78,8 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
   },
   {
-    path: 'modify-user',
-    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
+    path: 'modify-user/:id',
+    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
   },
   {
     path: 'publish-book',

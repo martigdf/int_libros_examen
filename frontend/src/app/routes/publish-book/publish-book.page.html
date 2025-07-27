@@ -1,13 +1,66 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>publish-book</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">publish-book</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <form (ngSubmit)="onSubmit()">
+
+    <ion-item>
+      <ion-label 
+        position="floating">Título del libro
+      </ion-label>
+      <ion-input 
+        [(ngModel)]="book.name" 
+        name="name" 
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label 
+        position="floating">Autor
+      </ion-label>
+      <ion-input 
+        [(ngModel)]="book.author" 
+        name="author" 
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea 
+        [(ngModel)]="book.description" 
+        name="description" 
+        required>
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Ubicación</ion-label>
+      <ion-input 
+        [(ngModel)]="book.location" 
+        name="location" 
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Géneros</ion-label>
+      <ion-select [(ngModel)]="book.genres" name="genres" multiple="true" okText="OK" cancelText="Cancelar">
+    <ion-select-option *ngFor="let g of genres" [value]="g.id">{{ g.name }}</ion-select-option>
+  </ion-select>
+    </ion-item>
+
+    <ion-button 
+      expand="block" 
+      type="submit" 
+      class="ion-margin-top" 
+      color="success">
+      Publicar
+    </ion-button>
+    <ion-button 
+      expand="block" 
+      class="ion-margin-top" 
+      color="primary"
+      (click)="goHome()">
+      Volver
+    </ion-button>
+  </form>
 </ion-content>

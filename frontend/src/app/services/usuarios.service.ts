@@ -32,6 +32,30 @@ export class UsuariosService {
     );
   }
 
+  async putUser(id: number, data: Partial<User>): Promise<User> {
+    const token = this.mainStore.token();
+    return await firstValueFrom(
+      this.httpClient.put<User>(`${this.apiUrl}users/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+    );
+  }
+
+  async getById(id_usuario:number){
+    const token = this.mainStore.token(); 
+    return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario,
+      {
+      headers: { Authorization: `Bearer ${token}` }
+    }));
+  }
+
+  async deleteUser(id: number) {
+    return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}admin/users/${id}`, {
+      headers: { Authorization: `Bearer ${this.mainStore.token()}`
+      }
+    }));
+  }
+  
   constructor() { }
 
 }

@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS books (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     author TEXT NOT NULL,
+    description TEXT NOT NULL,
+    owner_id INTEGER REFERENCES users(id),
     state VARCHAR(10) CHECK (
         state IN (
             'available',
@@ -87,17 +89,11 @@ INSERT INTO users (name, lastname, username, email, role, password) VALUES
     ('Lucas', 'Rodriguez', 'luquitas_77', 'lucas@gmail.com', 'user', crypt('contraseña', gen_salt('bf')))
 ;
 
-INSERT INTO books (name, author, state) VALUES
-    ('1984', 'George Orwell', 'available'),
-    ('The Hobbit', 'J.R.R. Tolkien', 'available'),
-    ('Dune', 'Frank Herbert', 'available'),
-    ('El Principito', 'Antoine de Saint-Exupéry', 'available');
-
-INSERT INTO publications (creation_date, location, id_user, id_book) VALUES
-    ('2020-01-01', 'Localización Prueba', 3, 1),
-    ('2020-02-01', 'Localización Prueba', 3, 2),
-    ('2020-03-01', 'Localización Prueba', 3, 3),
-    ('2020-04-01', 'Localización Prueba', 3, 4);
+INSERT INTO books (name, author, description, state) VALUES
+  ('1984', 'George Orwell', 'Este libro se encuentra con ausencia de paginas', 'available'),
+  ('The Hobbit', 'J.R.R. Tolkien', 'Esta en delicadas condiciones tratar bien', 'available'),
+  ('Dune', 'Frank Herbert', 'Debe ser tratado con amor','available'),
+  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available');
 
 INSERT INTO genres (name) VALUES
   ('Science Fiction'),

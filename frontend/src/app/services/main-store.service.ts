@@ -7,6 +7,15 @@ import { User } from '../model/user';
 })
 export class MainStoreService {
 
+  constructor() { 
+    // Esto asegura que el usuario esté disponible inmediatamente al cargar la aplicación
+    // y no dependa de la carga de un componente específico.
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.usuario.set(JSON.parse(storedUser));
+    }
+  }
+
   public usuario = signal<User | undefined>(undefined);
 
   private efecto = effect(() => {
@@ -21,10 +30,21 @@ export class MainStoreService {
     localStorage.setItem('authToken', token);
   }
 
+  getUser(): User | undefined {
+    return this.usuario();
+  }
+
   setUser(user: User) {
     this.usuario.set(user);
     const userString = JSON.stringify(user)
     localStorage.setItem("user", userString);
+  }
+
+  clearSession() {
+    this.usuario.set(undefined);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    this.token.set(null);
   }
 
   clearAuth() {
@@ -33,9 +53,4 @@ export class MainStoreService {
     localStorage.removeItem('user');
     this.token.set(null);
   }
-
-  
-
-
-  constructor() { }
 }

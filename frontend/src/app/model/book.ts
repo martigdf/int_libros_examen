@@ -14,3 +14,10 @@ export interface Book {
   image?: string;
   publication?: Publication;
 }
+export interface BookPost {
+  name: string;
+  author: string;
+  location: string;
+  description: string;
+  genres: number[];
+}

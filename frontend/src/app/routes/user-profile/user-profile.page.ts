@@ -1,21 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardTitle, IonCardHeader, IonCardContent } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { Router } from '@angular/router';
+import { MainStoreService } from 'src/app/services/main-store.service';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
+  imports: [IonicModule],
   styleUrls: ['./user-profile.page.scss'],
-  standalone: true,
-  imports: [IonCardContent, IonCardHeader, IonCardTitle, IonCard, IonCol, IonRow, IonGrid, IonButton, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink]
+  standalone: true
 })
 export class UserProfilePage implements OnInit {
 
-  constructor() { }
+  public user: any;
+  private usuariosService = inject(UsuariosService);
+  private alertCtrl = inject(AlertController);
+  private router = inject(Router);
+  private store = inject(MainStoreService);
 
   ngOnInit() {
+    this.user = this.store.getUser(); 
   }
 
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  async deleteSelf() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar',
+      message: '¿Estás seguro de que quieres eliminar tu cuenta?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            try {
+              await this.usuariosService.deleteUser(this.user.id);
+              this.store.clearSession();
+              this.router.navigate(['/login']);
+            } catch (error) {
+              console.error('Error al eliminar el usuario:', error);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }
