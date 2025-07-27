@@ -1,20 +1,37 @@
 <ion-content class="ion-padding" fullscreen>
-  <ion-grid class="h-100">
-    <ion-row class="h-100" justify-content-center align-items-center>
-      <ion-col size="12" class="ion-text-center">
-        <ion-button expand="block" (click)="verUsuariosList()">
+  <ion-grid 
+    class="h-100">
+    <ion-row 
+      class="h-100" 
+      justify-content-center 
+      align-items-center>
+      <ion-col 
+        size="12" 
+        class="ion-text-center"
+      >
+        <ion-button 
+          expand="block" 
+          (click)="verUsuariosList()">
           ver usuarios listados
         </ion-button>
-        <ion-button expand="block" (click)="publicarLibro()">
+        <ion-button 
+          expand="block" 
+          (click)="publicarLibro()">
           Publicar libro
         </ion-button>
-        <ion-button expand="block" (click)="modificarUsuario(user.id)">
+        <ion-button 
+          expand="block" 
+          (click)="modificarUsuario(user.id)">
           Modificar usuario
         </ion-button>
-        <ion-button expand="block" (click)="perfilUsuario(user.id)">
+        <ion-button 
+          expand="block" 
+          (click)="perfilUsuario(user.id)">
           Ver Perfil
         </ion-button>
-        <ion-button expand="block" (click)="myBooks()">
+        <ion-button 
+          expand="block" 
+          (click)="myBooks()">
           Mis libros publicados
         </ion-button>
       </ion-col>
@@ -22,16 +39,31 @@
     <ion-row>
       <ion-col size="12">
         <ion-list>
-          <ion-item *ngFor="let book of books">
-            <ion-thumbnail slot="start">
-              <img [src]="book || 'assets/default-book.png'" alt="{{ book.name }}">
+          <ion-item 
+            *ngFor="let book of books"
+          >
+            <ion-thumbnail 
+              slot="start">
+              <img 
+                [src]="book || 'assets/default-book.png'" 
+                alt="{{ book.name }}">
             </ion-thumbnail>
             <ion-label>
-              <h2>{{ book.name }}</h2>
-              <p>{{ book.author }}</p>
-              <p><strong>{{ book.state }}</strong></p>
+              <h2>
+                {{ book.name }}
+              </h2>
+              <p>
+                {{ book.author }}
+              </p>
+              <p><strong>
+                {{ book.state }}
+              </strong></p>
             </ion-label>
-            <ion-button fill="outline" slot="end" (click)="viewDetails(book.id)">
+            <ion-button 
+              fill="outline" 
+              slot="end" 
+              (click)="viewDetails(book.id)"
+            >
               Ver Detalles
             </ion-button>
           </ion-item>
