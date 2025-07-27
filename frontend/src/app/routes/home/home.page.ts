@@ -62,4 +62,8 @@ export class HomePage  implements OnInit {
   myBooks() {
     this.router.navigate(['/my-books']);
   }
+
+  viewDetails(bookId: number) {
+    this.router.navigate([`/books/${bookId}`]);
+  }
 }

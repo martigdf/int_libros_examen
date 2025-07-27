@@ -31,6 +31,9 @@
               <p>{{ book.author }}</p>
               <p><strong>{{ book.state }}</strong></p>
             </ion-label>
+            <ion-button fill="outline" slot="end" (click)="viewDetails(book.id)">
+              Ver Detalles
+            </ion-button>
           </ion-item>
         </ion-list>
       </ion-col>
