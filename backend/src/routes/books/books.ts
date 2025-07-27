@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
-import { BookPostSchema, BookPostType, BookSchema } from '../../schemas/book/bookSchema.js';
+import { BookIdSchema, BookPostSchema, BookPostType, BookSchema } from '../../schemas/book/bookSchema.js';
 import { UserType } from '../../schemas/user/userSchema.js';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
@@ -22,7 +22,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     },
   handler: async (request, reply) => {
       const res = await query (
-        `SELECT * FROM libros'`
+        `SELECT * FROM books'`
       );
       if (res.rowCount === 0) {
         return reply.status(404).send({ message: "No hay ningún libro publicado" });
@@ -37,13 +37,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       tags: ['books'],
       summary: "Ruta para obtener un libro por ID",
       description: "Permite al usuario obtener los datos de un libro por su ID",
-      params: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' }
-        },
-        required: ['id']
-      },
+      params: BookIdSchema,
       response: {
         200: BookSchema,
         404: Type.Object({message: Type.String()}),
@@ -52,7 +46,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     handler: async (request, reply) => {
       const {id} = request.params as { id: number };
       const res = await query (
-        `SELECT * FROM libros WHERE id = $1`,
+        `SELECT * FROM books WHERE id = $1`,
         [id]
       );
       if (res.rowCount === 0) {
