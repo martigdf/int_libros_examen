@@ -26,8 +26,8 @@ export class LoginPage implements OnInit {
   public async doAuth(data: Login) {
    try{
       const tokenObject: Token & { user: User }= await firstValueFrom(
-        this.httpClient.post<Token & { user: User }>(this.apiUrl + "auth/login/", data  
-      ));
+        this.httpClient.post<Token & { user: User }>(this.apiUrl + "auth/login", data)
+      );
 
       const userId = tokenObject.user.id;
       this.mainStore.setToken(tokenObject.token);

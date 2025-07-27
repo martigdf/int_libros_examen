@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authenticatedGuardGuard } from './guards/authenticated.guard';
+import { authenticatedGuard } from './guards/authenticated.guard';
 
 export const routes: Routes = [
   {
@@ -24,7 +24,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    canActivate: [authenticatedGuardGuard],
+    canActivate: [authenticatedGuard],
     loadComponent: () =>
       import('./routes/home/home.page').then((m) => m.HomePage),
   },
@@ -74,7 +74,7 @@ export const routes: Routes = [
   },
   {
     path: 'usuarios-listado',
-    canActivate: [authenticatedGuardGuard],
+    canActivate: [authenticatedGuard],
     loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
   },
   {
@@ -87,6 +87,7 @@ export const routes: Routes = [
   },
   {
     path: 'my-books',
+    //canActivate: [authenticatedGuard],
     loadComponent: () => import('./routes/my-books/my-books.page').then( m => m.MyBooksPage)
   },
   {

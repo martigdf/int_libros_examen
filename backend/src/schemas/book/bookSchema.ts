@@ -13,22 +13,24 @@ export const GenresResponseSchema = Type.Array(GenreSchema, {
     description: 'Lista de géneros disponibles'
 });
 
+//Borrar los optionals de fecha publicada y localización.
 export const BookSchema = Type.Object({
     id: Type.Number(),
     name: Type.String({ minLength: 2, maxLength: 50 }),
-    description: Type.String({ minLength: 10, maxLength: 500 }),
+    description: Type.Optional(Type.String({ minLength: 10, maxLength: 500 })),
     author: Type.String({ minLength: 2, maxLength: 50 }),
-    genre: Type.Array(
-        Type.Number({ description: 'ID del género del libro' }),
-        { minItems: 1, description: 'Lista de géneros del libro' }
+    genre: Type.Optional(
+        Type.Array(
+            Type.String({ minLength: 2, maxLength: 30 }),
+            { description: 'Lista de géneros del libro' }
+        )
     ),
-    date_published: Type.String({ format: 'date', description: 'Fecha de publicación del libro' }),
-    location: Type.String({ minLength: 5, maxLength: 100 }),
-    status: Type.Union([
-        Type.Literal("open"),
-        Type.Literal("closed")
+    date_published: Type.Optional(Type.String({ format: 'date', description: 'Fecha de publicación del libro' })),
+    location: Type.Optional(Type.String({ minLength: 5, maxLength: 100 })),
+    state: Type.Union([
+        Type.Literal("available"),
+        Type.Literal("unavailable")
     ]),
-    owner_id: Type.Number({ description: 'ID del propietario del libro' }),
     image_url: Type.Optional(Type.String({ format: 'uri', description: 'URL de la imagen del libro' })),
 });
 
