@@ -63,7 +63,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
-  fastify.get('/owned', {
+  fastify.get('/my-books', {
     schema: {
       tags: ['books'],
       summary: "Ruta para mostrar todos los libros publicados por el usuario",
@@ -85,14 +85,19 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
             
       const user = request.user as UserType;
 
-      const res = await query (
-        `SELECT * FROM libros WHERE owner_id = $1`, [user.id]
+      const res = await query(
+        `SELECT books.*
+        FROM books
+        INNER JOIN publications ON books.id = publications.id_book
+        WHERE publications.id_user = $1`,
+        [user.id]
       );
+
       if (res.rowCount === 0) {
         return reply.status(404).send({ message: "No hay ningún libro publicado por el usuario" });
       }
-      const owned_books = res.rows;
-      return owned_books;
+
+      return res.rows;
       
     }
   });

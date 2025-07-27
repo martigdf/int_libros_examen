@@ -88,10 +88,16 @@ INSERT INTO users (name, lastname, username, email, role, password) VALUES
 ;
 
 INSERT INTO books (name, author, state) VALUES
-  ('1984', 'George Orwell', 'available'),
-  ('The Hobbit', 'J.R.R. Tolkien', 'available'),
-  ('Dune', 'Frank Herbert', 'available'),
-  ('El Principito', 'Antoine de Saint-Exupéry', 'available');
+    ('1984', 'George Orwell', 'available'),
+    ('The Hobbit', 'J.R.R. Tolkien', 'available'),
+    ('Dune', 'Frank Herbert', 'available'),
+    ('El Principito', 'Antoine de Saint-Exupéry', 'available');
+
+INSERT INTO publications (creation_date, location, id_user, id_book) VALUES
+    ('2020-01-01', 'Localización Prueba', 3, 1),
+    ('2020-02-01', 'Localización Prueba', 3, 2),
+    ('2020-03-01', 'Localización Prueba', 3, 3),
+    ('2020-04-01', 'Localización Prueba', 3, 4);
 
 INSERT INTO genres (name) VALUES
   ('Science Fiction'),
