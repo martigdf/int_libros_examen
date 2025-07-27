@@ -32,4 +32,8 @@ export class HomePage  implements OnInit {
   perfilUsuario(id: number) {
     this.router.navigate(['/user-profile', id]);
   }
+
+  myBooks() {
+    this.router.navigate(['/my-books']);
+  }
 }
