@@ -23,7 +23,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     },
   handler: async (request, reply) => {
       const res = await query (
-        `SELECT * FROM libros`
+        `SELECT * FROM books`
       );
       if (res.rowCount === 0) {
         return reply.status(404).send({ message: "No hay ningún libro publicado" });
