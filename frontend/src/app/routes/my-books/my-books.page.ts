@@ -26,81 +26,41 @@ export class MyBooksPage implements OnInit {
   private apiUrl = environment.apiUrl;
 
   books: Book[] = [
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    },
-    {
-      id: 0,
-      name: 'Book Name',
-      author: 'Author Name',
-      state: 'available'
-    }
+    //{
+    //  id: 0,
+    //  name: 'Book Name',
+    //  author: 'Author Name',
+    //  state: 'available'
+    //}
   ];
 
   constructor() { }
 
   async ngOnInit() {
+    
     await this.loadBooks();
+  
   }
 
   private tokenObject = this.mainStore.token();
 
   async loadBooks() {
+    
     try {
+      
       const data = await firstValueFrom(this.httpClient.get<Book[]>(
         this.apiUrl + 'books/my-books', 
         { headers : {"Authorization" : "Bearer " + this.tokenObject} }
       ));
+      
       this.books = data;
+    
     } catch (error) {
-      console.error('Failed to load books', error);
+      
+      console.error('No se pudieron cargar libros', error);
+
     }
+
   }
 
   goToBook(bookId: number) {
