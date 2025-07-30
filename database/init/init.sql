@@ -45,11 +45,11 @@ CREATE TABLE IF NOT EXISTS requests (
         state IN (
             'pending',
             'accepted',
-            'rejected', 
+            'declined', 
             'cancelled'
         )
     ) NOT NULL,
-    requester_user_id INTEGER REFERENCES users(id),
+    sender_user_id INTEGER REFERENCES users(id),
     receiver_user_id INTEGER REFERENCES users(id)
 );
 
@@ -90,8 +90,7 @@ INSERT INTO genres (name) VALUES
   ('Classic'),
   ('Children');
 
-  INSERT INTO requests (creation_date, state, requester_user_id, receiver_user_id) VALUES
+  INSERT INTO requests (creation_date, state, sender_user_id, receiver_user_id) VALUES
   (CURRENT_TIMESTAMP, 'pending', 3, 1),   -- Luis → Jorge
   (CURRENT_TIMESTAMP, 'accepted', 2, 1),  -- Martina → Jorge
-  (CURRENT_TIMESTAMP, 'pending', 4, 2),   -- Lucas → Martina
-  (CURRENT_TIMESTAMP, 'rejected', 1, 3);  -- Jorge → Luis
+  (CURRENT_TIMESTAMP, 'declined', 4, 1),   -- Lucas → Jorge

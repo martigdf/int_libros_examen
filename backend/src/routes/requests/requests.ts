@@ -1,36 +1,20 @@
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginOptions } from 'fastify';
-import { RequestParamsSchema, CreateRequestBodySchema } from '../../schemas/requests/requestSchema.js';
+import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
+import { RequestIdSchema, RequestPostSchema } from '../../schemas/requests/requestSchema.js';
 
-const requestsRoutes: FastifyPluginAsync = async (
-  fastify: FastifyInstance,
-  opts: FastifyPluginOptions
-): Promise<void> => {
+const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
 
-  const requests = [
-    {
-      id_request: '1',
-      creation_date: '2025-07-15T10:00:00Z',
-      status: 'pending',
-      requester_user_id: '3',
-      receiver_user_id: '1'
-    },
-    {
-      id_request: '2',
-      creation_date: '2025-07-16T11:30:00Z',
-      status: 'accepted',
-      requester_user_id: '4',
-      receiver_user_id: '2'
-    }
-  ];
-
-  fastify.post('/', {
+  fastify.post('/new', {
     schema: {
       tags: ['requests'],
       summary: 'Crear una nueva solicitud de préstamo',
       description: 'Permite al usuario crear una solicitud de préstamo para uno o más libros.',
-      body: CreateRequestBodySchema
+      body: RequestPostSchema
     },
-    handler: async (request, reply) => {}
+    handler: async (request, reply) => {
+      
+      
+
+    }
   });
 
   fastify.get('/sent', {
@@ -40,7 +24,9 @@ const requestsRoutes: FastifyPluginAsync = async (
       description: 'Devuelve una lista de solicitudes enviadas por el usuario autenticado.'
     },
     handler: async (request, reply) => {
-      reply.send(requests);
+
+
+
     }
   });
 
@@ -51,37 +37,24 @@ const requestsRoutes: FastifyPluginAsync = async (
       description: 'Devuelve una lista de solicitudes recibidas para los libros publicados por el usuario autenticado.'
     },
     handler: async (request, reply) => {
-      reply.send(requests);
+
+
+
     }
   });
 
-  // Combinar /:id/accept y /:id/reject en un solo endpoint (/:id/response)
-
-  fastify.patch('/:id/accept', {
+  fastify.patch('/:id/response', {
     schema: {
       tags: ['requests'],
-      summary: 'Aceptar una solicitud',
-      description: 'Acepta una solicitud de préstamo usando su ID.',
-      params: RequestParamsSchema
+      summary: 'Ruta para responder a una solicitud',
+      description: 'Acepta o rechaza una solicitud de préstamo usando su ID.',
+      params: RequestIdSchema
     },
     handler: async (request, reply) => {
-      const { id } = request.params as { id: string };
-      const reqFound = requests.find(r => r.id_request === id);
-      reply.send(reqFound || { message: 'Solicitud no encontrada' });
-    }
-  });
 
-  fastify.patch('/:id/reject', {
-    schema: {
-      tags: ['requests'],
-      summary: 'Rechazar una solicitud',
-      description: 'Rechaza una solicitud de préstamo usando su ID.',
-      params: RequestParamsSchema
-    },
-    handler: async (request, reply) => {
-      const { id } = request.params as { id: string };
-      const reqFound = requests.find(r => r.id_request === id);
-      reply.send(reqFound || { message: 'Solicitud no encontrada' });
+      console.log(request.params);
+      console.log(request.body);
+
     }
   });
 
@@ -90,7 +63,7 @@ const requestsRoutes: FastifyPluginAsync = async (
       tags: ['requests'],
       summary: 'Confirmar retiro',
       description: 'Confirma que el libro fue retirado por el solicitante.',
-      params: RequestParamsSchema
+      params: RequestIdSchema
     },
     handler: async (request, reply) => {
 
@@ -104,7 +77,7 @@ const requestsRoutes: FastifyPluginAsync = async (
       tags: ['requests'],
       summary: 'Confirmar devolución',
       description: 'Confirma que el libro fue devuelto por el solicitante.',
-      params: RequestParamsSchema
+      params: RequestIdSchema
     },
     handler: async (request, reply) => {
 
