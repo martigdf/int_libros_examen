@@ -15,26 +15,15 @@ CREATE TABLE IF NOT EXISTS books (
     name TEXT NOT NULL,
     author TEXT NOT NULL,
     description TEXT NOT NULL,
-    owner_id INTEGER REFERENCES users(id),
     state VARCHAR(10) CHECK (
         state IN (
             'available',
-            'requested',
-            'reserved',
-            'loaned',
-            'returned',
-            'cancelled',
             'unavailable'
         )
-    ) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS publications (
-    id SERIAL PRIMARY KEY,
+    ) NOT NULL,
     creation_date TIMESTAMP DEFAULT NOW() NOT NULL,
     location TEXT NOT NULL,
-    id_user INTEGER REFERENCES users(id),
-    id_book INTEGER REFERENCES books(id)
+    owner_id INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS genres (
@@ -89,11 +78,11 @@ INSERT INTO users (name, lastname, username, email, role, password) VALUES
     ('Lucas', 'Rodriguez', 'luquitas_77', 'lucas@gmail.com', 'user', crypt('contraseña', gen_salt('bf')))
 ;
 
-INSERT INTO books (name, author, description, state) VALUES
-  ('1984', 'George Orwell', 'Este libro se encuentra con ausencia de paginas', 'available'),
-  ('The Hobbit', 'J.R.R. Tolkien', 'Esta en delicadas condiciones tratar bien', 'available'),
-  ('Dune', 'Frank Herbert', 'Debe ser tratado con amor','available'),
-  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available');
+INSERT INTO books (name, author, description, state, creation_date, location, owner_id) VALUES
+  ('1984', 'George Orwell', 'Este libro se encuentra con ausencia de paginas', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
+  ('The Hobbit', 'J.R.R. Tolkien', 'Esta en delicadas condiciones tratar bien', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
+  ('Dune', 'Frank Herbert', 'Debe ser tratado con amor', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
+  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1);
 
 INSERT INTO genres (name) VALUES
   ('Science Fiction'),

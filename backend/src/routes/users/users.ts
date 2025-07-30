@@ -193,7 +193,13 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           reply.code(404).send({ message: "Failed to insert user" });
           return;
         }
+        
+        fastify.websocketServer.clients.forEach( (cliente) => {
+          cliente.send("usuario");
+        });
+
         const id = res.rows[0].id;
+        
         reply.code(201).send({
           id,
           name,
@@ -201,6 +207,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           email,
           role,
         });
+
       }catch (error){
         console.error("Error al registrar al usuario:", error);
         reply.code(500).send({

@@ -83,8 +83,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
       const res = await query(
         `SELECT books.*
         FROM books
-        INNER JOIN publications ON books.id = publications.id_book
-        WHERE publications.id_user = $1`,
+        WHERE owner_id = $1`,
         [user.id]
       );
 
@@ -134,9 +133,9 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         }
         
         const res = await query(
-          `INSERT INTO books (name, description, author, owner_id, state) 
-            VALUES ($1, $2, $3, $4, 'available') RETURNING id`,
-          [name, description, author, user.id]
+          `INSERT INTO books (name, author, description, state, location, owner_id) 
+            VALUES ($1, $2, $3, $4, 'available', $5, $6) RETURNING id`,
+          [name, author, description, location, user.id]
         );
 
         const bookId = res.rows[0].id;
@@ -144,11 +143,6 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
         for (const genreId of genres) {
           await query(`INSERT INTO books_genres (id_book, id_genre) VALUES ($1,$2)`, [bookId, genreId]);
         }
-
-        await query(
-          `INSERT INTO publications (location, id_user, id_book) VALUES ($1,$2,$3)`,
-          [location, user.id, bookId]
-        );
 
         reply.code(201).send({
           message: 'Libro publicado correctamente',
@@ -184,10 +178,9 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
 
         // Verifica que el libro pertenece al usuario
         const check = await query(
-          `SELECT b.id 
-           FROM books b
-           INNER JOIN publications p ON b.id = p.id_book
-           WHERE b.id = $1 AND p.id_user = $2`,
+          `SELECT id
+           FROM books
+           WHERE id = $1 AND owner_id = $2`,
           [id, user.id]
         );
 
@@ -195,8 +188,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           return reply.status(403).send({ message: "No tienes permiso para eliminar este libro o no existe" });
         }
 
-        // Elimina registros relacionados (FK con publications, books_genres, etc.)
-        await query(`DELETE FROM publications WHERE id_book = $1`, [id]);
+        // Elimina registros relacionados (FK con books_genres, etc.)
         await query(`DELETE FROM books_genres WHERE id_book = $1`, [id]);
         await query(`DELETE FROM books WHERE id = $1`, [id]);
 

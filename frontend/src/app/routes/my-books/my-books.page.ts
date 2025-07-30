@@ -48,9 +48,10 @@ export class MyBooksPage implements OnInit {
     
     try {
       
-      const data = await firstValueFrom(this.httpClient.get<Book[]>(
-        this.apiUrl + 'books/my-books', 
-        { headers : {"Authorization" : "Bearer " + this.tokenObject} }
+      const data = await firstValueFrom(
+        this.httpClient.get<Book[]>(this.apiUrl + 'books/my-books', { 
+          headers : { "Authorization" : "Bearer " + this.tokenObject } 
+        }
       ));
       
       this.books = data;
