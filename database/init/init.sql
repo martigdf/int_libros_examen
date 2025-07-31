@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS books (
     name TEXT NOT NULL,
     author TEXT NOT NULL,
     description TEXT NOT NULL,
-    state VARCHAR(10) CHECK (
+    state VARCHAR(15) CHECK (
         state IN (
             'available',
             'unavailable'
