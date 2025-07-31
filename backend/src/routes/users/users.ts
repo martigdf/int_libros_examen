@@ -189,6 +189,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
             VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
           [name, lastname, username, email, hashedPassword, role]
         );
+        
         if (res.rowCount === 0) {
           reply.code(404).send({ message: "Failed to insert user" });
           return;
