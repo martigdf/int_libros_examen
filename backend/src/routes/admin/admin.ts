@@ -73,9 +73,25 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
       if (check.rowCount === 0) {
         return reply.status(404).send({ message: 'Usuario no encontrado' });
       }
-      await query('DELETE FROM requests WHERE requester_user_id = $1 OR receiver_user_id = $1', [id]);
+      await query(`
+      WITH deleted_requests_books AS (
+        DELETE FROM requests_books
+        WHERE id_request IN (
+          SELECT id FROM requests WHERE sender_user_id = $1 OR receiver_user_id = $1
+        )
+      ),
+      deleted_requests AS (
+        DELETE FROM requests
+        WHERE sender_user_id = $1 OR receiver_user_id = $1
+        RETURNING id
+      ),
+      deleted_books AS (
+        DELETE FROM books
+        WHERE owner_id = $1
+      )
+      DELETE FROM users WHERE id = $1;
+    `, [id]);
 
-      await query('DELETE FROM users WHERE id = $1', [id]);
       return reply.send({ message: 'Usuario eliminado correctamente' });
     }
   });

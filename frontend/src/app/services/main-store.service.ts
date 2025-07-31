@@ -65,7 +65,7 @@ export class MainStoreService {
       return;
     }
     try {
-      // Extraer la segunda parte (payload) y decodificar Base64URL
+      // Extrae la segunda parte (payload) y decodificar Base64URL
       const payloadBase64 = token.split('.')[1];
       const payloadJson = decodeURIComponent(
         atob(payloadBase64)
@@ -78,7 +78,7 @@ export class MainStoreService {
       ? payload.role 
       : 'user'; 
 
-      // Actualizar señales con datos desglosados
+      // Actualiza señales 
       this.userId.set(payload.user_id);
       this.userName.set(payload.user);
       this.userLastName.set(payload.user);
@@ -87,7 +87,7 @@ export class MainStoreService {
       this.userRole.set(payload.role);
       console.log('Payload decodificado:', payload);
 
-      // Actualizar usuario completo
+      // Actualiza usuario completo
       this.usuario.set({
         id: payload.user_id,
         name: payload.user,
