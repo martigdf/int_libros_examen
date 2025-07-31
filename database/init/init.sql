@@ -82,7 +82,9 @@ INSERT INTO books (name, author, description, state, creation_date, location, ow
   ('1984', 'George Orwell', 'Este libro se encuentra con ausencia de paginas', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
   ('The Hobbit', 'J.R.R. Tolkien', 'Esta en delicadas condiciones tratar bien', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
   ('Dune', 'Frank Herbert', 'Debe ser tratado con amor', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
-  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1);
+  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
+  ('Harry Potter', 'J.K. Rowling', 'Libro en excelente estado', 'available', CURRENT_TIMESTAMP, 'Localización 2', 2),
+  ('Crónica de una muerte anunciada', 'Gabriel García Márquez', 'Novela clásica latinoamericana', 'available', CURRENT_TIMESTAMP, 'Localización 2', 2);
 
 INSERT INTO genres (name) VALUES
   ('Science Fiction'),
@@ -98,11 +100,14 @@ INSERT INTO genres (name) VALUES
   (CURRENT_TIMESTAMP, 'accepted', 3, 2),  -- Luis → Martina
   (CURRENT_TIMESTAMP, 'declined', 4, 2);  -- Lucas → Martina
 
-  
-INSERT INTO requests_books (id_request, id_book) VALUES
-    (1, 1), -- Luis solicita 1984
-    (2, 2), -- Martina solicita The Hobbit
-    (3, 3), -- Lucas solicita Dune
-    (4, 4), -- Jorge solicita El Principito
-    (5, 1), -- Luis solicita 1984 a Martina
-    (6, 2); -- Lucas solicita The Hobbit a Martina
+  INSERT INTO requests_books (id_request, id_book) VALUES
+    -- Solicitudes dirigidas a Jorge (usuario 1) - sus libros son 1,2,3,4
+    (1, 1),  -- Luis pide "1984" a Jorge
+    (1, 2),  -- Luis pide "The Hobbit" a Jorge
+    (2, 3),  -- Martina pide "Dune" a Jorge
+    (3, 1),  -- Lucas pide "1984" a Jorge
+    -- Solicitudes dirigidas a Martina (usuario 2) - sus libros son 5,6
+    (4, 5),  -- Jorge pide "Harry Potter" a Martina
+    (4, 6),  -- Jorge pide "Crónica de una muerte anunciada" a Martina
+    (5, 5),  -- Luis pide "Harry Potter" a Martina
+    (6, 6); 
