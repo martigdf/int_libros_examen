@@ -3,8 +3,11 @@ import { query } from "../../services/database.js";
 import { BookIdSchema, BookPostSchema, BookPostType, BookSchema } from '../../schemas/book/bookSchema.js';
 import { UserType } from '../../schemas/user/userSchema.js';
 import { GenresResponseSchema } from '../../schemas/book/bookSchema.js';
+//import multipart from '@fastify/multipart';
 
 const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
+
+  //fastify.register(multipart);
 
   fastify.get('/', {
     schema: {

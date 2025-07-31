@@ -6,7 +6,7 @@ import { BookPost } from 'src/app/model/book';
 import { BookService } from 'src/app/services/book.service';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-
+//import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 @Component({
   selector: 'app-publish-book',
   templateUrl: './publish-book.page.html',
