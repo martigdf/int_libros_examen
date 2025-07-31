@@ -1,7 +1,7 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
 import { query } from "../../services/database.js";
 import { UserIdSchema, UserSchema, UserPostType, UserPostSchema, UserPutType, UserPutSchema } from '../../schemas/user/userSchema.js';
-import { RequestBaseSchema } from '../../schemas/requests/requestSchema.js';
+import { RequestSchema } from '../../schemas/requests/requestSchema.js';
 import bcrypt from 'bcryptjs';
 
 const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
@@ -108,7 +108,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           type: 'array',
           items: {
             type: 'object',
-            properties: RequestBaseSchema.properties
+            properties: RequestSchema.properties
           },
           description: "Lista de solicitudes enviadas por el usuario"
         },
@@ -139,7 +139,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           type: 'array',
           items: {
             type: 'object',
-            properties: RequestBaseSchema.properties
+            properties: RequestSchema.properties
           },
           description: "Lista de solicitudes recibidas por el usuario"
         },
@@ -193,7 +193,13 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           reply.code(404).send({ message: "Failed to insert user" });
           return;
         }
+        
+        fastify.websocketServer.clients.forEach( (cliente) => {
+          cliente.send("usuario");
+        });
+
         const id = res.rows[0].id;
+        
         reply.code(201).send({
           id,
           name,
@@ -201,6 +207,7 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           email,
           role,
         });
+
       }catch (error){
         console.error("Error al registrar al usuario:", error);
         reply.code(500).send({
