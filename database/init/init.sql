@@ -93,4 +93,4 @@ INSERT INTO genres (name) VALUES
   INSERT INTO requests (creation_date, state, sender_user_id, receiver_user_id) VALUES
   (CURRENT_TIMESTAMP, 'pending', 3, 1),   -- Luis → Jorge
   (CURRENT_TIMESTAMP, 'accepted', 2, 1),  -- Martina → Jorge
-  (CURRENT_TIMESTAMP, 'declined', 4, 1),   -- Lucas → Jorge
+  (CURRENT_TIMESTAMP, 'declined', 4, 1)   -- Lucas → Jorge
