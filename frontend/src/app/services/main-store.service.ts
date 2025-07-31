@@ -1,37 +1,97 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal, computed } from '@angular/core';
 import { User } from '../model/user';
-
+import { JWTPayload } from '../model/payload';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainStoreService {
 
-  constructor() { 
-    // Esto asegura que el usuario esté disponible inmediatamente al cargar la aplicación
-    // y no dependa de la carga de un componente específico.
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.usuario.set(JSON.parse(storedUser));
-    }
-  }
+  constructor() { if (this.token()) {
+      this.decodePayload();
+    }}
 
-  public usuario = signal<User | undefined>(undefined);
+  public usuario = signal<User | null>(null);
+  // el token JWT
+  public token = signal<string | null>(localStorage.getItem('authToken'));
+
+  public userId = signal<string | null>(null);
+  public userEmail = signal<string | null>(null);
+  public userRoleId = signal<number | null>(null);
+
+  public isAdmin = computed(() => this.userRoleId() === 3);
+
+  public isAuthenticated = computed(() => {
+    return this.usuario() !== null && this.token() !== null;
+  });
+
+  public isSelf = computed(() => this.userRoleId() === 1);
+
+  public isSelfOrAdmin = computed(() => {
+    if (this.isSelf()) {
+      return true;
+    } else if (this.isAdmin()) {
+      return true;
+    }
+    return false;
+  });
 
   private efecto = effect(() => {
-    console.log("Usuario effecteado: ", this.usuario())
+    console.log("Usuario restaurado: ", this.usuario())
   })
 
-  // Estado del token JWT
-  public token = signal<string | null>(localStorage.getItem('authToken'));
+  private tokenEffect = effect(() => {
+    console.log('Token actualizado:', this.token());
+    this.decodePayload();
+  });
+
+  private decodePayload() {
+    const token = this.token();
+    if (!token) {
+      this.userId.set(null);
+      this.userEmail.set(null);
+      this.userRoleId.set(null);
+      return;
+    }
+    try {
+      // Extraer la segunda parte (payload) y decodificar Base64URL
+      const payloadBase64 = token.split('.')[1];
+      const payloadJson = decodeURIComponent(
+        atob(payloadBase64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const payload = JSON.parse(payloadJson) as JWTPayload;
+
+      // Actualizar señales con datos desglosados
+      this.userId.set(payload.user_id);
+      this.userEmail.set(payload.user);
+      this.userRoleId.set(payload.role);
+      console.log('Payload decodificado:', payload);
+
+      // Actualizar usuario completo
+      this.usuario.set({
+        id: payload.user_id,
+        name: payload.user,
+        last_name: payload.user,
+        email: payload.user,
+        role: payload.role
+      });
+    } catch (error) {
+      console.error('Error al decodificar JWT payload:', error);
+      this.userId.set(null);
+      this.userEmail.set(null);
+      this.userRoleId.set(null);
+    }
+  }
 
   setToken(token: string) {
     this.token.set(token);
     localStorage.setItem('authToken', token);
-  }
-
-  getUser(): User | undefined {
-    return this.usuario();
+    if (this.token()) {
+      this.decodePayload();
+    }
   }
 
   setUser(user: User) {
@@ -40,17 +100,14 @@ export class MainStoreService {
     localStorage.setItem("user", userString);
   }
 
-  clearSession() {
-    this.usuario.set(undefined);
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    this.token.set(null);
-  }
-
   clearAuth() {
-    this.usuario.set(undefined);
-    localStorage.removeItem('authToken');
+    this.usuario.set(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
     this.token.set(null);
+    this.userId.set(null);
+    this.userEmail.set(null);
+    this.userRoleId.set(null);
+    console.log('Autenticación borrada');
   }
 }

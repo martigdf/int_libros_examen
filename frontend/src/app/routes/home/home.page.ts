@@ -51,11 +51,11 @@ export class HomePage  implements OnInit {
     this.router.navigate(['/publish-book']);
   }
 
-  modificarUsuario(id: number) {
+  modificarUsuario(id: string) {
     this.router.navigate([`/modify-user`, id]);
   }
 
-  perfilUsuario(id: number) {
+  perfilUsuario(id: string) {
     this.router.navigate(['/user-profile', id]);
   }
 

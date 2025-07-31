@@ -40,7 +40,7 @@ export class UsuariosService {
     );
   }
 
-  async putUser(id: number, data: PutUser) {
+  async putUser(id: string, data: PutUser) {
     const url = `${this.apiUrl}users/${id}`;
     return await firstValueFrom(this.httpClient.put<PutUser>(url, data));
   }
@@ -53,7 +53,7 @@ export class UsuariosService {
     }));
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}admin/users/${id}`, {
       headers: { Authorization: `Bearer ${this.mainStore.token()}`
       }

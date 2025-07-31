@@ -16,7 +16,7 @@ export class UserFormComponent{
   public user = input<User | null>(null) 
 
   public name = signal<string>(this.user()?.name ?? '');
-  public roles = signal<string[]>(this.user()?.role?? []);
+  public roles = signal<number>(this.user()?.role?? 0);
   public last_name = signal<string>(this.user()?.last_name ?? '');
   public email = signal<string>(this.user()?.email ?? '');
 
@@ -29,8 +29,11 @@ export class UserFormComponent{
     if (this.email() && this.email() !== this.user()?.email) {
       payload.email = this.email();
     }
-    if (this.roles().length > 0) {
-      payload.role = this.roles()[0] as 'admin' | 'user';
+    if (this.roles() !== this.user()?.role) {
+      const selectedRole = this.totalRoles()[this.roles()];
+      if (selectedRole === 'admin' || selectedRole === 'user') {
+        payload.role = selectedRole as 'admin' | 'user';
+      }
     }
     console.log("Payload enviado:", payload);
     this.changed.emit(payload);
