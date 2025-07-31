@@ -1,9 +1,10 @@
 export interface User {
     id: string;
     name: string;
+    username: string;
     last_name: string;
     email: string;
-    role: number;
+    role: 'admin' | 'user';
 }
 
 export interface UserPost {

@@ -12,23 +12,31 @@ export class MainStoreService {
     }}
 
   public usuario = signal<User | null>(null);
+
   // el token JWT
   public token = signal<string | null>(localStorage.getItem('authToken'));
 
   public userId = signal<string | null>(null);
+  public userName = signal<string | null>(null);
+  public userLastName = signal<string | null>(null);
+  public userUsername = signal<string | null>(null);
   public userEmail = signal<string | null>(null);
-  public userRoleId = signal<number | null>(null);
+  public userRole = signal<'admin' | 'user' | null>(null);
 
-  public isAdmin = computed(() => this.userRoleId() === 3);
+
 
   public isAuthenticated = computed(() => {
     return this.usuario() !== null && this.token() !== null;
   });
-
-  public isSelf = computed(() => this.userRoleId() === 1);
+  public isAdmin = computed(() => {
+    return this.userRole() === 'admin';
+  });
+  public isUser = computed(() => {
+    return this.userRole() === 'user';
+  });
 
   public isSelfOrAdmin = computed(() => {
-    if (this.isSelf()) {
+    if (this.isUser()) {
       return true;
     } else if (this.isAdmin()) {
       return true;
@@ -49,8 +57,11 @@ export class MainStoreService {
     const token = this.token();
     if (!token) {
       this.userId.set(null);
+      this.userName.set(null);
+      this.userLastName.set(null);
+      this.userUsername.set(null);
       this.userEmail.set(null);
-      this.userRoleId.set(null);
+      this.userRole.set(null);
       return;
     }
     try {
@@ -63,11 +74,17 @@ export class MainStoreService {
           .join('')
       );
       const payload = JSON.parse(payloadJson) as JWTPayload;
+      const roleValue = (payload.role === 'admin' || payload.role === 'user') 
+      ? payload.role 
+      : 'user'; 
 
       // Actualizar señales con datos desglosados
       this.userId.set(payload.user_id);
+      this.userName.set(payload.user);
+      this.userLastName.set(payload.user);
+      this.userUsername.set(payload.user);
       this.userEmail.set(payload.user);
-      this.userRoleId.set(payload.role);
+      this.userRole.set(payload.role);
       console.log('Payload decodificado:', payload);
 
       // Actualizar usuario completo
@@ -75,14 +92,15 @@ export class MainStoreService {
         id: payload.user_id,
         name: payload.user,
         last_name: payload.user,
+        username: payload.user,
         email: payload.user,
-        role: payload.role
+        role: roleValue
       });
     } catch (error) {
       console.error('Error al decodificar JWT payload:', error);
       this.userId.set(null);
       this.userEmail.set(null);
-      this.userRoleId.set(null);
+      this.userRole.set(null);
     }
   }
 
@@ -106,8 +124,11 @@ export class MainStoreService {
     localStorage.removeItem('authToken');
     this.token.set(null);
     this.userId.set(null);
+    this.userName.set(null);
+    this.userLastName.set(null);
+    this.userUsername.set(null);
     this.userEmail.set(null);
-    this.userRoleId.set(null);
+    this.userRole.set(null);
     console.log('Autenticación borrada');
   }
 }
