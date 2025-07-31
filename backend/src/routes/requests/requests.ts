@@ -21,7 +21,6 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
       const { receiver_user_id, books } = request.body;
       const sender = request.user as { id: number };
       try {
-        // Usar WITH para insertar solicitud y luego insertar libros
         const insertRequest = await query(`
           WITH new_req AS (
             INSERT INTO requests (creation_date, state, sender_user_id, receiver_user_id)
@@ -55,7 +54,7 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
       const sender = request.user as { id: number };
 
       const { rows } = await query(`
-        WITH req AS (
+      WITH req AS (
         SELECT r.*, u.name AS receiver_name
         FROM requests r
         JOIN users u ON u.id = r.receiver_user_id
@@ -65,7 +64,7 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
       FROM req
       JOIN requests_books rb ON rb.id_request = req.id
       JOIN books b ON b.id = rb.id_book
-      GROUP BY req.id, req.creation_date, req.state, req.sender_user_id, req.receiver_user_id, req.receiver_name
+      GROUP BY 1, 2, 3, 4, 5, 6
       ORDER BY req.creation_date DESC;
     `, [sender.id]);
 
