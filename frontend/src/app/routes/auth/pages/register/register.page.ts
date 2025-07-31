@@ -22,6 +22,7 @@ export class RegisterPage implements OnInit {
   email = '';
   username = '';
   password = '';
+  confirmPassword = '';
   role =''
 
   private apiUrl = environment.apiUrl;
@@ -36,6 +37,11 @@ export class RegisterPage implements OnInit {
   }
 
   async onRegister(): Promise<void> {
+
+    if (!(this.password === this.confirmPassword)) {
+      console.error('Las contraseñas no coinciden')
+      this.router.navigate(['/register']);
+    }
     try {
       const newUser: UserPost = {
         name: this.name,
@@ -43,6 +49,7 @@ export class RegisterPage implements OnInit {
         email: this.email,
         username: this.username,
         password: this.password,
+        confirmPassword: this.confirmPassword,
         role: 'user'
       };
 

@@ -36,17 +36,7 @@ export const routes: Routes = [
   {
     path: 'menu-loans',
     loadComponent: () =>
-      import('./pages/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
-  },
-  {
-    path: 'menu-loans/loans-rece/:id',
-    loadComponent: () =>
-      import('./pages/loans-rece/loans-rece.page').then((m) => m.LoansRecePage),
-  },
-  {
-    path: 'menu-loans/loans-reque/:id',
-    loadComponent: () =>
-      import('./pages/loans-reque/loans-reque.page').then((m) => m.LoansRequePage),
+      import('./routes/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
   },
   {
     path: 'user-profile/:id',
@@ -56,17 +46,12 @@ export const routes: Routes = [
   {
     path: 'panel-admin',
     loadComponent: () =>
-      import('./routes/admin/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
+      import('./routes/protegida/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
   },
   {
     path: 'panel-admin/view-books',
     loadComponent: () =>
-      import('./routes/admin/view-books/view-books.page').then((m) => m.ViewBooksPage),
-  },
-  {
-    path: 'panel-admin/view-users',
-    loadComponent: () =>
-      import('./routes/admin/view-users/view-users.page').then((m) => m.ViewUsersPage),
+      import('./routes/protegida/view-books/view-books.page').then((m) => m.ViewBooksPage),
   },
   {
     path: 'logout',
@@ -93,5 +78,13 @@ export const routes: Routes = [
   {
     path: 'modify-user',
     loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
+  },
+  {
+    path: 'myreque-list',
+    loadComponent: () => import('./routes/myreque-list/myreque-list.page').then( m => m.MyrequeListPage)
+  },
+  {
+    path: 'myreceived-list',
+    loadComponent: () => import('./routes/myreceived-list/myreceived-list.page').then( m => m.MyreceivedListPage)
   }
 ];

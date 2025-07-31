@@ -11,7 +11,7 @@ const socket = new WebSocket("ws://localhost/backend/")
   templateUrl: './usuarios-listado.page.html',
   styleUrls: ['./usuarios-listado.page.scss'],
   standalone: true,
-  imports: [IonText, IonLabel, IonItem, IonList, IonContent, CommonModule, FormsModule, JsonPipe]
+  imports: [CommonModule, FormsModule, JsonPipe]
 })
 
 export class UsuariosListadoPage implements OnInit {

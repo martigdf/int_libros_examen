@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-loans-reque',
-  templateUrl: './loans-reque.page.html',
-  styleUrls: ['./loans-reque.page.scss'],
+  selector: 'app-myreque-list',
+  templateUrl: './myreque-list.page.html',
+  styleUrls: ['./myreque-list.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class LoansRequePage implements OnInit {
+export class MyrequeListPage implements OnInit {
 
   constructor() { }
 
