@@ -15,6 +15,14 @@ export interface UserPost {
     role: string;
 }
 
+export interface PutUser {
+  name?: string;
+  last_name?: string;
+  username?: string;
+  email?: string;
+  role?: 'admin' | 'user';
+}
+
 export interface Token {
     token: string
 }
