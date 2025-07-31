@@ -194,9 +194,9 @@ const usersRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           return;
         }
         
-        fastify.websocketServer.clients.forEach( (cliente) => {
-          cliente.send("usuario");
-        });
+        //fastify.websocketServer.clients.forEach( (cliente) => {
+          //cliente.send("usuario");
+        //});
 
         const id = res.rows[0].id;
         

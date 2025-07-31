@@ -94,3 +94,15 @@ INSERT INTO genres (name) VALUES
   (CURRENT_TIMESTAMP, 'pending', 3, 1),   -- Luis → Jorge
   (CURRENT_TIMESTAMP, 'accepted', 2, 1),  -- Martina → Jorge
   (CURRENT_TIMESTAMP, 'declined', 4, 1),   -- Lucas → Jorge
+  (CURRENT_TIMESTAMP, 'pending', 1, 2),   -- Jorge → Martina
+  (CURRENT_TIMESTAMP, 'accepted', 3, 2),  -- Luis → Martina
+  (CURRENT_TIMESTAMP, 'declined', 4, 2);  -- Lucas → Martina
+
+  
+INSERT INTO requests_books (id_request, id_book) VALUES
+    (1, 1), -- Luis solicita 1984
+    (2, 2), -- Martina solicita The Hobbit
+    (3, 3), -- Lucas solicita Dune
+    (4, 4), -- Jorge solicita El Principito
+    (5, 1), -- Luis solicita 1984 a Martina
+    (6, 2); -- Lucas solicita The Hobbit a Martina
