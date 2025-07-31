@@ -54,19 +54,18 @@ CREATE TABLE IF NOT EXISTS requests (
 );
 
 CREATE TABLE IF NOT EXISTS requests_books (
-    id_request INTEGER REFERENCES requests(id),
+    request_id INTEGER REFERENCES requests(id),
     id_book INTEGER REFERENCES books(id),
-    PRIMARY KEY (id_request, id_book)
+    PRIMARY KEY (request_id, id_book)
 );
 
 CREATE TABLE IF NOT EXISTS loans (
-    id SERIAL PRIMARY KEY,
-    date_loan TIMESTAMP DEFAULT NOW() NOT NULL,
-    id_request INTEGER REFERENCES requests(id)
+    request_id INTEGER PRIMARY KEY REFERENCES requests(id),
+    date_loan TIMESTAMP DEFAULT NOW() NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS devolutions (
-    id_loan INTEGER PRIMARY KEY REFERENCES loans(id),
+CREATE TABLE IF NOT EXISTS returns (
+    request_id INTEGER PRIMARY KEY REFERENCES requests(id),
     opinion TEXT NOT NULL,
     calification INTEGER CHECK (calification BETWEEN 1 AND 5)
 );
