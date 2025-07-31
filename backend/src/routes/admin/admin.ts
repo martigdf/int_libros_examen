@@ -1,8 +1,7 @@
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox';
-import { UserIdSchema, UserIdType, UserPostSchema, UserSchema, UserType, UserPutSchema, UserPutType } from '../../schemas/user/userSchema.js'
+import { UserIdSchema, UserIdType, UserSchema, UserType } from '../../schemas/user/userSchema.js'
 import { query } from '../../services/database.js';
 import { BookIdType } from '../../schemas/book/bookSchema.js';
-import { UCUErrorNotFound } from '../../util/index.js';
 
 // Mas adelante agregar verificacion de si es admin o no mediante 
 // el prepasing sacando del token el id de usuario.   
@@ -53,7 +52,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
 
       return res.rows[0] as UserType;
     }
-  })
+  });
 
   fastify.delete('/users/:id', {
     schema: {
@@ -79,7 +78,7 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
       await query('DELETE FROM users WHERE id = $1', [id]);
       return reply.send({ message: 'Usuario eliminado correctamente' });
     }
-  })
+  });
 
   fastify.delete('/books/:id', {
         schema: {
@@ -110,33 +109,8 @@ const adminRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
           return reply.send({ message: 'Libro eliminado correctamente' });
           
         }
-    })
-
-  fastify.put("/:id", {
-    schema: {
-      tags: ["Usuarios"],
-      params: UserIdSchema,
-      description: "Modificar un usuario",
-      summary: "Realizar la modificación de un usuario",
-      security: [{ bearerAuth: [] }],
-      body: UserPutSchema,
-      response: {
-        200: UserSchema,
-        404: { description: "Usuario no encontrado" }
-      }
-    },
-    onRequest: fastify.verifyAdmin,
-    handler: async (request, reply) => {
-      const { id } = request.params as UserIdType;
-      const updateData = request.body as UserPutType;
-      //const updatedUser = await userRepository.updateUser(id, updateData);
-      //if (!updatedUser) {
-        //throw new UCUErrorNotFound(`No se pudo actualizar el usuario ${id}`);
-      //}
-      //const { password_hash, ...safeUser } = updatedUser;
-      //return safeUser;
-    }
   });
+
 }
 
 export default adminRoutes
