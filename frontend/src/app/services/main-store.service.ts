@@ -24,7 +24,6 @@ export class MainStoreService {
   public userRole = signal<'admin' | 'user' | null>(null);
 
 
-
   public isAuthenticated = computed(() => {
     return this.usuario() !== null && this.token() !== null;
   });
@@ -55,15 +54,8 @@ export class MainStoreService {
 
   private decodePayload() {
     const token = this.token();
-    if (!token) {
-      this.userId.set(null);
-      this.userName.set(null);
-      this.userLastName.set(null);
-      this.userUsername.set(null);
-      this.userEmail.set(null);
-      this.userRole.set(null);
-      return;
-    }
+    if (!token) return;
+
     try {
       // Extrae la segunda parte (payload) y decodificar Base64URL
       const payloadBase64 = token.split('.')[1];
@@ -74,28 +66,35 @@ export class MainStoreService {
           .join('')
       );
       const payload = JSON.parse(payloadJson) as JWTPayload;
-      const roleValue = (payload.role === 'admin' || payload.role === 'user') 
-      ? payload.role 
-      : 'user'; 
+      console.log('Payload recibido:', payload);
+
+      if (!payload.role) {
+        console.warn('Payload sin role, no se actualiza usuario');
+        return;
+      }
+
+      const roleValue: 'admin' | 'user' = payload.role === 'admin' ? 'admin' : 'user';
 
       // Actualiza señales 
       this.userId.set(payload.user_id);
-      this.userName.set(payload.user);
-      this.userLastName.set(payload.user);
-      this.userUsername.set(payload.user);
-      this.userEmail.set(payload.user);
-      this.userRole.set(payload.role);
+      this.userName.set(payload.name);
+      this.userLastName.set(payload.last_name);
+      this.userUsername.set(payload.username);
+      this.userEmail.set(payload.email);
+      this.userRole.set(roleValue);
       console.log('Payload decodificado:', payload);
 
       // Actualiza usuario completo
       this.usuario.set({
         id: payload.user_id,
-        name: payload.user,
-        last_name: payload.user,
-        username: payload.user,
-        email: payload.user,
+        name: payload.name,
+        last_name: payload.last_name,
+        username: payload.username,
+        email: payload.email,
         role: roleValue
+        
       });
+      this.userRole.set(roleValue);
     } catch (error) {
       console.error('Error al decodificar JWT payload:', error);
       this.userId.set(null);

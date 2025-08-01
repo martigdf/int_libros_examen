@@ -42,11 +42,15 @@
               </ion-button>
 
               <!-- Botón de volver al Home -->
-              <ion-button 
-                expand="block" 
-                (click)="goToHome()">
-                Volver al Home
-              </ion-button>
+              <ng-container 
+                *ngIf="mainStore.isUser()"
+              >
+                <ion-button 
+                  expand="block" 
+                  (click)="goToHome()">
+                  Volver al Home
+                </ion-button>
+              </ng-container>
             </ion-card-content>
           </ion-card>
         }

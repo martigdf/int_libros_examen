@@ -10,9 +10,50 @@
         expand="block" 
         color="danger" 
         *ngIf="isLoggedIn()" 
-        (click)="logout()">
+        (click)="logout()"
+        style="margin-bottom: 60px;">
         Cerrar Sesión
       </ion-button>
+
+      <ion-button 
+        expand="block" 
+        (click)="perfilUsuario(usuarioId())">
+        Ver Perfil
+      </ion-button>
+
+      <ng-container 
+        *ngIf="mainStore.isUser()"
+      >
+        <ion-button 
+          expand="block" 
+          (click)="publicarLibro()">
+          Publicar libro
+        </ion-button>
+
+        <ion-button 
+          expand="block" 
+          (click)="misLibros()">
+          Mis Libros
+        </ion-button>
+      </ng-container>
+
+      <ng-container 
+        *ngIf="mainStore.isAdmin()"
+      >
+        <ion-button 
+          expand="block" 
+          (click)="verUsuariosList()">
+          ver usuarios listados
+        </ion-button>
+
+        <ion-button 
+          expand="block" 
+          (click)="verLibrosList()">
+          ver libros listados
+        </ion-button>
+      </ng-container>
+      <pre>DEBUG isAdmin: {{ mainStore.isAdmin() }}</pre>
+
     </ion-content>
   </ion-menu>
   <div class="ion-page" id="main-content">

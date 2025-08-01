@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { IonApp, IonMenu, IonContent, IonRouterOutlet, IonToolbar, IonHeader, IonTitle, IonButtons, IonMenuButton, IonFooter, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { User } from './model/user';
+
 
 @Component({
   selector: 'app-root',
@@ -18,10 +20,13 @@ export class AppComponent {
   
   constructor() { }
 
-  private mainStore = inject(MainStoreService);
+  public mainStore = inject(MainStoreService);
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
+
+  public usuario = signal<User | null>(null);
+  public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
 
   isLoggedIn(): boolean {
     return this.mainStore.token() !== null;
@@ -41,4 +46,37 @@ export class AppComponent {
       location.reload(); 
     });
   }
+
+  verUsuariosList() {
+    this.router.navigate(['/panel-admin/usuarios-listado']);
+  }
+
+  verLibrosList() {
+    this.router.navigate(['/panel-admin/view-books']);
+  }
+
+  publicarLibro() {
+    this.router.navigate(['/publish-book']);
+  }
+
+  perfilUsuario(id: string) {
+    this.router.navigate(['/user-profile', id]);
+  }
+
+  misLibros() {
+    this.router.navigate(['/my-books']);
+  }
+
+  public isAdmin = computed(() => {
+    const isAdmin = this.usuario()?.role === 'admin';
+    console.log('isAdmin:', isAdmin);
+    return isAdmin;
+  });
+
+  public isUser = computed(() => {
+    const isUser = this.usuario()?.role === 'user';
+    console.log('isUser:', isUser);
+    return isUser;
+  });
+
 }

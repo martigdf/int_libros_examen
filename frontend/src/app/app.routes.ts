@@ -70,7 +70,7 @@ export const routes: Routes = [
   // --- Rutas protegidas (solo para administradores) ---
   {
     path: 'panel-admin',
-    canActivate: [authenticatedGuard], // aquí podrías reemplazar por un guard específico de admin
+    //canActivate: [authenticatedGuard], // aquí podrías reemplazar por un guard específico de admin
     children: [
       {
         path: '',
@@ -85,17 +85,13 @@ export const routes: Routes = [
       },
       {
         path: 'usuarios-listado',
-        canActivate: [authenticatedGuard],
+        //canActivate: [authenticatedGuard],
         loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
       },
       {
         path: 'modify-user/:id',
         loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
-      },
-      {
-        path: 'modify-user',
-        loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
-      },
+      }
     ]
   },
   {
