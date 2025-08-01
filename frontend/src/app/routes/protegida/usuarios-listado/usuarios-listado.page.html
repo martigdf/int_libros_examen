@@ -1,14 +1,23 @@
-<p>
+<ion-content class="ion-padding">
+  @if (usuariosSignal.hasValue()) {
+    @for (user of usuariosSignal.value(); track user.id) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ user.name }} {{ user.last_name }}</ion-card-title>
+          <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
+        </ion-card-header>
 
-  @if (this.usuariosSignal.hasValue()) {
-
-    {{ this.usuariosSignal.value() | json }}
-
+        <ion-card-content>
+          <ion-badge color="{{ user.role === 'admin' ? 'success' : 'medium' }}">
+            {{ user.role }}
+          </ion-badge>
+        </ion-card-content>
+      </ion-card>
+    }
   }
   @else {
-
-    No hay usuarios
-
+    <ion-text color="medium">
+      <h2 class="ion-text-center ion-margin-top">No hay usuarios</h2>
+    </ion-text>
   }
-
-</p>
+</ion-content>

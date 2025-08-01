@@ -19,8 +19,8 @@ export class UsuariosService {
 
   public id = signal<User | undefined>(undefined);
 
-  async getAll() {
-    return firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/all"))
+  async getAll(): Promise<User[]> {
+    return firstValueFrom(this.httpClient.get<User[]>(this.apiUrl + "users/all"))
   }
 
   getUserId(): User | undefined {

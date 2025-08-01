@@ -43,7 +43,7 @@ export class HomePage  implements OnInit {
   }
 
   modificarUsuario(id: string) {
-    this.router.navigate([`/modify-user`, id]);
+    this.router.navigate([`/panel-admin/modify-user`, id]);
   }
 
   viewDetails(bookId: number) {
