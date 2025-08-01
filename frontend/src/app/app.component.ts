@@ -79,4 +79,11 @@ export class AppComponent {
     return isUser;
   });
 
+  public isAdminAndUser = computed(() => {
+    const user = this.usuario();
+    const isBoth = user?.role === 'admin' || user?.role === 'user';
+    console.log('isAdminAndUser:', isBoth);
+    return isBoth;
+  });
+
 }

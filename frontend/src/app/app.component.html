@@ -14,12 +14,15 @@
         style="margin-bottom: 60px;">
         Cerrar Sesión
       </ion-button>
-
-      <ion-button 
-        expand="block" 
-        (click)="perfilUsuario(usuarioId())">
-        Ver Perfil
-      </ion-button>
+      <ng-container 
+        *ngIf="mainStore.isSelfOrAdmin()"
+      >
+        <ion-button 
+          expand="block" 
+          (click)="perfilUsuario(usuarioId())">
+          Ver Perfil
+        </ion-button>
+      </ng-container>
 
       <ng-container 
         *ngIf="mainStore.isUser()"

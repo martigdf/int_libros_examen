@@ -19,9 +19,13 @@ export class LoginPage implements OnInit {
   private mainStore = inject(MainStoreService);
   private router = inject(Router);
 
+  loginData: Login = { email: '', password: '' };
+
   constructor(){ }
 
-  ngOnInit(){ }
+  ngOnInit(){ 
+    this.loginData = { email: '', password: '' };
+  }
 
   public async doAuth(data: Login) {
    try{

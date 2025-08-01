@@ -1,1 +1,1 @@
-<app-login-form (submitted)="this.doAuth($event)"></app-login-form>
+<app-login-form [model]="loginData" (submitted)="this.doAuth($event)"></app-login-form>

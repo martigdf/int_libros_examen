@@ -51,7 +51,7 @@ export class UserProfilePage implements OnInit {
           handler: async () => {
             try {
               await this.usuariosService.deleteUser(this.user()?.id);
-              localStorage.removeItem('user');
+              this.mainStore.clearAuth();
               this.router.navigate(['/login']);
             } catch (error) {
               console.error('Error al eliminar el usuario:', error);
