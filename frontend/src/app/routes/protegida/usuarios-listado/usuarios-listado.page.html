@@ -11,6 +11,18 @@
           <ion-badge color="{{ user.role === 'admin' ? 'success' : 'medium' }}">
             {{ user.role }}
           </ion-badge>
+          <ion-row class="ion-justify-content-end ion-margin-top">
+            <ion-col size="auto">
+              <ion-button size="small" fill="outline" color="primary"
+                (click)="modificarUsuario(user.id)">
+                Modificar
+              </ion-button>
+              <ion-button size="small" fill="outline" color="danger"
+                (click)="eliminarUsuario(user.id)">
+                Eliminar
+              </ion-button>
+            </ion-col>
+          </ion-row>
         </ion-card-content>
       </ion-card>
     }

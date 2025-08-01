@@ -40,7 +40,7 @@ export class UserProfilePage implements OnInit {
   async deleteSelf() {
     const alert = await this.alertCtrl.create({
       header: 'Confirmar',
-      message: '¿Estás seguro de que quieres eliminar tu cuenta?',
+      message: '¿Estás seguro de que quieres eliminar esta cuenta?',
       buttons: [
         {
           text: 'Cancelar',

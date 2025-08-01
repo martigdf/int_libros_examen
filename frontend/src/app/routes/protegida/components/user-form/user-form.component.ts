@@ -1,7 +1,8 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { PutUser, User } from 'src/app/model/user';
+import { MainStoreService } from 'src/app/services/main-store.service';
 
 @Component({
   selector: 'app-user-form',
@@ -11,6 +12,8 @@ import { PutUser, User } from 'src/app/model/user';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent{
+
+  private mainStore = inject(MainStoreService);
 
   public totalRoles = input<string[]>(['admin', 'user']);
   public user = input<User | null>(null) 

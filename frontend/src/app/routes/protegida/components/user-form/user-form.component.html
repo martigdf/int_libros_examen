@@ -45,7 +45,7 @@
       </ion-input>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row *ngIf="!(mainStore.isAdmin() && user()?.id === mainStore.userId())">
     <ion-col size="12">
         <ion-select
           label="Roles"
