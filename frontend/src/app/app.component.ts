@@ -17,16 +17,21 @@ import { User } from './model/user';
   imports: [IonApp, IonMenu, IonContent, FormsModule, CommonModule, IonRouterOutlet, IonToolbar, IonHeader, IonTitle, IonButtons, IonMenuButton, IonFooter, IonButton],
 })
 export class AppComponent {
-  
-  constructor() { }
 
   public mainStore = inject(MainStoreService);
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
 
+  public isHome = signal<boolean>(false);
   public usuario = signal<User | null>(null);
   public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
+
+  constructor() {
+    this.router.events.subscribe(() => {
+      this.isHome.set(this.router.url === '/home');
+    });
+  }
 
   isLoggedIn(): boolean {
     return this.mainStore.token() !== null;
@@ -65,6 +70,18 @@ export class AppComponent {
 
   misLibros() {
     this.router.navigate(['/my-books']);
+  }
+
+  misSolicitudes() {
+    this.router.navigate(['/myreque-list']);
+  }
+
+  misRecibidas() {
+    this.router.navigate(['/myreceived-list']);
+  }
+
+  goHome() {
+    this.router.navigate(['/home']);
   }
 
   public isAdmin = computed(() => {

@@ -48,11 +48,6 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/my-books/my-books.page').then( m => m.MyBooksPage)
   },
   {
-    path: 'menu-loans',
-    loadComponent: () =>
-      import('./routes/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
-  },
-  {
     path: 'myreque-list',
     loadComponent: () => import('./routes/myreque-list/myreque-list.page').then( m => m.MyrequeListPage)
   },

@@ -1,13 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>myreceived-list</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">myreceived-list</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  @if (receivedRequests.isLoading()) {
+    <ion-spinner></ion-spinner>
+  } @else {
+    
+    @if (receivedRequests.value()?.length) {
+      <ion-list>
+        @for (req of receivedRequests.value(); track req.id) {
+          <ion-item>
+            <ion-label>
+              <h2>Solicitud #{{ req.id }}</h2>
+              <p>Estado: {{ req.state }}</p>
+              <p>Fecha: {{ req.creation_date }}</p>
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    } @else {
+      <p>No tienes solicitudes pendientes.</p>
+    }
+
+  }
 </ion-content>

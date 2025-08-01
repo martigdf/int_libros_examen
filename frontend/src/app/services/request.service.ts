@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { firstValueFrom } from 'rxjs';
-import { RequestPost } from '../model/request';
+import { RequestPost, Request } from '../model/request';
 
 export interface RequestResponse {
   message: string;
@@ -22,11 +22,11 @@ export class RequestsService {
   }
 
   async getSentRequests(): Promise<Request[]> {
-    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}/sent`));
+    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}requests/sent`));
   }
 
   async getReceivedRequests(): Promise<Request[]> {
-    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}/received`));
+    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}requests/received`));
   }
 
 }
