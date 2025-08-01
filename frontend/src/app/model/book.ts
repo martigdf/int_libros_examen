@@ -12,6 +12,7 @@ export interface Book {
   author: string;
   state: 'available' | 'requested' | 'reserved' | 'loaned' | 'returned' | 'cancelled' | 'unavailable';
   image?: string;
+  owner_id: number;
   publication?: Publication;
 }
 export interface BookPost {

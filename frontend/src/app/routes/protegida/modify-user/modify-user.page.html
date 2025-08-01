@@ -1,7 +1,7 @@
 <div>
-  @if(user){
+  @if(user()){
     <app-user-form 
-      [user]="user" 
+      [user]="user()" 
       [totalRoles]="['admin','user']"
       (changed)="handleSave($event)">
     </app-user-form>

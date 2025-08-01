@@ -29,6 +29,12 @@
 
               <ion-label 
                 class="ion-margin-bottom">
+                <h2>Username</h2>
+                <ion-text>{{ user().username }}</ion-text>
+              </ion-label>
+
+              <ion-label 
+                class="ion-margin-bottom">
                 <h2>Email</h2>
                 <ion-text>{{ user().email }}</ion-text>
               </ion-label>
@@ -42,11 +48,15 @@
               </ion-button>
 
               <!-- Botón de volver al Home -->
-              <ion-button 
-                expand="block" 
-                (click)="goToHome()">
-                Volver al Home
-              </ion-button>
+              <ng-container 
+                *ngIf="mainStore.isUser()"
+              >
+                <ion-button 
+                  expand="block" 
+                  (click)="goToHome()">
+                  Volver al Home
+                </ion-button>
+              </ng-container>
             </ion-card-content>
           </ion-card>
         }

@@ -31,7 +31,14 @@ const authRoute: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void
         reply.code(401).send({ message: "Contraseña incorrecta" });
         return;
       }
-      const token = fastify.jwt.sign({ id: user.id }, { expiresIn: "3h" });
+      const token = fastify.jwt.sign({ 
+        id: user.id,
+        name: user.name,
+        lastname: user.lastname,
+        role: user.role,
+        email: user.email,
+        user: user.username
+      }, { expiresIn: "3h" });
       reply.send({
         token,
         user: {

@@ -31,6 +31,7 @@ export const BookSchema = Type.Object({
         Type.Literal("available"),
         Type.Literal("unavailable")
     ]),
+    owner_id: Type.Number({ description: 'ID del propietario del libro' }),
     image_url: Type.Optional(Type.String({ format: 'uri', description: 'URL de la imagen del libro' })),
 });
 

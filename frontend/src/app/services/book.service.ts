@@ -37,6 +37,12 @@ export class BookService {
 
   // Método para obtener todos los libros
   async getAllBooks(): Promise<Book[]> {
-    return firstValueFrom(this.http.get<Book[]>(`${this.apiUrl}/`));
+    return await firstValueFrom(this.http.get<Book[]>(`${this.apiUrl}books`));
+  }
+
+
+  // Método para eliminar un libro
+  async deleteBook(id: string): Promise<void> {
+    return firstValueFrom(this.http.delete<void>(`${this.apiUrl}books/${id}`));
   }
 }

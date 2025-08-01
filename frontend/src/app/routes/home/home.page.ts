@@ -42,24 +42,8 @@ export class HomePage  implements OnInit {
     }
   }
 
-  verUsuariosList() {
-    this.router.navigate(['/usuarios-listado']);
-  }
-
-  publicarLibro() {
-    this.router.navigate(['/publish-book']);
-  }
-
   modificarUsuario(id: string) {
-    this.router.navigate([`/modify-user`, id]);
-  }
-
-  perfilUsuario(id: string) {
-    this.router.navigate(['/user-profile', id]);
-  }
-
-  myBooks() {
-    this.router.navigate(['/my-books']);
+    this.router.navigate([`/panel-admin/modify-user`, id]);
   }
 
   viewDetails(bookId: number) {
