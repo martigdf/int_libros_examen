@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { authenticatedGuard } from './guards/authenticated.guard';
 
 export const routes: Routes = [
+
+  // --- Rutas públicas ---
   {
     path: '',
     children: [
@@ -22,6 +24,9 @@ export const routes: Routes = [
       }
     ]
   },
+
+
+  // --- Rutas para usuarios autenticados ---
   {
     path: 'home',
     canActivate: [authenticatedGuard],
@@ -33,40 +38,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./routes/book/book.page').then((m) => m.BookPage),
   },
-  {
-    path: 'menu-loans',
-    loadComponent: () =>
-      import('./routes/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
-  },
-  {
-    path: 'user-profile/:id',
-    loadComponent: () =>
-      import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
-  },
-  {
-    path: 'panel-admin',
-    loadComponent: () =>
-      import('./routes/protegida/panel-admin/panel-admin.page').then((m) => m.PanelAdminPage),
-  },
-  {
-    path: 'panel-admin/view-books',
-    loadComponent: () =>
-      import('./routes/protegida/view-books/view-books.page').then((m) => m.ViewBooksPage),
-  },
-  {
-    path: 'logout',
-    loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
-  },
-  {
-    path: 'usuarios-listado',
-    canActivate: [authenticatedGuard],
-    loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
-  },
-  {
-    path: 'modify-user/:id',
-    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
-  },
-  {
+    {
     path: 'publish-book',
     loadComponent: () => import('./routes/publish-book/publish-book.page').then( m => m.PublishBookPage)
   },
@@ -76,8 +48,9 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/my-books/my-books.page').then( m => m.MyBooksPage)
   },
   {
-    path: 'modify-user',
-    loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
+    path: 'menu-loans',
+    loadComponent: () =>
+      import('./routes/menu-loans/menu-loans.page').then((m) => m.MenuLoansPage),
   },
   {
     path: 'myreque-list',
@@ -86,5 +59,47 @@ export const routes: Routes = [
   {
     path: 'myreceived-list',
     loadComponent: () => import('./routes/myreceived-list/myreceived-list.page').then( m => m.MyreceivedListPage)
-  }
+  },
+  {
+    path: 'user-profile/:id',
+    loadComponent: () =>
+      import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
+  },
+
+
+  // --- Rutas protegidas (solo para administradores) ---
+  {
+    path: 'panel-admin',
+    canActivate: [authenticatedGuard], // aquí podrías reemplazar por un guard específico de admin
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./routes/protegida/protegida.page').then((m) => m.ProtegidaPage),
+      },
+      {
+        path: 'view-books',
+        loadComponent: () =>
+          import('./routes/protegida/view-books/view-books.page').then((m) => m.ViewBooksPage),
+      },
+      {
+        path: 'usuarios-listado',
+        canActivate: [authenticatedGuard],
+        loadComponent: () => import('./routes/protegida/usuarios-listado/usuarios-listado.page').then((m) => m.UsuariosListadoPage)
+      },
+      {
+        path: 'modify-user/:id',
+        loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
+      },
+      {
+        path: 'modify-user',
+        loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then( m => m.ModifyUserPage)
+      },
+    ]
+  },
+  {
+    path: 'logout',
+    loadComponent: () => import('./routes/auth/pages/logout/logout.page').then( m => m.LogoutPage)
+  },
 ];
