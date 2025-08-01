@@ -1,13 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, resource } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { Book } from 'src/app/model/book';
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { MainStoreService } from 'src/app/services/main-store.service';
-import { environment } from 'src/environments/environment';
+import { BookService } from 'src/app/services/book.service';
+
 
 @Component({
   selector: 'app-home',
@@ -16,31 +14,20 @@ import { environment } from 'src/environments/environment';
   imports: [IonicModule, CommonModule],
 })
 export class HomePage  implements OnInit {
-  private httpClient = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
-  private mainStore = inject(MainStoreService);
-  private tokenObject = this.mainStore.token();
+  private bookService = inject(BookService);
 
-  public books = signal<Book[]>([]);
-  public user: User = JSON.parse(localStorage.getItem('user') || '{}');
+  public booksSignal = signal<Book[]>([]);
+  public userSignal = signal<User | null>(null);
+
 
   constructor(private router: Router) { }
 
   async ngOnInit() {
-    this.allBooks();
   }
 
-  async allBooks(){
-    try {
-      const data = await this.httpClient
-        .get<Book[]>(`${this.apiUrl}books`)
-        .toPromise();
-
-      if (data) this.books.set(data);
-    } catch (error) {
-      console.error('Error al cargar los libros', error);
-    }
-  }
+  public allBooks = resource<Book[], unknown>({
+    loader: () => this.bookService.getAllBooks()
+  });
 
   modificarUsuario(id: string) {
     this.router.navigate([`/panel-admin/modify-user`, id]);

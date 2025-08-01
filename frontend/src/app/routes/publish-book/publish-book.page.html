@@ -6,7 +6,7 @@
         position="floating">Título del libro
       </ion-label>
       <ion-input 
-        [(ngModel)]="book.name" 
+        [(ngModel)]="book().name" 
         name="name" 
         required>
       </ion-input>
@@ -17,7 +17,7 @@
         position="floating">Autor
       </ion-label>
       <ion-input 
-        [(ngModel)]="book.author" 
+        [(ngModel)]="book().author" 
         name="author" 
         required>
       </ion-input>
@@ -26,7 +26,7 @@
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
       <ion-textarea 
-        [(ngModel)]="book.description" 
+        [(ngModel)]="book().description" 
         name="description" 
         required>
       </ion-textarea>
@@ -35,7 +35,7 @@
     <ion-item>
       <ion-label position="floating">Ubicación</ion-label>
       <ion-input 
-        [(ngModel)]="book.location" 
+        [(ngModel)]="book().location" 
         name="location" 
         required>
       </ion-input>
@@ -43,7 +43,7 @@
 
     <ion-item>
       <ion-label>Géneros</ion-label>
-      <ion-select [(ngModel)]="book.genres" name="genres" multiple="true" okText="OK" cancelText="Cancelar">
+      <ion-select [(ngModel)]="book().genres" name="genres" multiple="true" okText="OK" cancelText="Cancelar">
     <ion-select-option *ngFor="let g of genres" [value]="g.id">{{ g.name }}</ion-select-option>
   </ion-select>
     </ion-item>

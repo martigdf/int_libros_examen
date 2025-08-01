@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Genre } from 'src/app/model/genre';
@@ -16,13 +16,13 @@ import { Router } from '@angular/router';
 })
 export class PublishBookPage implements OnInit {
 
-  book: BookPost = {
+  book = signal<BookPost>({
     name: '',
     description: '',
     author: '',
     location: '',
     genres: []
-  };
+  });
 
   genres: Genre[] = [];
 
@@ -34,7 +34,7 @@ export class PublishBookPage implements OnInit {
 
   async onSubmit() {
     try {
-      await this.bookService.publishBook(this.book);
+      await this.bookService.publishBook(this.book());
       alert('Libro publicado correctamente!!');
       this.router.navigate(['/home']);
     } catch (err) {
