@@ -1,8 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { firstValueFrom } from 'rxjs';
-import { MainStoreService } from './main-store.service';
 import { RequestPost } from '../model/request';
 
 export interface RequestResponse {
@@ -14,7 +13,6 @@ export interface RequestResponse {
 export class RequestsService {
 
   private http = inject(HttpClient);
-  private mainStore = inject(MainStoreService);
   private apiUrl = environment.apiUrl;
 
   public lastRequest = signal<RequestResponse | null>(null);
@@ -22,4 +20,13 @@ export class RequestsService {
   async createRequest(data: RequestPost): Promise<RequestPost> {
     return await firstValueFrom(this.http.post<RequestPost>(`${this.apiUrl}requests`, data));
   }
+
+  async getSentRequests(): Promise<Request[]> {
+    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}/sent`));
+  }
+
+  async getReceivedRequests(): Promise<Request[]> {
+    return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}/received`));
+  }
+
 }
