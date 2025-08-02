@@ -48,7 +48,6 @@ export class BookService {
   }
 
 
-
   // Método para eliminar un libro
   async deleteBook(id: string): Promise<void> {
     return firstValueFrom(this.httpClient.delete<void>(`${this.apiUrl}books/${id}`));

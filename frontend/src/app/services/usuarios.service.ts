@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User, UserPost } from '../model/user';
 import { firstValueFrom } from 'rxjs';
 import { MainStoreService } from './main-store.service';
-import { signal, effect } from '@angular/core';
+import { signal } from '@angular/core';
 import { PutUser } from '../model/user';
 
 @Injectable({
