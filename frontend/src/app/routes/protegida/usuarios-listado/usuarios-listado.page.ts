@@ -2,7 +2,6 @@ import { Component, inject, OnInit, resource } from '@angular/core';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { IonContent, IonList, IonItem, IonLabel, IonText, IonCardContent, IonBadge } from "@ionic/angular/standalone";
 import { IonicModule } from "@ionic/angular";
 import { User } from 'src/app/model/user';
 import { Router } from '@angular/router';
@@ -15,7 +14,7 @@ const socket = new WebSocket("ws://localhost/backend/")
   templateUrl: './usuarios-listado.page.html',
   styleUrls: ['./usuarios-listado.page.scss'],
   standalone: true,
-  imports: [IonBadge, IonCardContent, CommonModule, FormsModule, IonicModule]
+  imports: [IonicModule, CommonModule, FormsModule, IonicModule]
 })
 
 export class UsuariosListadoPage implements OnInit {

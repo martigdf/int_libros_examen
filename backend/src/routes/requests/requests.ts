@@ -83,8 +83,11 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
       tags: ['requests'],
       summary: 'Ruta para responder a una solicitud',
       description: 'Acepta o rechaza una solicitud de préstamo usando su ID.',
+      params: RequestIdSchema,
       body: Type.Object({
-        state: Type.Union([Type.Literal('accepted'), Type.Literal('rejected')])
+        state: Type.Union([Type.Literal('accepted'), 
+          Type.Literal('rejected'),
+          Type.Literal('cancelled')])
       }),
       response: {
         200: Type.Object({ message: Type.String() }),
@@ -95,16 +98,25 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
     onRequest: [fastify.authenticate],
     handler: async (request, reply) => {
       try{
-        const { id, state } = request.body as { id: number; state: string };
+        const { id } = request.params as { id: number };
+        const { state } = request.body as { id: number; state: string };
         const receiver = request.user as { id: number };
 
-        const result = await RequestRepository.respondRequest(id, state, receiver.id);
-
+        const isCancel = state === 'cancelled';
+        const dbState = state === 'rejected' ? 'declined' : state;
+        const result = await RequestRepository.respondRequest(id, dbState, receiver.id, isCancel);
+        
         if (result.rowCount === 0) {
           return reply.code(404).send({ message: 'Solicitud no encontrada o no autorizada' });
         }
 
-        return reply.code(200).send({ message: `Solicitud ${state === 'accepted' ? 'aceptada' : 'rechazada'} correctamente` });
+        const msg =
+        state === 'accepted' ? 'aceptada'
+        : state === 'cancelled' ? 'cancelada y eliminada'
+        : 'rechazada';
+
+        return reply.code(200).send(
+          { message: `Solicitud ${msg}correctamente` });
 
       } catch (err) {
         request.log.error(err);

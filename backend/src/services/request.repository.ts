@@ -49,7 +49,17 @@ export class RequestRepository {
     `, [userId]).then(res => res.rows);
   }
 
-  static respondRequest(id: number, state: string, receiverId: number): Promise<any> {
+  static respondRequest(id: number, state: string, receiverId: number, isCancel = false): Promise<any> {
+    if (isCancel) {
+    return query(`
+      WITH deleted_rb AS (
+        DELETE FROM requests_books WHERE id_request = $1
+      )
+      DELETE FROM requests
+      WHERE id = $1 AND sender_user_id = $2 AND state = 'pending'
+      RETURNING id;
+    `, [id, receiverId]);
+  }
     return query(`
       WITH updated AS (
         UPDATE requests

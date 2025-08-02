@@ -4,18 +4,18 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Book } from 'src/app/model/book';
 import { environment } from 'src/environments/environment.prod';
-import { IonCardHeader, IonCard, IonContent, IonCardContent, IonCardSubtitle, IonLabel, IonCardTitle, IonText, IonItem, IonTitle, IonButton } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
 import { RequestsService } from 'src/app/services/request.service';
 import { RequestPost } from 'src/app/model/request';
 import { AlertController } from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.page.html',
   styleUrls: ['./book.page.scss'],
   standalone: true,
-  imports: [ CommonModule, IonItem, IonText, IonCardTitle, IonLabel, IonCardSubtitle, IonCardContent, IonContent, IonCardHeader, IonCard, IonCardTitle, IonText, IonButton],
+  imports: [ CommonModule, IonicModule],
 })
 
 export class BookPage implements OnInit {

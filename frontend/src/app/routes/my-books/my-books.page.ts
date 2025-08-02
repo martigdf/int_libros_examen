@@ -1,20 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonCardSubtitle, IonCardHeader, IonCard, IonCardTitle, IonRow, IonGrid, IonButtons, IonButton } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MainStoreService } from 'src/app/services/main-store.service';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-books',
   templateUrl: './my-books.page.html',
   styleUrls: ['./my-books.page.scss'],
   standalone: true,
-  imports: [IonButton, IonButtons, IonGrid, IonRow, IonCardTitle, IonCard, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 
 

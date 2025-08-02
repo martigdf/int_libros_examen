@@ -29,4 +29,8 @@ export class RequestsService {
     return await firstValueFrom(this.http.get<Request[]>(`${this.apiUrl}requests/received`));
   }
 
+  responderSolicitud(id: number, state: 'accepted' | 'rejected' | 'cancelled'): Promise<any> {
+  return this.http.patch(`${this.apiUrl}requests/${id}/response`, { state }).toPromise();
+}
+
 }

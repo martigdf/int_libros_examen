@@ -15,9 +15,12 @@
               <ion-label>
                 <h2>Solicitud #{{ req.id }}</h2>
                 <p>Estado: {{ req.state }}</p>
-                <p>Fecha: {{ req.creation_date }}</p>
+                <p>Fecha: {{ req.creation_date | date:'dd-MM-yyyy' }}</p>
                 <p>Libros solicitados:</p>
               </ion-label>
+              @if (req.state === 'pending') {
+                <ion-button color="danger" (click)="cancelarSolicitud(req.id)">Cancelar</ion-button>
+              }
             </ion-item>
           }
         </ion-list>

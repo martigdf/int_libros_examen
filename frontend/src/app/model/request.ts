@@ -4,7 +4,7 @@ export interface Request{
   state: 'pending' | 'accepted' | 'declined' | 'cancelled';
   sender_user_id: number;
   receiver_user_id: number;
-  books: number[];  
+  books: string[];  
 }
 
 export interface RequestPost {
