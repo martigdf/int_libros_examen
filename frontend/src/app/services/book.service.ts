@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { BookPost } from 'src/app/model/book';
 import { HttpHeaders } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
+import { UsuariosService } from './usuarios.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,15 @@ import { Book } from 'src/app/model/book';
 
 export class BookService {
 
-  private http = inject(HttpClient);
+  private usuariosService = inject(UsuariosService);
+  private httpClient = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
   constructor() { }
 
   // Método para obtener los géneros de libros
   async getGenres(): Promise<Genre[]> {
-    return await firstValueFrom(this.http.get<Genre[]>(`${this.apiUrl}books/genres`));
+    return await firstValueFrom(this.httpClient.get<Genre[]>(`${this.apiUrl}books/genres`));
   }
 
   // Método para publicar un libro
@@ -31,18 +33,39 @@ export class BookService {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     return await firstValueFrom(
-      this.http.post(`${this.apiUrl}books/publish`, book, { headers })
+      this.httpClient.post(`${this.apiUrl}books/publish`, book, { headers })
     );
   }
 
   // Método para obtener todos los libros
   async getAllBooks(): Promise<Book[]> {
-    return await firstValueFrom(this.http.get<Book[]>(`${this.apiUrl}books`));
+    return await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books`));
   }
 
 
   // Método para eliminar un libro
   async deleteBook(id: string): Promise<void> {
-    return firstValueFrom(this.http.delete<void>(`${this.apiUrl}books/${id}`));
+    return firstValueFrom(this.httpClient.delete<void>(`${this.apiUrl}books/${id}`));
   }
+
+  async submitPhoto( book_id: number, photo: string) {
+
+    const id = this.usuariosService.getUserId()
+
+    if ( id === undefined || photo === '' ) {
+
+      return
+
+    }
+
+    const response = await fetch(photo);
+    const blob = await response.blob();
+
+    const formData = new FormData();
+    formData.append('file', blob, book_id + '.jpg')
+
+    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/books/' + book_id, formData));
+
+  }
+
 }

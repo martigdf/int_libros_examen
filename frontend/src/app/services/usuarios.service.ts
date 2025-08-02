@@ -59,6 +59,24 @@ export class UsuariosService {
       }
     }));
   }
+
+  async submitPhoto(photo: string) {
+
+    if ( this.id === undefined || photo === '' ) {
+
+      return
+
+    }
+
+    const response = await fetch(photo);
+    const blob = await response.blob();
+
+    const formData = new FormData();
+    formData.append('file', blob, this.id + '.jpg')
+
+    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/users/' + this.id, formData));
+
+  }
   
   constructor() { }
 

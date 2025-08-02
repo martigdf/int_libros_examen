@@ -3,7 +3,7 @@ import { query } from '../../services/database.js';
 import { RequestIdSchema, RequestPostSchema, RequestSchema } from '../../schemas/requests/requestSchema.js';
 import { RequestRepository } from '../../services/request.repository.js';
 
-const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
+const requestRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => {
 
   fastify.post('/', {
     schema: {
@@ -213,4 +213,4 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
   
 };
 
-export default requestsRoutes;
+export default requestRoutes;
