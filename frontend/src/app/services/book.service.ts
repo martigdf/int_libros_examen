@@ -42,6 +42,12 @@ export class BookService {
     return await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books`));
   }
 
+  // Método para obtener un libro por su ID
+  async getBookById(id: number): Promise<Book> {
+    return await firstValueFrom(this.httpClient.get<Book>(`${this.apiUrl}books/${id}`));
+  }
+
+
 
   // Método para eliminar un libro
   async deleteBook(id: string): Promise<void> {

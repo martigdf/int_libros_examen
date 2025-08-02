@@ -19,15 +19,22 @@ export class HomePage  implements OnInit {
   public booksSignal = signal<Book[]>([]);
   public userSignal = signal<User | null>(null);
 
-
   constructor(private router: Router) { }
 
   async ngOnInit() {
   }
 
   public allBooks = resource<Book[], unknown>({
-    loader: () => this.bookService.getAllBooks()
+    loader: async () => {
+      const books = await this.bookService.getAllBooks();
+      this.booksSignal.set(books);
+      return books;
+    }
   });
+
+  ionViewWillEnter() {
+    this.allBooks.reload();
+  }
 
   modificarUsuario(id: string) {
     this.router.navigate([`/panel-admin/modify-user`, id]);

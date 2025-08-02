@@ -1,21 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, resource, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { Book } from 'src/app/model/book';
 import { environment } from 'src/environments/environment.prod';
-import { IonCardHeader, IonCard, IonContent, IonCardContent, IonCardSubtitle, IonLabel, IonCardTitle, IonText, IonItem, IonTitle, IonButton } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
 import { RequestsService } from 'src/app/services/request.service';
 import { RequestPost } from 'src/app/model/request';
 import { AlertController } from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.page.html',
   styleUrls: ['./book.page.scss'],
   standalone: true,
-  imports: [ CommonModule, IonItem, IonText, IonCardTitle, IonLabel, IonCardSubtitle, IonCardContent, IonContent, IonCardHeader, IonCard, IonCardTitle, IonText, IonButton],
+  imports: [ CommonModule, IonicModule],
 })
 
 export class BookPage implements OnInit {
@@ -34,24 +33,32 @@ export class BookPage implements OnInit {
   public currentUserId!: number;
   
   ngOnInit() {    
-    this.loadBook();
   }
 
   // Método para cargar los detalles del libro
-  async loadBook() {
+  loadBook = resource<Book, unknown>({
+    loader : async () => {
     const bookId = Number(this.route.snapshot.paramMap.get('id'));
 
-    const data = await firstValueFrom(
-      this.httpClient.get<Book>(this.apiUrl + 'books/' + bookId)
-    );
+    const book = await this.httpClient.get<Book>(`${this.apiUrl + 'books/' + bookId}`).toPromise();
 
-    this.book.set(data);
-    this.receiver_user_id.set(data.owner_id);
-  }
+    if (!book) {
+      throw new Error('No se pudo cargar el libro');
+    }
+      this.book.set(book); 
+      this.receiver_user_id.set(book.owner_id);
+      return book!;
+    }
+  });
 
   // Metodo para solicitar un préstamo del libro
   async requestBook() {
     const currentBook = this.book();
+
+    if (!currentBook) {
+      await this.showAlert('Error', 'No se pudo obtener la información del libro.');
+      return;
+    }
 
     // Verificar si el libro está disponible
     const payload: RequestPost = {
@@ -65,6 +72,7 @@ export class BookPage implements OnInit {
       await this.showAlert('Éxito', 'Solicitud creada correctamente.');
       this.requestResult.set(res);
       console.log('Solicitud creada:', res);
+      this.loadBook.reload();
     } catch (err) {
       console.error('Error al crear la solicitud:', err);
       await this.showAlert('Error', 'No se pudo crear la solicitud.');
