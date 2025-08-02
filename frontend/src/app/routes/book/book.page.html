@@ -18,11 +18,7 @@
         <ion-item>
           <ion-label>
             <h2>Estado</h2>
-            @if (book().state == 'available') {
-
-              <p>Disponible</p>
-
-            }
+            <p>{{ book().state === 'available' ? 'Disponible' : 'No disponible' }}</p>
           </ion-label>
         </ion-item>
       </ion-card-content>

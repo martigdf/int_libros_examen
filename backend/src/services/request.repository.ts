@@ -68,6 +68,16 @@ export class RequestRepository {
         RETURNING id
       )
       SELECT * FROM updated;
-    `, [state, id, receiverId]);
+    `, [state, id, receiverId])
+    .then(async res => {
+      if (state === 'accepted' && (res.rowCount ?? 0) > 0) {
+        await query(`
+          UPDATE books
+          SET state = 'unavailable'
+          WHERE id IN (SELECT id_book FROM requests_books WHERE id_request = $1);
+        `, [id]);
+      }
+      return res;
+    });
   }
 }

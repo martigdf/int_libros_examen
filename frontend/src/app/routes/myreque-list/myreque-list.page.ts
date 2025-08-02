@@ -32,8 +32,8 @@ export class MyrequeListPage implements OnInit {
 
   async cancelarSolicitud(id: number) {
     try {
-      await this.requestService.responderSolicitud(id, 'cancelled'); // ✅ usamos el mismo endpoint
-      this.sentRequests.reload(); // ✅ refresca la lista después de cancelar
+      await this.requestService.responderSolicitud(id, 'cancelled'); 
+      this.sentRequests.reload();
     } catch (err) {
       console.error('Error al cancelar solicitud:', err);
     }

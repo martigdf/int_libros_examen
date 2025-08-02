@@ -18,20 +18,48 @@ export class MyreceivedListPage implements OnInit {
 
   allReceived = signal<Request[]>([]);
   pendingReceived = signal<Request[]>([]);
+  acceptedRequests = signal<Request[]>([]);
+  confirmados = signal<{ [key: number]: boolean }>({});
 
   receivedRequests = resource<Request[], unknown>({
     loader: async () => {
       const data = await this.requestService.getReceivedRequests();
       this.allReceived.set(data);
       this.pendingReceived.set(data.filter(req => req.state === 'pending'));
+      this.acceptedRequests.set(data.filter(req => req.state === 'accepted'));
       return data;
     }
   });
 
-  responderSolicitud(id: number, state: 'accepted' | 'rejected') {
+  responderSolicitud(id: number, state: 'accepted' | 'declined') {
+    console.log(`🔹 Respondiendo solicitud ${id} con estado ${state}`);
     this.requestService.responderSolicitud(id, state)
-      .then(() => this.receivedRequests.reload())
-      .catch(err => console.error('Error al responder la solicitud:', err));
+      .then(resp => {
+        console.log('Respuesta backend responderSolicitud:', resp);
+        this.receivedRequests.reload();
+      })
+      .catch(err => console.error('Error al responder solicitud:', err));
+  }
+  
+  async confirmPickup(id: number) {
+    console.log(`Enviando confirmación de retiro para solicitud ${id}`);
+    try {
+      const resp = await this.requestService.confirmPickup(id);
+      console.log('Respuesta backend confirm-pickup:', resp);
+      this.confirmados.update(prev => ({ ...prev, [id]: true }));
+      this.receivedRequests.reload();
+    } catch (err) {
+      console.error('Error al confirmar retiro:', err);
+    }
+  }
+
+  async confirmReturn(id: number) {
+    try {
+      await this.requestService.confirmReturn(id);
+      this.receivedRequests.reload();
+    } catch (err) {
+      console.error('Error al confirmar devolución:', err);
+    }
   }
 
   constructor() { }

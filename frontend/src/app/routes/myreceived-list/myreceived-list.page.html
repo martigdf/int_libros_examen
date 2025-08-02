@@ -23,7 +23,7 @@
                 </ion-button>
                 <ion-button 
                   color="danger" 
-                  (click)="responderSolicitud(req.id, 'rejected')"
+                  (click)="responderSolicitud(req.id, 'declined')"
                 >Rechazar
               </ion-button>
               </ion-buttons>
@@ -33,6 +33,33 @@
             color="medium"><p>No hay solicitudes pendientes.</p></ion-text> }
       </ion-card-content>
     </ion-card>
+
+    <!-- Aceptadas -->
+    <ion-card>
+      <ion-card-header><ion-card-title>Aceptadas</ion-card-title></ion-card-header>
+      <ion-card-content>
+        @if (acceptedRequests().length) {
+          @for (req of acceptedRequests(); track req.id) {
+            <ion-item>
+              <ion-label>#{{ req.id }} - {{ req.creation_date | date:'dd-MM-yyyy' }}</ion-label>
+              @if (req.state === 'accepted' && !confirmados()[req.id]) {
+                <ion-button 
+                  color="success" 
+                  (click)="confirmPickup(req.id)"
+                >Confirmar Retiro</ion-button>
+              }
+              @if (confirmados()[req.id] && req.state !== 'completed') {
+                <ion-button 
+                  color="warning" 
+                  (click)="confirmReturn(req.id)"
+                  >Confirmar Devolución</ion-button>
+              }
+            </ion-item>
+          }
+        } @else { <ion-text color="medium">No hay solicitudes aceptadas.</ion-text> }
+      </ion-card-content>
+    </ion-card>
+
 
     <!-- Todas -->
     <ion-card>

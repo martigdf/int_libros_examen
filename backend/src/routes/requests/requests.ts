@@ -201,25 +201,36 @@ const requestsRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise
 
       const userRequests = await query(
         
-        `SELECT * FROM loans WHERE id_request = $1 AND receiver_user_id = $2`,
-        [requestId, userId]
-
+        `
+      WITH permiso AS (
+        SELECT l.id_request
+        FROM loans l
+        JOIN requests r ON r.id = l.id_request
+        WHERE l.id_request = $1 AND r.receiver_user_id = $2
+      ),
+      devolucion AS (
+        INSERT INTO returns (id_request, opinion, calification)
+        SELECT id_request, '', 1 FROM permiso
+        ON CONFLICT (id_request) DO NOTHING
+        RETURNING id_request
+      ),
+      actualizar_libros AS (
+        UPDATE books
+        SET state = 'available'
+        WHERE id IN (SELECT id_book FROM requests_books WHERE id_request = $1)
+        RETURNING id
       )
+      UPDATE requests
+      SET state = 'completed'
+      WHERE id = $1 AND EXISTS (SELECT 1 FROM permiso)
+      RETURNING id;
+    `, [requestId, userId]);
 
       if (userRequests.rowCount === 0) {
-        
         return reply.status(403).send({ message: "No tienes permiso para modificar esta solicitud" });
-      
       }
-      
-      await query(
-        `INSERT INTO returns (id_request, opinion, calification) 
-          VALUES ($1, $2, $3)`,
-        [requestId, '', 1]
-      )
 
       return reply.status(200).send({ message: "Devolución confirmada correctamente" })
-
     }
   });
   
