@@ -3,6 +3,7 @@ import { Component, inject, OnInit, resource, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from 'src/app/model/book';
 import { environment } from 'src/environments/environment.prod';
+
 import { CommonModule } from '@angular/common';
 import { RequestsService } from 'src/app/services/request.service';
 import { RequestPost } from 'src/app/model/request';
@@ -27,6 +28,8 @@ export class BookPage implements OnInit {
 
 
   book = signal<any>(null);
+  bookPhoto = signal<string>('');
+
   receiver_user_id = signal<number>(0);
   requestResult = signal<RequestPost | null>(null);
   

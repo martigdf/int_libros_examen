@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonContent, IonCol, IonCardSubtitle, IonCardHeader, IonCard, IonCardTitle, IonRow, IonGrid, IonImg } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
 import { firstValueFrom } from 'rxjs';
@@ -53,7 +53,7 @@ export class MyBooksPage implements OnInit {
           headers : { "Authorization" : "Bearer " + this.tokenObject } 
         }
       ));
-      
+
       this.books = data;
     
     } catch (error) {

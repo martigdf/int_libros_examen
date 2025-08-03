@@ -39,7 +39,27 @@ export class BookService {
 
   // Método para obtener todos los libros
   async getAllBooks(): Promise<Book[]> {
-    return await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books`));
+
+    const books = await firstValueFrom(this.httpClient.get<Book[]>(this.apiUrl + 'books/'))
+    
+    for (const book of books) {
+
+      book.photo = this.apiUrl + 'photos/books/' + book.id
+
+    }
+
+    return books;
+
+  }
+
+  async getById(id: number): Promise<Book> {
+
+    const book = await firstValueFrom(this.httpClient.get<Book>(this.apiUrl + 'books/' + id))
+
+    book.photo = this.apiUrl + 'photos/books/' + book.id
+
+    return book
+
   }
 
   // Método para obtener un libro por su ID
