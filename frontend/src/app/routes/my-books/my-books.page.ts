@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal, resource } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Book } from 'src/app/model/book';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { BookService } from 'src/app/services/book.service';
 import { addIcons } from 'ionicons';
 import { trashOutline } from 'ionicons/icons';
-import { BookService } from 'src/app/services/book.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-my-books',

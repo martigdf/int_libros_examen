@@ -15,6 +15,9 @@ export class UserFormComponent{
 
   private mainStore = inject(MainStoreService);
 
+  public isAdmin = signal<boolean>(this.mainStore.isAdmin())
+  public userId = signal<string | null>(this.mainStore.userId());
+
   public totalRoles = input<string[]>(['admin', 'user']);
   public user = input<User | null>(null) 
 

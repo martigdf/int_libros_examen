@@ -36,7 +36,7 @@ export class HomePage  implements OnInit {
   ionViewWillEnter() {
     this.allBooks.reload();
   }
-
+  
   modificarUsuario(id: string) {
     this.router.navigate([`/panel-admin/modify-user`, id]);
   }

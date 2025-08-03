@@ -28,12 +28,9 @@
                 </ion-icon>
               </ion-col>
             </ion-row>
-              <ng-container *ngIf="book; else placeholder">
-                <img [src]="book" alt="Book cover" />
+              <ng-container>
+                <ion-img [src]="book.photo" alt="Book cover"></ion-img>
               </ng-container>
-              <ng-template #placeholder>
-                <div class="image-placeholder"></div>
-              </ng-template>
               <ion-card-header>
                 <ion-card-title>{{ book.name }}</ion-card-title>
                 <ion-card-subtitle>{{ book.author }}</ion-card-subtitle>

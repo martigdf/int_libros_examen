@@ -29,6 +29,8 @@ export class BookPage implements OnInit {
 
   
   book = signal<any>(null);
+  bookPhoto = signal<string>('');
+
   receiver_user_id = signal<number>(0);
   requestResult = signal<RequestPost | null>(null);
   

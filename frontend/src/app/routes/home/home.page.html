@@ -6,32 +6,30 @@
         <ion-list>
           @for(book of allBooks.value(); track book.id) {
             @if (book.owner_id !== currentUserId) {
-              <ion-item>
-                <ion-thumbnail 
-                  slot="start">
-                  <img 
-                    [src]="book || 'assets/default-book.png'" 
-                    alt="{{ book.name }}">
-                </ion-thumbnail>
-                <ion-label>
-                  <h2>
-                    {{ book.name }}
-                  </h2>
-                  <p>
-                    {{ book.author }}
-                  </p>
-                  <p><strong>
-                    {{ book.state }}
-                  </strong></p>
-                </ion-label>
-                <ion-button 
-                  fill="outline" 
-                  slot="end" 
-                  (click)="viewDetails(book.id)"
-                >
-                  Ver Detalles
-                </ion-button>
-              </ion-item>
+            <ion-item>
+              <ion-thumbnail 
+                slot="start">
+                <img 
+                  [src]="book.photo || 'assets/default-book.png'" 
+                  alt="{{ book.name }}">
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ book.name }}</h2>
+                <p>{{ book.author }}</p>
+                @if (book.state == 'available') {
+                  <p class="ion-margin-top">Estado: Disponible</p>
+                } @else {
+                  <p class="ion-margin-top">Estado: No disponible</p>
+                }
+              </ion-label>
+              <ion-button 
+                fill="outline" 
+                slot="end" 
+                (click)="viewDetails(book.id)"
+              >
+                Ver Detalles
+              </ion-button>
+            </ion-item>
             }
           }
         </ion-list>
