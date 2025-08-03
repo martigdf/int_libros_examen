@@ -78,7 +78,7 @@ export class MainStoreService {
       // Actualiza señales 
       this.userId.set(payload.user_id);
       this.userName.set(payload.name);
-      this.userLastName.set(payload.last_name);
+      this.userLastName.set(payload.lastname);
       this.userUsername.set(payload.username);
       this.userEmail.set(payload.email);
       this.userRole.set(roleValue);
@@ -88,7 +88,7 @@ export class MainStoreService {
       this.usuario.set({
         id: payload.user_id,
         name: payload.name,
-        last_name: payload.last_name,
+        lastname: payload.lastname,
         username: payload.username,
         email: payload.email,
         role: roleValue

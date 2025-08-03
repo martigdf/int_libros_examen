@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainStoreService } from 'src/app/services/main-store.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,6 +21,7 @@ export class UserProfilePage implements OnInit {
   private alertCtrl = inject(AlertController);
   private router = inject(Router);
   public mainStore = inject(MainStoreService);
+  private adminService = inject(AdminService);
 
   public user = signal<any | null>(null);
   public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
@@ -50,7 +52,8 @@ export class UserProfilePage implements OnInit {
           text: 'Eliminar',
           handler: async () => {
             try {
-              await this.usuariosService.deleteUser(this.user()?.id);
+              // Borrar usuario - metodo para admin y usuario propio
+              await this.adminService.deleteUser(this.user()?.id);
               this.mainStore.clearAuth();
               this.router.navigate(['/login']);
             } catch (error) {

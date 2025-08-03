@@ -19,14 +19,17 @@ export class UsuariosService {
 
   public id = signal<User | undefined>(undefined);
 
+  // Método para obtener el usuario actual
   async getAll(): Promise<User[]> {
     return firstValueFrom(this.httpClient.get<User[]>(this.apiUrl + "users/all"))
   }
 
+  // Método para obtener el usuario por ID
   getUserId(): User | undefined {
     return this.id();
   }
 
+  // Metodo para crear un usuario
   async postUser(data: UserPost) {
     const url = this.apiUrl + "users/register";
     const userConRol: UserPost = {
@@ -40,24 +43,15 @@ export class UsuariosService {
     );
   }
 
+  // Método para actualizar un usuario
   async putUser(id: string, data: PutUser) {
     const url = `${this.apiUrl}users/${id}`;
     return await firstValueFrom(this.httpClient.put<PutUser>(url, data));
   }
 
+  // Método para obtener el usuario por ID
   async getById(id_usuario:number){
-    const token = this.mainStore.token(); 
-    return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario,
-      {
-      headers: { Authorization: `Bearer ${token}` }
-    }));
-  }
-
-  async deleteUser(id: string) {
-    return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}admin/users/${id}`, {
-      headers: { Authorization: `Bearer ${this.mainStore.token()}`
-      }
-    }));
+    return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario));
   }
 
   async submitPhoto(photo: string) {
