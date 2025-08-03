@@ -82,7 +82,7 @@ INSERT INTO books (name, author, description, state, creation_date, location, ow
   ('1984', 'George Orwell', 'Este libro se encuentra con ausencia de paginas', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
   ('The Hobbit', 'J.R.R. Tolkien', 'Esta en delicadas condiciones tratar bien', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
   ('Dune', 'Frank Herbert', 'Debe ser tratado con amor', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
-  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1)
+  ('El Principito', 'Antoine de Saint-Exupéry', 'Es para una lectura rapida pero sabia', 'available', CURRENT_TIMESTAMP, 'Localización 1', 1),
   ('Harry Potter', 'J.K. Rowling', 'Libro en excelente estado', 'available', CURRENT_TIMESTAMP, 'Localización 2', 2),
   ('Crónica de una muerte anunciada', 'Gabriel García Márquez', 'Novela clásica latinoamericana', 'available', CURRENT_TIMESTAMP, 'Localización 2', 2);
 
