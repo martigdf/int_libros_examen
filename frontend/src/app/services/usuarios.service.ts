@@ -54,6 +54,18 @@ export class UsuariosService {
     return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario));
   }
 
+  // Metodo para verificar credenciales para directiva
+  async verificarCredenciales(email: string, password: string): Promise<boolean> {
+    try {
+      const res = await firstValueFrom(this.httpClient.post(this.apiUrl + "auth/login", 
+        { email, password }, { observe: 'response' }));
+      return res.status === 200;
+    } catch {
+      return false;
+    }
+  }
+
+
   async submitPhoto(photo: string) {
 
     if ( this.id === undefined || photo === '' ) {

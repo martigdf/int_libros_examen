@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
-  selector: '[appAppEmail]',
+  selector: '[appEmail]',
   providers: [{ provide: NG_VALIDATORS, useExisting: AppEmailDirective, multi: true }]
 })
 export class AppEmailDirective implements Validator {
