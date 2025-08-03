@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonCardSubtitle, IonCardHeader, IonCard, IonCardTitle, IonRow, IonGrid, IonButtons, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonCol, IonCardSubtitle, IonCardHeader, IonCard, IonCardTitle, IonRow, IonGrid, IonImg } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +13,7 @@ import { MainStoreService } from 'src/app/services/main-store.service';
   templateUrl: './my-books.page.html',
   styleUrls: ['./my-books.page.scss'],
   standalone: true,
-  imports: [IonButton, IonButtons, IonGrid, IonRow, IonCardTitle, IonCard, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonGrid, IonRow, IonCardTitle, IonCard, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonImg, FormsModule]
 })
 
 
@@ -53,7 +52,7 @@ export class MyBooksPage implements OnInit {
           headers : { "Authorization" : "Bearer " + this.tokenObject } 
         }
       ));
-      
+
       this.books = data;
     
     } catch (error) {

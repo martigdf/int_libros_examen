@@ -4,62 +4,51 @@
       <ion-row>
         @for (book of librosSignal.value(); track book.id) {
           <ion-col 
-            size="6" 
-            size-md="4" 
-            size-lg="3">
-            <ion-card 
-              class="ion-padding ion-text-wrap"
-            >
+            size="12" 
+            size-md="6" 
+            size-lg="4">
+            <ion-card class="ion-padding ion-text-wrap">
+              
+              <div class="card-body-row">
+                
+                <div class="image-wrapper">
+                  @if (book?.photo) {
+                    <ion-img 
+                      [src]="book.photo" 
+                      alt="Portada de {{ book.name }}"
+                      class="book-cover"
+                    ></ion-img>
+                  } @else {
+                    <div class="image-placeholder">Sin imagen</div>
+                  }
+                </div>
+                
+                <div class="text-content">
+                  <ion-card-header class="ion-no-padding">
+                    <ion-card-title class="ion-text-wrap">
+                      {{ book.name }}
+                    </ion-card-title>
+                    <ion-card-subtitle class="ion-text-wrap">
+                      por {{ book.author }}
+                    </ion-card-subtitle>
+                  </ion-card-header>
 
-              <!-- Imagen del libro (opcional) -->
-              @if (book?.image) {
-                <ion-img 
-                  [src]="book.image" 
-                  alt="Portada de {{ book.name }}"
-                ></ion-img>
-              } @else {
-                <div class="image-placeholder"></div>
-              }
+                  @if (book.state == 'available') {
+                    <p class="ion-margin-top">Estado: Disponible</p>
+                  } @else {
+                    <p class="ion-margin-top">Estado: No disponible</p>
+                  }
+                </div>
+              </div>
 
-              <!-- Contenido con grid interno para mantener tamaño -->
-              <ion-grid fixed>
-                <ion-row>
-                  <ion-col size="12">
-                    <ion-card-header>
-                      <ion-card-title 
-                        class="ion-text-nowrap"
-                      >{{ book.name }}</ion-card-title>
-                      <ion-card-subtitle 
-                        class="ion-text-nowrap"
-                      >{{ book.author }}</ion-card-subtitle>
-                    </ion-card-header>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row>
-                  <ion-col size="12">
-                    <p><strong>
-                      Estado:</strong> 
-                        {{ book.state }}
-                    </p>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row 
-                  class="ion-justify-content-end ion-margin-top">
-                  <ion-col 
-                    size="auto">
-                    <ion-button 
-                      size="small" 
-                      fill="outline" 
-                      color="danger"
-                      (click)="eliminarLibro(book.id.toString())"
-                    >
-                      Eliminar
-                    </ion-button>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
+              <div class="button-row">
+                <ion-button size="small" fill="outline" color="safe" (click)="verLibro(book.id.toString())">
+                  Ver detalle
+                </ion-button>
+                <ion-button size="small" fill="outline" color="danger" (click)="eliminarLibro(book.id.toString())">
+                  Eliminar
+                </ion-button>
+              </div>
 
             </ion-card>
           </ion-col>
@@ -69,10 +58,9 @@
   } 
   @else {
     <ion-text color="medium">
-      <h2 class="ion-text-center ion-margin-top"
-      >No hay libros registrados
+      <h2 class="ion-text-center ion-margin-top">
+        No hay libros registrados
       </h2>
     </ion-text>
   }
 </ion-content>
-

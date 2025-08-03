@@ -110,10 +110,26 @@ const photoRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
             const baseDir = process.cwd();
 
             const photoPath = join(baseDir, "public", "users", "photos", id + '.jpg');
+            const fallbackPath = join(baseDir, "public", "users", "photos", "default.jpg");
 
-            const buffer = await readFile(photoPath);
+            try {
+   
+                const buffer = await readFile(photoPath);
+                return buffer;
+            
+            } catch (err) {
+                
+                try {
+                    
+                    const defaultBuffer = await readFile(fallbackPath);
+                    return defaultBuffer;
 
-            return buffer;
+                } catch (fallbackErr) {
+                    
+                    reply.code(404).send({ error: "No existe foto del usuario ni foto por defecto" });
+                }
+
+            }
 
         }
     });
@@ -200,10 +216,26 @@ const photoRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
             const baseDir = process.cwd();
 
             const photoPath = join(baseDir, "public", "books", "photos", id + '.jpg');
+            const fallbackPath = join(baseDir, "public", "books", "photos", "default.jpg");
 
-            const buffer = await readFile(photoPath);
+            try {
+   
+                const buffer = await readFile(photoPath);
+                return buffer;
+            
+            } catch (err) {
+                
+                try {
+                    
+                    const defaultBuffer = await readFile(fallbackPath);
+                    return defaultBuffer;
 
-            return buffer;
+                } catch (fallbackErr) {
+                    
+                    reply.code(404).send({ error: "No existe foto del libro ni foto por defecto" });
+                }
+
+            }
 
         }
     });

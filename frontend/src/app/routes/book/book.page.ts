@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Book } from 'src/app/model/book';
 import { environment } from 'src/environments/environment.prod';
-import { IonCardHeader, IonCard, IonContent, IonCardContent, IonCardSubtitle, IonLabel, IonCardTitle, IonText, IonItem, IonTitle, IonButton } from "@ionic/angular/standalone";
-import { CommonModule } from '@angular/common';
+import { IonCardHeader, IonCard, IonContent, IonCardContent, IonCardSubtitle, IonLabel, IonCardTitle, IonItem, IonButton, IonText, IonImg } from "@ionic/angular/standalone";
 import { RequestsService } from 'src/app/services/request.service';
 import { RequestPost } from 'src/app/model/request';
 import { AlertController } from '@ionic/angular/standalone';
@@ -15,7 +14,7 @@ import { AlertController } from '@ionic/angular/standalone';
   templateUrl: './book.page.html',
   styleUrls: ['./book.page.scss'],
   standalone: true,
-  imports: [ CommonModule, IonItem, IonText, IonCardTitle, IonLabel, IonCardSubtitle, IonCardContent, IonContent, IonCardHeader, IonCard, IonCardTitle, IonText, IonButton],
+  imports: [ IonItem, IonLabel, IonCardSubtitle, IonCardContent, IonContent, IonCardHeader, IonCard, IonCardTitle, IonButton, IonText, IonImg],
 })
 
 export class BookPage implements OnInit {
@@ -28,6 +27,8 @@ export class BookPage implements OnInit {
 
 
   book = signal<any>(null);
+  bookPhoto = signal<string>('');
+
   receiver_user_id = signal<number>(0);
   requestResult = signal<RequestPost | null>(null);
   
