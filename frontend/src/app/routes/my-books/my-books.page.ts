@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MainStoreService } from 'src/app/services/main-store.service';
 import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-my-books',
