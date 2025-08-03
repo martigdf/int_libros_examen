@@ -38,25 +38,16 @@
                 <h2>Email</h2>
                 <ion-text>{{ user().email }}</ion-text>
               </ion-label>
-
+              <ion-row class="ion-justify-content-center ion-margin-top">
               <!-- Botón para eliminarse -->
-              <ion-button 
-                color="danger" 
-                expand="block" 
-                (click)="deleteSelf()">
-                Eliminar mi cuenta
-              </ion-button>
-
-              <!-- Botón de volver al Home -->
-              <ng-container 
-                *ngIf="mainStore.isUser()"
-              >
                 <ion-button 
+                  color="danger" 
                   expand="block" 
-                  (click)="goToHome()">
-                  Volver al Home
+                  (click)="deleteSelf()"
+                >
+                  Eliminar mi cuenta
                 </ion-button>
-              </ng-container>
+              </ion-row>
             </ion-card-content>
           </ion-card>
         }

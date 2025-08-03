@@ -5,7 +5,7 @@ import { Book } from 'src/app/model/book';
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { BookService } from 'src/app/services/book.service';
-
+import { MainStoreService } from 'src/app/services/main-store.service';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +15,7 @@ import { BookService } from 'src/app/services/book.service';
 })
 export class HomePage  implements OnInit {
   private bookService = inject(BookService);
+  public mainStore = inject(MainStoreService);
 
   public booksSignal = signal<Book[]>([]);
   public userSignal = signal<User | null>(null);
@@ -42,5 +43,9 @@ export class HomePage  implements OnInit {
 
   viewDetails(bookId: number) {
     this.router.navigate([`/books/${bookId}`]);
+  }
+
+  get currentUserId(): number {
+    return +(this.mainStore.userId() ?? '-1');
   }
 }
