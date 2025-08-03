@@ -8,8 +8,8 @@ import { JWTPayload } from '../model/payload';
 export class MainStoreService {
 
   constructor() { if (this.token()) {
-      this.decodePayload();
-    }}
+    this.decodePayload();
+  }}
 
   public usuario = signal<User | null>(null);
 
