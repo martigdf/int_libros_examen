@@ -23,7 +23,7 @@ export class UserFormComponent{
 
   public name = signal<string>(this.user()?.name ?? '');
   public roles = signal<string>(this.user()?.role ?? 'user');
-  public last_name = signal<string>(this.user()?.last_name ?? '');
+  public lastname = signal<string>(this.user()?.lastname ?? '');
   public email = signal<string>(this.user()?.email ?? '');
 
   public changed = output<PutUser>();
@@ -31,7 +31,7 @@ export class UserFormComponent{
   onSubmit(){
     const payload : PutUser = {}
     if (this.name()) payload.name = this.name();
-    if (this.last_name()) payload.last_name = this.last_name();
+    if (this.lastname()) payload.lastname = this.lastname();
     if (this.email() && this.email() !== this.user()?.email) {
       payload.email = this.email();
     }

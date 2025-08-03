@@ -67,11 +67,14 @@ export class BookService {
     return await firstValueFrom(this.httpClient.get<Book>(`${this.apiUrl}books/${id}`));
   }
 
-
+  // Metodo para obtener los libros de un usuario
+  async userBooks(): Promise<Book[]> {
+    return await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books/my-books`));
+  }
 
   // Método para eliminar un libro
-  async deleteBook(id: string): Promise<void> {
-    return firstValueFrom(this.httpClient.delete<void>(`${this.apiUrl}books/${id}`));
+  async deleteBookAsUser(id: number): Promise<any> {
+    return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}books/${id}`));
   }
 
   async submitPhoto( book_id: number, photo: string) {

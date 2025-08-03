@@ -5,6 +5,7 @@
       <ion-col size="12">
         <ion-list>
           @for(book of allBooks.value(); track book.id) {
+            @if (book.owner_id !== currentUserId) {
             <ion-item>
               <ion-thumbnail 
                 slot="start">
@@ -29,6 +30,7 @@
                 Ver Detalles
               </ion-button>
             </ion-item>
+            }
           }
         </ion-list>
       </ion-col>
