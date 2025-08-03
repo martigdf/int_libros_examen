@@ -4,96 +4,128 @@
       <ion-col size="12" size-md="6" size-lg="4">
         <form class="ion-padding">
           <ion-grid class="h-100">
-
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Nombre"
-                  label-placement="floating"
-                  fill="outline"
-                  name="name"
-                  (ionInput)="name = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+            <ion-input 
+                label="Nombre"
+                name="name"
+                label-placement="floating"
+                fill="outline"
+                required
+                minlength="3"
+                [(ngModel)]="name"
+                #nameRef="ngModel"
+                [errorText]= "nameRef.errors | errorMessage:'nombre'"
+              >
+            </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Apellido"
-                  label-placement="floating"
-                  fill="outline"
-                  name="lastname"
-                  (ionInput)="lastname = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+            <ion-input 
+              label="Apellido"
+              name="lastname"
+              label-placement="floating"
+              fill="outline"
+              required
+              minlength="3"
+              [(ngModel)]="lastname"
+              #lastnameRef="ngModel"
+              [errorText]= "lastnameRef.errors | errorMessage:'apellido'"
+            >
+            </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Nombre de usuario"
-                  label-placement="floating"
-                  fill="outline"
-                  name="username"
-                  (ionInput)="username = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+            <ion-input 
+              label="Nombre de usuario"
+              name="username"
+              label-placement="floating"
+              fill="outline"
+              required
+              minlength="3"
+              [(ngModel)]="username"
+              #usernameRef="ngModel"
+              [errorText]= "usernameRef.errors | errorMessage:'usuario'"
+            >
+            </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Correo electrónico"
-                  label-placement="floating"
-                  fill="outline"
-                  type="email"
-                  name="email"
-                  (ionInput)="email = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+            <ion-input 
+              label="Correo electrónico"
+              name="email"
+              label-placement="floating"
+              fill="outline"
+              type="email"
+              appAppEmail
+              required
+              [(ngModel)]="email"
+              #emailRef="ngModel"
+              [errorText]= "emailRef.errors | errorMessage:'correo electrónico'"
+            >
+            </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Contraseña"
-                  label-placement="floating"
-                  fill="outline"
-                  type="password"
-                  name="password"
-                  (ionInput)="password = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+              <ion-input 
+                label="Contraseña"
+                name="password"
+                label-placement="floating"
+                fill="outline"
+                type="password"
+                required
+                appPassword
+                [appPasswordMin]="6"
+                [(ngModel)]="password"
+                #passwordRef="ngModel"
+                appPassword
+                [errorText]= "passwordRef.errors | errorMessage:'contraseña'"
+              >
+              </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-input 
-                  label="Confirmar contraseña"
-                  label-placement="floating"
-                  fill="outline"
-                  type="password"
-                  name="confirmPassword"
-                  (ionInput)="confirmPassword = $event.detail.value ?? ''">
-                </ion-input>
-              </ion-col>
+            <ion-col size="12">
+              <ion-input 
+                label="Confirmar contraseña"
+                name="confirmPassword"
+                label-placement="floating"
+                fill="outline"
+                type="password"
+                required
+                minlength="6"
+                [(ngModel)]="confirmPassword"
+                #confirmPasswordRef="ngModel"
+                [appConfirmPassword]="password"
+                [errorText]= "confirmPasswordRef.errors | errorMessage:'confirmar contraseña'"
+              >
+              </ion-input>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12">
-                <ion-button expand="full" type="button" (click)="onRegister()">
-                  REGISTRARSE
-                </ion-button>
-              </ion-col>
+            <ion-col size="12">
+              <ion-button expand="full" type="button" (click)="onRegister()">
+                REGISTRARSE
+              </ion-button>
+            </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col size="12" class="ion-text-center" style="margin-top:16px">
-                <span>¿Ya tienes una cuenta?
-                  <a (click)="goToLogin()" style="text-decoration: underline;">Iniciar sesión</a>
-                </span>
-              </ion-col>
+            <ion-col size="12" class="ion-text-center" style="margin-top:16px">
+              <span>¿Ya tienes una cuenta?
+                <a (click)="goToLogin()" style="text-decoration: underline;">Iniciar sesión</a>
+              </span>
+            </ion-col>
             </ion-row>
 
           </ion-grid>
