@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonCol, IonButton, IonGrid, IonItem, IonLabel, IonInput, IonText } from '@ionic/angular/standalone';
+import { IonContent, IonRow, IonCol, IonButton, IonGrid, IonInput} from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
