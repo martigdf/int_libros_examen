@@ -83,8 +83,11 @@ const requestRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<
       tags: ['requests'],
       summary: 'Ruta para responder a una solicitud',
       description: 'Acepta o rechaza una solicitud de préstamo usando su ID.',
+      params: RequestIdSchema,
       body: Type.Object({
-        state: Type.Union([Type.Literal('accepted'), Type.Literal('rejected')])
+        state: Type.Union([Type.Literal('accepted'), 
+          Type.Literal('rejected'),
+          Type.Literal('cancelled')])
       }),
       response: {
         200: Type.Object({ message: Type.String() }),
@@ -95,16 +98,25 @@ const requestRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<
     onRequest: [fastify.authenticate],
     handler: async (request, reply) => {
       try{
-        const { id, state } = request.body as { id: number; state: string };
+        const { id } = request.params as { id: number };
+        const { state } = request.body as { id: number; state: string };
         const receiver = request.user as { id: number };
 
-        const result = await RequestRepository.respondRequest(id, state, receiver.id);
-
+        const isCancel = state === 'cancelled';
+        const dbState = state === 'rejected' ? 'declined' : state;
+        const result = await RequestRepository.respondRequest(id, dbState, receiver.id, isCancel);
+        
         if (result.rowCount === 0) {
           return reply.code(404).send({ message: 'Solicitud no encontrada o no autorizada' });
         }
 
-        return reply.code(200).send({ message: `Solicitud ${state === 'accepted' ? 'aceptada' : 'rechazada'} correctamente` });
+        const msg =
+        state === 'accepted' ? 'aceptada'
+        : state === 'cancelled' ? 'cancelada y eliminada'
+        : 'rechazada';
+
+        return reply.code(200).send(
+          { message: `Solicitud ${msg}correctamente` });
 
       } catch (err) {
         request.log.error(err);
@@ -189,25 +201,36 @@ const requestRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<
 
       const userRequests = await query(
         
-        `SELECT * FROM loans WHERE id_request = $1 AND receiver_user_id = $2`,
-        [requestId, userId]
-
+        `
+      WITH permiso AS (
+        SELECT l.id_request
+        FROM loans l
+        JOIN requests r ON r.id = l.id_request
+        WHERE l.id_request = $1 AND r.receiver_user_id = $2
+      ),
+      devolucion AS (
+        INSERT INTO returns (id_request, opinion, calification)
+        SELECT id_request, '', 1 FROM permiso
+        ON CONFLICT (id_request) DO NOTHING
+        RETURNING id_request
+      ),
+      actualizar_libros AS (
+        UPDATE books
+        SET state = 'available'
+        WHERE id IN (SELECT id_book FROM requests_books WHERE id_request = $1)
+        RETURNING id
       )
+      UPDATE requests
+      SET state = 'completed'
+      WHERE id = $1 AND EXISTS (SELECT 1 FROM permiso)
+      RETURNING id;
+    `, [requestId, userId]);
 
       if (userRequests.rowCount === 0) {
-        
         return reply.status(403).send({ message: "No tienes permiso para modificar esta solicitud" });
-      
       }
-      
-      await query(
-        `INSERT INTO returns (id_request, opinion, calification) 
-          VALUES ($1, $2, $3)`,
-        [requestId, '', 1]
-      )
 
       return reply.status(200).send({ message: "Devolución confirmada correctamente" })
-
     }
   });
   

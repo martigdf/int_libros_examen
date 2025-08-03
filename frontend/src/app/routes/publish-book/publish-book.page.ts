@@ -36,7 +36,6 @@ export class PublishBookPage implements OnInit {
     try {
       await this.bookService.publishBook(this.book());
       alert('Libro publicado correctamente!!');
-      this.router.navigate(['/home']);
     } catch (err) {
       console.error('Error al publicar libro :(', err);
       alert('Error al publicar libro');

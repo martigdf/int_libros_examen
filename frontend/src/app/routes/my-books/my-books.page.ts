@@ -7,13 +7,14 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MainStoreService } from 'src/app/services/main-store.service';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-books',
   templateUrl: './my-books.page.html',
   styleUrls: ['./my-books.page.scss'],
   standalone: true,
-  imports: [IonGrid, IonRow, IonCardTitle, IonCard, IonCardHeader, IonCardSubtitle, IonCol, IonContent, IonImg, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 
 
