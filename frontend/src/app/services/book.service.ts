@@ -94,4 +94,10 @@ export class BookService {
 
   }
 
+  async getPhoto( book_id: number) {
+
+    return await firstValueFrom(this.httpClient.get(this.apiUrl + 'photos/books/' + book_id));
+
+  }
+
 }
