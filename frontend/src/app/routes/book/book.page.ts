@@ -8,6 +8,7 @@ import { RequestsService } from 'src/app/services/request.service';
 import { RequestPost } from 'src/app/model/request';
 import { AlertController } from '@ionic/angular/standalone';
 import { IonicModule } from '@ionic/angular';
+import { MainStoreService } from 'src/app/services/main-store.service';
 
 @Component({
   selector: 'app-book',
@@ -24,8 +25,9 @@ export class BookPage implements OnInit {
   private route = inject(ActivatedRoute);
   private requestsService = inject(RequestsService);
   private alertCtrl = inject(AlertController);
+  public mainStore = inject(MainStoreService);
 
-
+  
   book = signal<any>(null);
   receiver_user_id = signal<number>(0);
   requestResult = signal<RequestPost | null>(null);

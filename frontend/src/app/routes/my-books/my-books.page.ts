@@ -1,13 +1,9 @@
 import { Component, inject, OnInit, signal, resource } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { MainStoreService } from 'src/app/services/main-store.service';
 import { IonicModule } from '@ionic/angular';
-import { UsuariosService } from 'src/app/services/usuarios.service';
 import { addIcons } from 'ionicons';
 import { trashOutline } from 'ionicons/icons';
 import { BookService } from 'src/app/services/book.service';

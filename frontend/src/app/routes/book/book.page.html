@@ -22,11 +22,13 @@
           </ion-label>
         </ion-item>
       </ion-card-content>
-      <ion-card-content>
-        <ion-button expand="full" color="primary" (click)="requestBook()">
-          Solicitar préstamo
-        </ion-button>
-      </ion-card-content>
+      @if (book().owner_id !== mainStore.userId()) {
+        <ion-card-content>
+          <ion-button expand="full" color="primary" (click)="requestBook()">
+            Solicitar préstamo
+          </ion-button>
+        </ion-card-content>
+      }
     </ion-card>
   } @else {
     <ion-text>
