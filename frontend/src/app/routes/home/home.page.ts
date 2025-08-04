@@ -6,6 +6,9 @@ import { IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { BookService } from 'src/app/services/book.service';
 import { MainStoreService } from 'src/app/services/main-store.service';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+
+const socket = new WebSocket("ws://localhost/backend/")
 
 @Component({
   selector: 'app-home',
@@ -13,17 +16,19 @@ import { MainStoreService } from 'src/app/services/main-store.service';
   styleUrls: ['./home.page.scss'],
   imports: [IonicModule, CommonModule],
 })
+
 export class HomePage  implements OnInit {
   private bookService = inject(BookService);
-  public mainStore = inject(MainStoreService);
+  public usuariosService = inject(UsuariosService);
 
+  public mainStore = inject(MainStoreService);
+  
   public booksSignal = signal<Book[]>([]);
   public userSignal = signal<User | null>(null);
 
-  constructor(private router: Router) { }
+  public bookOwners = Map<number, string>
 
-  async ngOnInit() {
-  }
+  constructor(private router: Router) { }
 
   public allBooks = resource<Book[], unknown>({
     loader: async () => {
@@ -32,6 +37,20 @@ export class HomePage  implements OnInit {
       return books;
     }
   });
+  
+  async ngOnInit() {
+
+    socket.addEventListener("message", (event) => {
+
+      if (event.data == 'books') {
+
+        this.allBooks.reload();
+
+      }
+      
+    })
+
+  }
 
   ionViewWillEnter() {
     this.allBooks.reload();
@@ -43,6 +62,12 @@ export class HomePage  implements OnInit {
 
   viewDetails(bookId: number) {
     this.router.navigate([`/books/${bookId}`]);
+  }
+
+  async goToProfile(id: string) {
+
+    this.router.navigate(['/user-profile', id]);
+
   }
 
   get currentUserId(): number {

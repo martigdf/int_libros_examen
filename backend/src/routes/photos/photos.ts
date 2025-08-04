@@ -157,7 +157,7 @@ const photoRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
             
             const userOwnsBook = await query(
                 
-                `SELECT * FROM books WHERE id = $1 AND owner_id = $1`,
+                `SELECT * FROM books WHERE id = $1 AND owner_id = $2`,
                 [bookId, userId]
 
             )

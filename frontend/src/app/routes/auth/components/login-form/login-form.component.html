@@ -1,40 +1,40 @@
 <ion-content class="ion-padding" fullscreen>
-  <ion-grid class="h-100" style="height: 100%;">
-    <ion-row justify-content-center align-items-center style="height: 100%;">
-      <ion-col size="12" size-md="6" size-lg="4" style="margin: 0 auto;">
-        <form class="ion-padding" fullscreen>
+  <ion-grid class="h-100" style="height: 100%;" class="ion-margin-top">
+    <ion-row justify-content-center align-items-center style="height: 100%;" class="ion-margin-top">
+      <ion-col size="12" size-md="5.5" size-lg="3.5" style="margin: 0 auto;" class="form-container">
+        <form class="ion-padding" fullscreen (ngSubmit)="onSubmit()">
           <ion-grid class="h-100" style="height: 100%;">
             <ion-row>
-              <ion-col size="12" class="ion-margin-bottom">
-              <ion-input 
-                label="Email" 
-                label-placement="floating" 
-                fill="outline" 
-                placeholder="Ingresar email" 
-                name="email" 
-                [(ngModel)]="model.email"
-                #emailRef="ngModel"
-                required
-                appEmail
-                [errorText]= "emailRef.errors | errorMessage:'correo electrónico'"
-                >
-              </ion-input>
+              <ion-col size="12">
+                <ion-input 
+                  label="Email" 
+                  label-placement="floating" 
+                  fill="outline" 
+                  placeholder="Ingresar email" 
+                  name="email" 
+                  [(ngModel)]="model.email"
+                  #emailRef="ngModel"
+                  required
+                  appEmail
+                  [errorText]= "emailRef.errors | errorMessage:'correo electrónico'"
+                  >
+                </ion-input>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="12" class="ion-margin-bottom">
-              <ion-input 
-                label="Contraseña" 
-                label-placement="floating" 
-                fill="outline" 
-                placeholder="Ingresar contraseña" 
-                name="password" 
-                [(ngModel)]="model.password" 
-                #passwordRef="ngModel"
-                required
-                [errorText]= "passwordRef.errors | errorMessage:'contraseña'"
-                type="password">
-              </ion-input>
+                <ion-input 
+                  label="Contraseña" 
+                  label-placement="floating" 
+                  fill="outline" 
+                  placeholder="Ingresar contraseña" 
+                  name="password" 
+                  [(ngModel)]="model.password" 
+                  #passwordRef="ngModel"
+                  required
+                  [errorText]= "passwordRef.errors | errorMessage:'contraseña'"
+                  type="password">
+                </ion-input>
               </ion-col>
             </ion-row>
             <ion-row>

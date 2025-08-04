@@ -2,7 +2,6 @@
   <div class="form-container">
     <form (ngSubmit)="onSubmit()">
 
-      <!-- Your inputs here -->
       <ion-item>
         <ion-label position="floating">Título del libro</ion-label>
         <ion-input [(ngModel)]="book().name" name="name" required></ion-input>
@@ -46,7 +45,6 @@
         </div>
       </ion-item>
       
-
       <ion-button expand="block" type="submit" class="ion-margin-top" color="success">
         Publicar
       </ion-button>

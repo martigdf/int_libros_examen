@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { BookPost } from 'src/app/model/book';
 import { HttpHeaders } from '@angular/common/http';
 import { Book } from 'src/app/model/book';
+import { MainStoreService } from './main-store.service';
 import { UsuariosService } from './usuarios.service';
 
 @Injectable({
@@ -15,9 +16,10 @@ import { UsuariosService } from './usuarios.service';
 
 export class BookService {
 
-  private usuariosService = inject(UsuariosService);
+  private mainStore = inject(MainStoreService);
   private httpClient = inject(HttpClient);
   private apiUrl = environment.apiUrl;
+  private usuariosService = inject(UsuariosService);
 
   constructor() { }
 
@@ -41,10 +43,15 @@ export class BookService {
   async getAllBooks(): Promise<Book[]> {
 
     const books = await firstValueFrom(this.httpClient.get<Book[]>(this.apiUrl + 'books/'))
+
+    console.log(books)
     
     for (const book of books) {
 
       book.photo = this.apiUrl + 'photos/books/' + book.id
+      book.owner_username = await this.usuariosService.getUsernameById(book.owner_id)
+
+      console.log(book.owner_username)
 
     }
 
@@ -57,19 +64,25 @@ export class BookService {
     const book = await firstValueFrom(this.httpClient.get<Book>(this.apiUrl + 'books/' + id))
 
     book.photo = this.apiUrl + 'photos/books/' + book.id
+    book.owner_username = await this.usuariosService.getUsernameById(book.owner_id)
 
     return book
 
   }
-
-  // Método para obtener un libro por su ID
-  async getBookById(id: number): Promise<Book> {
-    return await firstValueFrom(this.httpClient.get<Book>(`${this.apiUrl}books/${id}`));
-  }
-
+  
   // Metodo para obtener los libros de un usuario
   async userBooks(): Promise<Book[]> {
-    return await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books/my-books`));
+
+    const books = await firstValueFrom(this.httpClient.get<Book[]>(`${this.apiUrl}books/my-books`))
+    
+    for (const book of books) {
+
+      book.photo = this.apiUrl + 'photos/books/' + book.id
+
+    }
+
+    return books;
+    
   }
 
   // Método para eliminar un libro
@@ -77,11 +90,9 @@ export class BookService {
     return await firstValueFrom(this.httpClient.delete(`${this.apiUrl}books/${id}`));
   }
 
-  async submitPhoto( book_id: number, photo: string) {
+  async submitPhoto( bookId: number, photo: string ) {
 
-    const id = this.usuariosService.getUserId()
-
-    if ( id === undefined || photo === '' ) {
+    if ( this.mainStore.userId() === undefined || photo === '' ) {
 
       return
 
@@ -91,9 +102,9 @@ export class BookService {
     const blob = await response.blob();
 
     const formData = new FormData();
-    formData.append('file', blob, book_id + '.jpg')
+    formData.append('file', blob, bookId + '.jpg')
 
-    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/books/' + book_id, formData));
+    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/books/' + bookId, formData));
 
   }
 

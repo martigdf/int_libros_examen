@@ -11,8 +11,10 @@ export interface Book {
   name: string;
   author: string;
   state: 'available' | 'unavailable';
+  genres?: string[];
   photo?: string;
   owner_id: number;
+  owner_username?: string;
   publication?: Publication;
 }
 export interface BookPost {

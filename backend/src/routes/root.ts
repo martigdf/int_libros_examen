@@ -16,11 +16,6 @@ const root: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => 
       },
       wsHandler: (socket: WebSocket, req) => {
 
-        socket.send("Bienvenido cliente");
-        fastify.websocketServer.clients.forEach( (cliente) => {
-          cliente.send("Cantidad clientes: " + fastify.websocketServer.clients.size);
-        });
-
         socket.on("message", chunk => {
 
           fastify.websocketServer.clients.forEach((cliente) => {

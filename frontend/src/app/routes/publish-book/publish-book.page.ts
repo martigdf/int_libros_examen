@@ -45,17 +45,20 @@ export class PublishBookPage implements OnInit {
 
     const webPath = await this.photoService.takePhoto();
 
-    this.bookPhoto.set(webPath)
-
+    this.bookPhoto.set(webPath);
   }
 
   async onSubmit() {
     try {
-      await this.bookService.publishBook(this.book());
-      alert('Libro publicado correctamente!!');
+
+      const reply = await this.bookService.publishBook(this.book());
+      console.log('Libro publicado correctamente');
+
+      await this.bookService.submitPhoto(reply.bookId, this.bookPhoto() || '')
+
     } catch (err) {
-      console.error('Error al publicar libro :(', err);
-      alert('Error al publicar libro');
+      console.error('Error al publicar libro', err);
+      console.log('Error al publicar libro');
     }
   }
 

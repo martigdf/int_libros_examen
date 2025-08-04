@@ -56,10 +56,17 @@ export class RegisterPage implements OnInit {
       };
 
       const response = await this.usuarioService.postUser(newUser);
+      
       console.log('Usuario registrado:', response);
+
+      
+
       this.router.navigate(['/login']);
+    
     } catch (error) {
+      
       console.error('Error al registrar:', error);
+
     }
   }
 

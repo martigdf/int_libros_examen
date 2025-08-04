@@ -194,10 +194,6 @@ const userRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           reply.code(404).send({ message: "Failed to insert user" });
           return;
         }
-        
-        //fastify.websocketServer.clients.forEach( (cliente) => {
-          //cliente.send("usuario");
-        //});
 
         const id = res.rows[0].id;
         

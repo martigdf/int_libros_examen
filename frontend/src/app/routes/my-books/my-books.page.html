@@ -3,38 +3,40 @@
     <ion-grid>
       <ion-row>
         @for (book of books(); track book.id) {
-          <ion-col 
-            size="6" 
-            size-md="4" 
-            size-lg="3"
-          >
-            <ion-card 
-              class="ion-no-padding ion-no-margin" 
-              (click)="goToBook(book.id)" 
-              button
-            >
-            <ion-row 
-              class="ion-justify-content-end ion-align-items-start">
-              <ion-col 
-                size="auto"
-              >
-                <ion-icon 
-                  name="trash-outline" 
-                  (click)="deleteBook(book.id); $event.stopPropagation()"
-                  color="danger"
-                  size="large"
-                  class="delete-icon"
+          <ion-col size="4" size-md="3" size-lg="2">
+            <ion-card class="ion-no-padding ion-no-margin">
+              <ion-row 
+                class="ion-justify-content-end ion-align-items-start">
+                <ion-col 
+                  size="auto"
                 >
-                </ion-icon>
-              </ion-col>
-            </ion-row>
-              <ng-container>
-                <ion-img [src]="book.photo" alt="Book cover"></ion-img>
-              </ng-container>
+                  <ion-icon 
+                    name="trash-outline" 
+                    (click)="deleteBook(book.id); $event.stopPropagation()"
+                    color="danger"
+                    size="large"
+                    class="delete-icon"
+                  >
+                  </ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-card-header class="book-header ion-margin-bottom">
+                <div class="book-img-wrapper">
+                  <ion-img src="{{ book.photo }}" alt="Foto del libro" class="book-img"></ion-img>
+                </div>
+              </ion-card-header>
               <ion-card-header>
                 <ion-card-title>{{ book.name }}</ion-card-title>
                 <ion-card-subtitle>{{ book.author }}</ion-card-subtitle>
               </ion-card-header>
+
+              <div class="ion-text-center ion-margin-bottom">
+                
+                <ion-button size="small" expand="block" type="button" class="ion-margin" (click)="goToBook(book.id)">
+                  Ver detalle
+                </ion-button>
+                
+              </div>
             </ion-card>
           </ion-col>
         }

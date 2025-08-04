@@ -50,8 +50,19 @@ export class UsuariosService {
   }
 
   // Método para obtener el usuario por ID
-  async getById(id_usuario:number){
-    return firstValueFrom(this.httpClient.get<User>(this.apiUrl+"users"+"/"+id_usuario));
+  async getById(userId: number) {
+
+    return await firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/" + userId));
+  
+  }
+
+  async getUsernameById(userId: number) {
+
+    const user = await this.getById(userId);
+
+    return user.username
+
+
   }
 
   // Metodo para verificar credenciales para directiva
@@ -65,10 +76,9 @@ export class UsuariosService {
     }
   }
 
-
   async submitPhoto(photo: string) {
 
-    if ( this.id === undefined || photo === '' ) {
+    if ( this.mainStore.userId() === undefined || photo === '' ) {
 
       return
 
@@ -78,9 +88,9 @@ export class UsuariosService {
     const blob = await response.blob();
 
     const formData = new FormData();
-    formData.append('file', blob, this.id + '.jpg')
+    formData.append('file', blob, this.mainStore.userId() + '.jpg')
 
-    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/users/' + this.id, formData));
+    await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/users/' + this.mainStore.userId(), formData));
 
   }
   
