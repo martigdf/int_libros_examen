@@ -6,7 +6,7 @@
           <ion-item (click)="perfilUsuario(usuarioId())" style="cursor: pointer;">
             <ion-label slot="start">{{ this.mainStore.userUsername() }}</ion-label>
             <ion-avatar aria-hidden="true" slot="end">
-              <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              <img alt="" src="{{ this.userPhoto() }}" />
             </ion-avatar>
           </ion-item>
         </ion-menu-toggle>

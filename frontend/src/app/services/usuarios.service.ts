@@ -97,6 +97,12 @@ export class UsuariosService {
     await firstValueFrom(this.httpClient.put(this.apiUrl + 'photos/users/' + this.mainStore.userId(), formData));
 
   }
+
+  getPhoto(userId: string) {
+
+    return (this.apiUrl + 'photos/users/' + userId)
+
+  }
   
   constructor() { }
 

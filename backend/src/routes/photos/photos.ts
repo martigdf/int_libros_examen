@@ -25,68 +25,72 @@ const photoRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
 
     fastify.put('/users/:id', {
         schema: {
-        tags: ['photos'],
-        summary: 'Ruta para modificar la foto de perfil',
-        description: "Permite a un usuario modificar su foto de perfil",
-        params: UserIdSchema,
-        response: {
-            201: Type.Object({ message: Type.String() }),
-            403: Type.Object({ message: Type.String() }),
-            404: Type.Object({ message: Type.String() })
-        }
+            tags: ['photos'],
+            summary: 'Ruta para modificar la foto de perfil',
+            description: "Permite a un usuario modificar su foto de perfil",
+            params: UserIdSchema,
+            response: {
+                201: Type.Object({ message: Type.String() }),
+                403: Type.Object({ message: Type.String() }),
+                404: Type.Object({ message: Type.String() })
+            }
         },
         handler: async function (request, reply) {  
             
-        await request.jwtVerify();
-        
-        const { id } = request.params as { id: number };
-
-        const { id: userId } = request.user as { id: number };
-
-        if (id !== userId) {
-
-            return reply.status(403).send({ message: "No tienes permiso para modificar esta foto" });
-
-        }
-
-        const userExists = await query(
-                
-            `SELECT * FROM users WHERE id = $1`,
-            [id]
-
-        )
-
-        if (userExists.rowCount === 0) {
+            await request.jwtVerify();
             
-            return reply.status(404).send({ message: "No existe el usuario" });
-        
-        }
+            const { id } = request.params as { id: number };
 
-        const data: MultipartFile | undefined = await request.file();
-        
-        if (!data) {
+            const { id: userId } = request.user as { id: number };
 
-            throw new Error("No se pudo acceder al archivo")
+            if (id !== userId) {
 
-        }
+                return reply.status(403).send({ message: "No tienes permiso para modificar esta foto" });
 
-        const baseDir = process.cwd();
+            }
 
-        console.log({baseDir})
+            const userExists = await query(
+                    
+                `SELECT * FROM users WHERE id = $1`,
+                [id]
 
-        const savePath = join(
-            baseDir,
-            "public",
-            "users",
-            "photos",
-            id + ".jpg"
-        );
+            )
 
-        console.log({savePath})
+            if (userExists.rowCount === 0) {
+                
+                return reply.status(404).send({ message: "No existe el usuario" });
+            
+            }
 
-        const buffer = await data.toBuffer();
+            const data: MultipartFile | undefined = await request.file();
+            
+            if (!data) {
 
-        await writeFile(savePath, buffer);
+                throw new Error("No se pudo acceder al archivo")
+
+            }
+
+            const baseDir = process.cwd();
+
+            console.log({baseDir})
+
+            const savePath = join(
+                baseDir,
+                "public",
+                "users",
+                "photos",
+                id + ".jpg"
+            );
+
+            console.log({savePath})
+
+            const buffer = await data.toBuffer();
+
+            await writeFile(savePath, buffer);
+
+            fastify.websocketServer.clients.forEach( (client) => {
+                client.send("userPhoto");
+            });
 
         }
     });

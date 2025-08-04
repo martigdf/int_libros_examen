@@ -16,6 +16,7 @@ import { PhotoService } from 'src/app/services/photo.service';
   styleUrls: ['./user-profile.page.scss'],
   standalone: true
 })
+
 export class UserProfilePage implements OnInit {
 
   private usuariosService = inject(UsuariosService);
@@ -30,22 +31,21 @@ export class UserProfilePage implements OnInit {
   public userPhoto = signal<string | undefined>("https://ionicframework.com/docs/img/demos/avatar.svg")
 
   async ngOnInit() {
+
     const current = JSON.parse(localStorage.getItem('user') || '{}');
+    
     if (current?.id) {
-      // Fetch user data by ID
       const data = await this.usuariosService.getById(current.id);
       this.user.set(data);
-
-      console.log(data.photo);
 
       if (data.photo !== '') {
 
         this.userPhoto.set(data.photo)
 
       }
-
       
     }
+
   }
 
   goToHome() {

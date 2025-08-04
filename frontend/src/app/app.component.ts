@@ -8,7 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from './model/user';
 import { IonicModule } from '@ionic/angular';
+import { UsuariosService } from './services/usuarios.service';
 
+const token = localStorage.getItem('token')
+const socket = new WebSocket("ws://localhost/backend/")
 
 @Component({
   selector: 'app-root',
@@ -22,16 +25,37 @@ export class AppComponent {
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
+  private usuariosService = inject(UsuariosService)
 
   public isHome = signal<boolean>(false);
+  
   public usuario = signal<User | null>(null);
-
   public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
+  public userPhoto = signal<string | undefined>("https://ionicframework.com/docs/img/demos/avatar.svg")
 
   constructor() {
     this.router.events.subscribe(() => {
       this.isHome.set(this.router.url === '/home');
     });
+  }
+
+  async ngOnInit(){
+
+    this.userPhoto.set(this.apiUrl + 'photos/users/' + this.usuarioId() || "https://ionicframework.com/docs/img/demos/avatar.svg")
+
+    socket.addEventListener("message", (event) => {
+
+      if (event.data == 'userPhoto') {
+
+        console.log("Cambiar foto")
+        
+        const newPhoto = this.apiUrl + 'photos/users/' + this.usuarioId();
+        this.userPhoto.set(newPhoto);
+
+      }
+      
+    })
+
   }
 
   isLoggedIn(): boolean {
