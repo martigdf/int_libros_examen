@@ -25,11 +25,10 @@
                 } @else {
                   <p>
                     Publicado por 
-                    <span 
-                      (click)="goToProfile(book.owner_id.toString())" 
-                      style="color: var(--ion-color-primary); cursor: pointer; text-decoration: underline;">
+                    <ion-text
+                      color="primary">
                       {{ book.owner_username }}
-                    </span>
+                    </ion-text>
                   </p>
                 }
               </ion-label>

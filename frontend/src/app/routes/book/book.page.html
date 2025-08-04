@@ -56,18 +56,17 @@
                     } @else {
                       <p>
                         Publicado por 
-                        <span 
-                          (click)="goToProfile()" 
-                          style="color: var(--ion-color-primary); cursor: pointer; text-decoration: underline;">
+                        <ion-text
+                          color="primary">
                           {{ book().owner_username }}
-                        </span>
+                        </ion-text>
                       </p>
                     }
                   </ion-label>
                 </ion-item>
 
               </ion-card-content>
-              @if (book().owner_id !== mainStore.userId()) {
+              @if (book().owner_id !== mainStore.userId() && book().state === 'available') {
                 <ion-card-content>
                   <ion-button expand="full" color="primary" (click)="requestBook()">
                     Solicitar préstamo

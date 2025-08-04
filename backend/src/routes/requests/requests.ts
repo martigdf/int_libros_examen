@@ -21,6 +21,7 @@ const requestRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<
       try {
         const { receiver_user_id, books } = request.body;
         const sender = request.user as { id: number };
+        console.log("📌 Body recibido en backend:", request.body);
         const newReq = await RequestRepository.createRequest(sender.id, receiver_user_id, books);
         
         return reply.code(201).send({ message: 'Solicitud creada correctamente', requestId: newReq.id_request });
