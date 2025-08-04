@@ -1,60 +1,66 @@
 <ion-content class="ion-padding">
   @if (librosSignal.hasValue()) {
-    <ion-grid>
-      <ion-row>
-        @for (book of librosSignal.value(); track book.id) {
-          <ion-col 
-            size="12" 
-            size-md="6" 
-            size-lg="4">
-            <ion-card class="ion-padding ion-text-wrap">
-              
-              <div class="card-body-row">
+  <ion-grid>
+  <ion-row>
+    @for (book of librosSignal.value(); track book.id) {
+      <ion-col 
+        size="12" 
+        size-md="6" 
+        size-lg="4">
+        <ion-card class="ion-padding ion-text-wrap">
                 
-                <div class="image-wrapper">
-                  @if (book?.photo) {
-                    <ion-img 
-                      [src]="book.photo" 
-                      alt="Portada de {{ book.name }}"
-                      class="book-cover"
-                    ></ion-img>
-                  } @else {
-                    <div class="image-placeholder">Sin imagen</div>
-                  }
-                </div>
-                
-                <div class="text-content">
-                  <ion-card-header class="ion-no-padding">
-                    <ion-card-title class="ion-text-wrap">
-                      {{ book.name }}
-                    </ion-card-title>
-                    <ion-card-subtitle class="ion-text-wrap">
-                      por {{ book.author }}
-                    </ion-card-subtitle>
-                  </ion-card-header>
+          <ion-item lines="none">
+            @if (book?.photo) {
+              <ion-thumbnail slot="start">
+                <ion-img 
+                  [src]="book.photo" 
+                  alt="Portada de {{ book.name }}"
+                  class="book-cover"
+                ></ion-img>
+              </ion-thumbnail>
+            } @else {
+              <ion-thumbnail slot="start">
+                <ion-icon name="book-outline"></ion-icon>
+              </ion-thumbnail>
+            }
+            <ion-label>
+              <h2>{{ book.name }}</h2>
+              <p>por {{ book.author }}</p>
+            </ion-label>
+          </ion-item>
 
-                  @if (book.state == 'available') {
-                    <p class="ion-margin-top">Estado: Disponible</p>
-                  } @else {
-                    <p class="ion-margin-top">Estado: No disponible</p>
-                  }
-                </div>
-              </div>
+          @if (book.state == 'available') {
+            <p class="ion-margin-top">Estado: Disponible</p>
+          } @else {
+            <p class="ion-margin-top">Estado: No disponible</p>
+          }
 
-              <div class="button-row">
-                <ion-button size="small" fill="outline" color="safe" (click)="verLibro(book.id.toString())">
-                  Ver detalle
-                </ion-button>
-                <ion-button size="small" fill="outline" color="danger" (click)="eliminarLibro(book.id.toString())">
-                  Eliminar
-                </ion-button>
-              </div>
-
-            </ion-card>
-          </ion-col>
-        }
-      </ion-row>
-    </ion-grid>
+          <ion-row class="ion-margin-top ion-justify-content-end">
+            <ion-col size="auto">
+              <ion-button 
+                size="small" 
+                fill="outline" 
+                color="safe" 
+                (click)="verLibro(book.id.toString())"
+              >
+                Ver detalle
+              </ion-button>
+              <ion-button 
+                class="ion-margin-start"
+                size="small" 
+                fill="outline" 
+                color="danger" 
+                (click)="eliminarLibro(book.id.toString())"
+              >
+                Eliminar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    }
+  </ion-row>
+  </ion-grid>
   } 
   @else {
     <ion-text color="medium">
