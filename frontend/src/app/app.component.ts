@@ -25,7 +25,6 @@ export class AppComponent {
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
-  private usuariosService = inject(UsuariosService)
 
   public isHome = signal<boolean>(false);
   
