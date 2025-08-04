@@ -61,6 +61,12 @@ export class UserProfilePage implements OnInit {
 
   }
 
+  async modifyData() {
+
+    
+
+  }
+
   async deleteSelf() {
     const alert = await this.alertCtrl.create({
       header: 'Confirmar',

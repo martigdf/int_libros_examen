@@ -37,26 +37,37 @@
               
               <ion-row class="ion-justify-content-center">
                 <ion-col size="auto" class="ion-text-center">
-                  <h2><strong>Nombre: </strong></h2>
-                  <ion-text class="ion-margin-bottom">{{ user().name }} {{ user().last_name }}</ion-text>
+                  <h2><strong class="ion-margin-top">Nombre: </strong></h2>
+                  <ion-text class="ion-margin-bottom ion-margin-top">{{ user().name }} {{ user().last_name }}</ion-text>
 
-                  <h2><strong>Username:</strong></h2>
-                  <ion-text>{{ user().username }}</ion-text>
+                  <h2><strong class="ion-margin-top">Nombre de usuario:</strong></h2>
+                  <ion-text class="ion-margin-bottom ion-margin-top">{{ user().username }}</ion-text>
 
-                  <h2><strong>Email:</strong></h2>
-                  <ion-text>{{ user().email }}</ion-text>
+                  <h2><strong class="ion-margin-top">Email:</strong></h2>
+                  <ion-text class="ion-margin-bottom ion-margin-top">{{ user().email }}</ion-text>
                 </ion-col>
               </ion-row>
 
               <ion-row class="ion-justify-content-center ion-margin-top">
                 <ion-col size="auto">
-                <ion-button 
-                  color="danger" 
-                  expand="block" 
-                  (click)="deleteSelf()"
-                >
-                  Eliminar mi cuenta
-                </ion-button>
+                    <ion-button 
+                      color="primary" 
+                      expand="block" 
+                      (click)="modifyData()"  
+                    >
+                      Modificar datos
+                    </ion-button>
+                  </ion-col>
+              </ion-row>
+              <ion-row class="ion-justify-content-center">
+                <ion-col size="auto">
+                  <ion-button 
+                    color="danger" 
+                    expand="block" 
+                    (click)="deleteSelf()"
+                  >
+                    Eliminar mi cuenta
+                  </ion-button>
                 </ion-col>
               </ion-row>
             </ion-card-content>
