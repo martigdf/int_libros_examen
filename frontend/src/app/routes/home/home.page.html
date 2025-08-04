@@ -5,7 +5,6 @@
       <ion-col size="12">
         <ion-list>
           @for(book of allBooks.value(); track book.id) {
-            @if (book.owner_id !== currentUserId) {
             <ion-item>
               <ion-thumbnail 
                 slot="start">
@@ -21,6 +20,18 @@
                 } @else {
                   <p class="ion-margin-top">Estado: No disponible</p>
                 }
+                @if (book.owner_id.toString() == this.mainStore.userId()) {
+                  <p>Publicado por ti</p>
+                } @else {
+                  <p>
+                    Publicado por 
+                    <span 
+                      (click)="goToProfile(book.owner_id.toString())" 
+                      style="color: var(--ion-color-primary); cursor: pointer; text-decoration: underline;">
+                      {{ book.owner_username }}
+                    </span>
+                  </p>
+                }
               </ion-label>
               <ion-button 
                 fill="outline" 
@@ -30,7 +41,6 @@
                 Ver Detalles
               </ion-button>
             </ion-item>
-            }
           }
         </ion-list>
       </ion-col>

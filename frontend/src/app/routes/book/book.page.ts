@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, resource, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/model/book';
 import { environment } from 'src/environments/environment.prod';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,8 @@ import { RequestPost } from 'src/app/model/request';
 import { AlertController } from '@ionic/angular/standalone';
 import { IonicModule } from '@ionic/angular';
 import { MainStoreService } from 'src/app/services/main-store.service';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { BookService } from 'src/app/services/book.service';
 
 @Component({
   selector: 'app-book',
@@ -20,12 +22,13 @@ import { MainStoreService } from 'src/app/services/main-store.service';
 
 export class BookPage implements OnInit {
 
-  private httpClient = inject(HttpClient);
-  private apiUrl = environment.apiUrl
+  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private requestsService = inject(RequestsService);
   private alertCtrl = inject(AlertController);
   public mainStore = inject(MainStoreService);
+  public bookService = inject(BookService);
+  public usuariosService = inject(UsuariosService);
 
   
   book = signal<any>(null);
@@ -42,16 +45,19 @@ export class BookPage implements OnInit {
   // Método para cargar los detalles del libro
   loadBook = resource<Book, unknown>({
     loader : async () => {
-    const bookId = Number(this.route.snapshot.paramMap.get('id'));
 
-    const book = await this.httpClient.get<Book>(`${this.apiUrl + 'books/' + bookId}`).toPromise();
+      const bookId = Number(this.route.snapshot.paramMap.get('id'));
+      const book = await this.bookService.getById(bookId);
 
-    if (!book) {
-      throw new Error('No se pudo cargar el libro');
-    }
+      if (!book) {
+        throw new Error('No se pudo cargar el libro');
+      }
+
       this.book.set(book); 
       this.receiver_user_id.set(book.owner_id);
+
       return book!;
+
     }
   });
 
@@ -81,6 +87,12 @@ export class BookPage implements OnInit {
       console.error('Error al crear la solicitud:', err);
       await this.showAlert('Error', 'No se pudo crear la solicitud.');
     }
+  }
+
+  async goToProfile() {
+
+    this.router.navigate(['/user-profile', this.book().owner_id]);
+
   }
 
   private async showAlert(header: string, message: string) {

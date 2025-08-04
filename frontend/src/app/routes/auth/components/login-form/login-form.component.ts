@@ -9,6 +9,7 @@ import { ErrorMessagePipe } from 'src/app/pipes/error-message.pipe';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.scss'],
   imports: [IonCol, IonRow, IonInput, IonButton, FormsModule, IonGrid, IonContent, AppEmailDirective, ErrorMessagePipe ],
 })
 

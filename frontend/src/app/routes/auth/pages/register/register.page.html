@@ -1,133 +1,131 @@
 <ion-content class="ion-padding" fullscreen>
-  <ion-grid class="h-100">
-    <ion-row justify-content-center align-items-center class="h-100">
-      <ion-col size="12" size-md="6" size-lg="4">
-        <form class="ion-padding">
-          <ion-grid class="h-100">
+  <ion-grid class="h-100" style="height: 100%;" class="ion-margin-top">
+    <ion-row justify-content-center align-items-center class="ion-margin-top">
+      <ion-col size="12" size-md="5.5" size-lg="3.5" style="margin: 0 auto;" class="form-container">
+        <form class="ion-padding" fullscreen (ngSubmit)="onRegister()">
+          <ion-grid class="h-100" style="height: 100%;">
             <ion-row>
-            <ion-col size="12">
-            <ion-input 
-                label="Nombre"
-                name="name"
-                label-placement="floating"
-                fill="outline"
-                required
-                minlength="3"
-                [(ngModel)]="name"
-                #nameRef="ngModel"
-                [errorText]= "nameRef.errors | errorMessage:'nombre'"
-              >
-            </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                    label="Nombre"
+                    name="name"
+                    label-placement="floating"
+                    fill="outline"
+                    required
+                    minlength="3"
+                    [(ngModel)]="name"
+                    #nameRef="ngModel"
+                    [errorText]= "nameRef.errors | errorMessage:'nombre'"
+                  >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-            <ion-input 
-              label="Apellido"
-              name="lastname"
-              label-placement="floating"
-              fill="outline"
-              required
-              minlength="3"
-              [(ngModel)]="lastname"
-              #lastnameRef="ngModel"
-              [errorText]= "lastnameRef.errors | errorMessage:'apellido'"
-            >
-            </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                  label="Apellido"
+                  name="lastname"
+                  label-placement="floating"
+                  fill="outline"
+                  required
+                  minlength="3"
+                  [(ngModel)]="lastname"
+                  #lastnameRef="ngModel"
+                  [errorText]= "lastnameRef.errors | errorMessage:'apellido'"
+                >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-            <ion-input 
-              label="Nombre de usuario"
-              name="username"
-              label-placement="floating"
-              fill="outline"
-              required
-              minlength="3"
-              [(ngModel)]="username"
-              #usernameRef="ngModel"
-              [errorText]= "usernameRef.errors | errorMessage:'usuario'"
-            >
-            </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                  label="Nombre de usuario"
+                  name="username"
+                  label-placement="floating"
+                  fill="outline"
+                  required
+                  minlength="3"
+                  [(ngModel)]="username"
+                  #usernameRef="ngModel"
+                  [errorText]= "usernameRef.errors | errorMessage:'usuario'"
+                >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-            <ion-input 
-              label="Correo electrónico"
-              name="email"
-              label-placement="floating"
-              fill="outline"
-              type="email"
-              appEmail
-              required
-              [(ngModel)]="email"
-              #emailRef="ngModel"
-              [errorText]= "emailRef.errors | errorMessage:'correo electrónico'"
-            >
-            </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                  label="Correo electrónico"
+                  name="email"
+                  label-placement="floating"
+                  fill="outline"
+                  type="email"
+                  appEmail
+                  required
+                  [(ngModel)]="email"
+                  #emailRef="ngModel"
+                  [errorText]= "emailRef.errors | errorMessage:'correo electrónico'"
+                >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-              <ion-input 
-                label="Contraseña"
-                name="password"
-                label-placement="floating"
-                fill="outline"
-                type="password"
-                required
-                appPassword
-                [appPasswordMin]="6"
-                [(ngModel)]="password"
-                #passwordRef="ngModel"
-                appPassword
-                [errorText]= "passwordRef.errors | errorMessage:'contraseña'"
-              >
-              </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                  label="Contraseña"
+                  name="password"
+                  label-placement="floating"
+                  fill="outline"
+                  type="password"
+                  required
+                  appPassword
+                  [appPasswordMin]="6"
+                  [(ngModel)]="password"
+                  #passwordRef="ngModel"
+                  appPassword
+                  [errorText]= "passwordRef.errors | errorMessage:'contraseña'"
+                >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-              <ion-input 
-                label="Confirmar contraseña"
-                name="confirmPassword"
-                label-placement="floating"
-                fill="outline"
-                type="password"
-                required
-                minlength="6"
-                [(ngModel)]="confirmPassword"
-                #confirmPasswordRef="ngModel"
-                [appConfirmPassword]="password"
-                [errorText]= "confirmPasswordRef.errors | errorMessage:'confirmar contraseña'"
-              >
-              </ion-input>
-            </ion-col>
+              <ion-col size="12">
+                <ion-input 
+                  label="Confirmar contraseña"
+                  name="confirmPassword"
+                  label-placement="floating"
+                  fill="outline"
+                  type="password"
+                  required
+                  minlength="6"
+                  [(ngModel)]="confirmPassword"
+                  #confirmPasswordRef="ngModel"
+                  [appConfirmPassword]="password"
+                  [errorText]= "confirmPasswordRef.errors | errorMessage:'confirmar contraseña'"
+                >
+                </ion-input>
+              </ion-col>
             </ion-row>
 
             <ion-row>
-            <ion-col size="12">
-              <ion-button expand="full" type="button" (click)="onRegister()">
-                REGISTRARSE
-              </ion-button>
-            </ion-col>
+              <ion-col size="12">
+                <ion-button expand="full" type="button" (click)="onRegister()" class="ion-margin-top">
+                  REGISTRARSE
+                </ion-button>
+              </ion-col>
             </ion-row>
-
             <ion-row>
-            <ion-col size="12" class="ion-text-center" style="margin-top:16px">
-              <span>¿Ya tienes una cuenta?
-                <a (click)="goToLogin()" style="text-decoration: underline;">Iniciar sesión</a>
-              </span>
-            </ion-col>
+              <ion-col size="12" class="ion-text-center" style="margin-top:16px">
+                <span>¿Ya tienes una cuenta?
+                  <a (click)="goToLogin()" style="text-decoration: underline;">Iniciar sesión</a>
+                </span>
+              </ion-col>
             </ion-row>
-
           </ion-grid>
         </form>
       </ion-col>

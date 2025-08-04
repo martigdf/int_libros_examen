@@ -143,6 +143,10 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
           await query(`INSERT INTO books_genres (id_book, id_genre) VALUES ($1,$2)`, [bookId, genreId]);
         }
 
+        fastify.websocketServer.clients.forEach( (client) => {
+          client.send("books");
+        });
+
         reply.code(201).send({
           message: 'Libro publicado correctamente',
           bookId: res.rows[0].id
