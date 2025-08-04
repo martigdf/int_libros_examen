@@ -87,7 +87,26 @@ INSERT INTO books (name, author, description, state, creation_date, location, ow
   ('Crónica de una muerte anunciada', 'Gabriel García Márquez', 'Novela clásica latinoamericana', 'available', CURRENT_TIMESTAMP, 'Localización 2', 2);
 
 INSERT INTO genres (name) VALUES
-  ('Science Fiction'),
-  ('Fantasy'),
-  ('Classic'),
-  ('Children');
+  ('Drama'),     
+  ('Aventura'),        
+  ('Romance'),        
+  ('Misterio'),       
+  ('Histórico'),     
+  ('Terror'),      
+  ('Biografía'),       
+  ('Poesía');
+
+
+INSERT INTO books_genres (id_book, id_genre) VALUES
+-- 1984
+(1, 1), (1, 5),
+-- The Hobbit
+(2, 2), (2, 6),
+-- Dune
+(3, 1), (3, 8),
+-- El Principito
+(4, 4), (4, 3),
+-- Harry Potter
+(5, 2), (5, 8),
+-- Crónica de una muerte anunciada
+(6, 3), (6, 5);
