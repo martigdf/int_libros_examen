@@ -7,6 +7,7 @@ import { BookService } from 'src/app/services/book.service';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PhotoService } from 'src/app/services/photo.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-publish-book',
@@ -18,6 +19,7 @@ import { PhotoService } from 'src/app/services/photo.service';
 export class PublishBookPage implements OnInit {
 
   public photoService = inject(PhotoService);
+  public alertController = inject(AlertController);
 
   book = signal<BookPost>({
     name: '',
@@ -53,6 +55,13 @@ export class PublishBookPage implements OnInit {
 
       const reply = await this.bookService.publishBook(this.book());
       console.log('Libro publicado correctamente');
+
+      const alert = await this.alertController.create({
+        header: 'Éxito',
+        message: '¡El libro se publicó correctamente!',
+        buttons: ['OK']
+      });
+      await alert.present();
 
       await this.bookService.submitPhoto(reply.bookId, this.bookPhoto() || '')
 

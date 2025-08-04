@@ -15,6 +15,15 @@
             <ion-item lines="full">
               <ion-label>
                 <h3>#{{ req.id }} - {{ req.creation_date | date:'dd-MM-yyyy' }}</h3>
+                <p>
+                  Libro solicitado:
+                  <ion-note 
+                    *ngFor="let bookName of req.books" 
+                    color="primary"
+                  >
+                  {{ bookName }}
+                  </ion-note>
+                </p>
               </ion-label>
               <ion-buttons slot="end">
                 <ion-button color="success" 
@@ -41,7 +50,17 @@
         @if (acceptedRequests().length) {
           @for (req of acceptedRequests(); track req.id) {
             <ion-item>
-              <ion-label>#{{ req.id }} - {{ req.creation_date | date:'dd-MM-yyyy' }}</ion-label>
+              <ion-label>#{{ req.id }} - {{ req.creation_date | date:'dd-MM-yyyy' }}
+                <p>
+                  Libro solicitado:
+                  <ion-note 
+                    *ngFor="let bookName of req.books" 
+                    color="primary"
+                  >
+                  {{ bookName }}
+                  </ion-note>
+                </p>
+              </ion-label>
               @if (req.state === 'accepted' && !confirmados()[req.id]) {
                 <ion-button 
                   color="success" 
@@ -70,8 +89,15 @@
             <ion-item lines="full">
               <ion-label>
                 <h3>#{{ req.id }} - {{ req.state }}</h3>
-                <p>{{ req.creation_date | date:'dd-MM-yyyy' }}</p>
-                <p>Libros solicitados:</p>
+                <p>
+                  Libro solicitado:
+                  <ion-note 
+                    *ngFor="let bookName of req.books" 
+                    color="primary"
+                  >
+                  {{ bookName }}
+                  </ion-note>
+                </p>
               </ion-label>
             </ion-item>
           }

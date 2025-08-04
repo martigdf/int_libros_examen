@@ -24,7 +24,7 @@ export class RequestRepository {
         JOIN users u ON u.id = r.receiver_user_id
         WHERE r.sender_user_id = $1
       )
-      SELECT req.*, json_agg(b.name) AS books
+      SELECT req.*, COALESCE(json_agg(b.name), '[]') AS books
       FROM req
       JOIN requests_books rb ON rb.id_request = req.id
       JOIN books b ON b.id = rb.id_book
@@ -38,7 +38,7 @@ export class RequestRepository {
       SELECT 
         r.id, r.creation_date, r.state, r.sender_user_id, r.receiver_user_id,
         u.name AS sender_name,
-        json_agg(b.name) AS books
+        COALESCE(json_agg(b.name), '[]') AS books
       FROM requests r
       JOIN users u ON u.id = r.sender_user_id
       JOIN requests_books rb ON rb.id_request = r.id
