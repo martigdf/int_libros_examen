@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MainStoreService } from 'src/app/services/main-store.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { PutUser } from 'src/app/model/user';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,7 +28,7 @@ export class UserProfilePage implements OnInit {
   private photoService = inject(PhotoService);
 
   public user = signal<any | null>(null);
-  public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
+  public userId = computed(() => this.mainStore.usuario()?.id ?? '');
   public userPhoto = signal<string | undefined>("https://ionicframework.com/docs/img/demos/avatar.svg")
 
   async ngOnInit() {
@@ -63,7 +64,13 @@ export class UserProfilePage implements OnInit {
 
   async modifyData() {
 
-    
+    //Agregar formularios a la página
+
+    //Código al confirmar:
+
+    const data: PutUser = {};
+
+    //this.usuariosService.putUser(this.userId(), data);
 
   }
 
