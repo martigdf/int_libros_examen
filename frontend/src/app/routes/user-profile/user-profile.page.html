@@ -37,13 +37,13 @@
               
               <ion-row class="ion-justify-content-center">
                 <ion-col size="auto" class="ion-text-center">
-                  <h2>Nombre</h2>
-                  <ion-text>{{ user().name }} {{ user().last_name }}</ion-text>
+                  <h2><strong>Nombre: </strong></h2>
+                  <ion-text class="ion-margin-bottom">{{ user().name }} {{ user().last_name }}</ion-text>
 
-                  <h2 class="ion-margin-top">Username</h2>
+                  <h2><strong>Username:</strong></h2>
                   <ion-text>{{ user().username }}</ion-text>
 
-                  <h2 class="ion-margin-top">Email</h2>
+                  <h2><strong>Email:</strong></h2>
                   <ion-text>{{ user().email }}</ion-text>
                 </ion-col>
               </ion-row>
