@@ -44,8 +44,8 @@ export class PublishBookPage implements OnInit {
   async takePhoto() {
 
     const webPath = await this.photoService.takePhoto();
-
     this.bookPhoto.set(webPath);
+
   }
 
   async onSubmit() {

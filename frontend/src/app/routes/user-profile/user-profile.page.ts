@@ -7,6 +7,7 @@ import { signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainStoreService } from 'src/app/services/main-store.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,9 +23,11 @@ export class UserProfilePage implements OnInit {
   private router = inject(Router);
   public mainStore = inject(MainStoreService);
   private adminService = inject(AdminService);
+  private photoService = inject(PhotoService);
 
   public user = signal<any | null>(null);
   public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
+  public userPhoto = signal<string | undefined>("https://ionicframework.com/docs/img/demos/avatar.svg")
 
   async ngOnInit() {
     const current = JSON.parse(localStorage.getItem('user') || '{}');
@@ -32,11 +35,30 @@ export class UserProfilePage implements OnInit {
       // Fetch user data by ID
       const data = await this.usuariosService.getById(current.id);
       this.user.set(data);
+
+      console.log(data.photo);
+
+      if (data.photo !== '') {
+
+        this.userPhoto.set(data.photo)
+
+      }
+
+      
     }
   }
 
   goToHome() {
     this.router.navigate(['/home']);
+  }
+
+  async takePhoto() {
+
+    const webPath = await this.photoService.takePhoto();
+    this.userPhoto.set(webPath);
+
+    this.usuariosService.submitPhoto(webPath || '');
+
   }
 
   async deleteSelf() {

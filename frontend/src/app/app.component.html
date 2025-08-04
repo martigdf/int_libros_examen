@@ -40,15 +40,6 @@
                 Solicitudes Recibidas
               </ion-button>
 
-              <ion-button 
-                expand="block" 
-                color="danger" 
-                *ngIf="isLoggedIn()" 
-                (click)="logout()"
-                style="margin-top: 60px;">
-                Cerrar Sesión
-              </ion-button>
-
             </ng-container>
 
           } @else if (mainStore.isAdmin()) {
@@ -68,10 +59,20 @@
             </ng-container>
 
           }
-          
+
+          <ion-button 
+            expand="block" 
+            color="danger" 
+            *ngIf="isLoggedIn()" 
+            (click)="logout()"
+            style="margin-top: 60px;">
+            Cerrar Sesión
+          </ion-button>
+    
         </ion-content>
       </ion-menu>
     }
+    
     <div class="ion-page" id="age-content">
       <ion-header>
         <ion-toolbar>

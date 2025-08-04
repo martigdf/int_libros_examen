@@ -91,7 +91,7 @@ const photoRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<vo
         }
     });
 
-    fastify.get('/users/id', {
+    fastify.get('/users/:id', {
         schema: {
             tags: ['photos'],
             summary: 'Ruta para obtener la foto de perfil',

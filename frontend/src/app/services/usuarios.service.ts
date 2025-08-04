@@ -52,7 +52,11 @@ export class UsuariosService {
   // Método para obtener el usuario por ID
   async getById(userId: number) {
 
-    return await firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/" + userId));
+    const user = await firstValueFrom(this.httpClient.get<User>(this.apiUrl + "users/" + userId))
+
+    user.photo = this.apiUrl + 'photos/users/' + userId
+
+    return user;
   
   }
 

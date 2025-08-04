@@ -18,28 +18,35 @@
               <ion-card-title>Mi cuenta</ion-card-title>
             </ion-card-header>
 
-            <ion-card-content 
-              class="ion-padding">
+            <ion-card-content class="ion-padding">
+
+              <ion-item style="cursor: pointer;" (click)="takePhoto()">
+                <ion-avatar aria-hidden="true" slot="start" 
+                  class="ion-margin-bottom" 
+                  style="width: 128px; height: 128px;">
+                  <img alt="" src="{{ this.userPhoto() }}" />
+                </ion-avatar>
+              </ion-item>
     
               <ion-label 
-                class="ion-margin-bottom">
+                class="ion-margin-bottom ion-margin-top">
                 <h2>Nombre</h2>
                 <ion-text>{{ user().name }} {{ user().last_name }}</ion-text>
               </ion-label>
 
               <ion-label 
-                class="ion-margin-bottom">
+                class="ion-margin-bottom ion-margin-top">
                 <h2>Username</h2>
                 <ion-text>{{ user().username }}</ion-text>
               </ion-label>
 
               <ion-label 
-                class="ion-margin-bottom">
+                class="ion-margin-bottom ion-margin-top">
                 <h2>Email</h2>
                 <ion-text>{{ user().email }}</ion-text>
               </ion-label>
               <ion-row class="ion-justify-content-center ion-margin-top">
-              <!-- Botón para eliminarse -->
+                
                 <ion-button 
                   color="danger" 
                   expand="block" 

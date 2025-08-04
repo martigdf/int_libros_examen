@@ -94,8 +94,6 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     }
   });
 
-  fastify.register(require('@fastify/websocket'));
-
   fastify.post('/publish', {
     schema: {
       tags: ['books'],
