@@ -21,12 +21,22 @@ export class UserFormComponent{
   public totalRoles = input<string[]>(['admin', 'user']);
   public user = input<User | null>(null) 
 
-  public name = signal<string>(this.user()?.name ?? '');
-  public roles = signal<string>(this.user()?.role ?? 'user');
-  public lastname = signal<string>(this.user()?.lastname ?? '');
-  public email = signal<string>(this.user()?.email ?? '');
+  public name = signal('');
+  public lastname = signal('');
+  public email = signal('');
+  public role = signal<'admin' | 'user'>('user');
 
   public changed = output<PutUser>();
+
+  ngOnInit() {
+    const u = this.user();
+    if (u) {
+      this.name.set(u.name);
+      this.lastname.set(u.lastname);
+      this.email.set(u.email);
+      this.role.set(u.role as 'admin' | 'user');
+    }
+  }
 
   onSubmit(){
     const payload : PutUser = {}
@@ -35,8 +45,8 @@ export class UserFormComponent{
     if (this.email() && this.email() !== this.user()?.email) {
       payload.email = this.email();
     }
-    if (this.roles() !== this.user()?.role) {
-      const selectedRole = this.totalRoles().find(role => role === this.roles());
+    if (this.role() !== this.user()?.role) {
+      const selectedRole = this.totalRoles().find(role => role === this.role());
       if (selectedRole === 'admin' || selectedRole === 'user') {
         payload.role = selectedRole as 'admin' | 'user';
       }

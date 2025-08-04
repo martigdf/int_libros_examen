@@ -63,7 +63,9 @@
                 </ion-item>
 
               </ion-card-content>
-              @if (book().owner_id !== mainStore.userId() && book().state === 'available') {
+              @if (book().owner_id !== mainStore.userId() 
+                && book().state === 'available' 
+                && mainStore.usuario()?.role !== 'admin') {
                 <ion-card-content>
                   <ion-button expand="full" color="primary" (click)="requestBook()">
                     Solicitar préstamo

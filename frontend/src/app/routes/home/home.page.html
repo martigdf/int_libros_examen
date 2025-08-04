@@ -15,6 +15,11 @@
               <ion-label>
                 <h2>{{ book.name }}</h2>
                 <p>{{ book.author }}</p>
+                @if (book.genres && book.genres.length > 0) {
+                  <p>Géneros: {{ book.genres.join(', ') }}</p>
+                } @else {
+                  <p>Géneros: Ninguno</p>
+                }
                 @if (book.state == 'available') {
                   <p class="ion-margin-top">Estado: Disponible</p>
                 } @else {

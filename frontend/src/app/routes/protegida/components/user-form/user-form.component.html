@@ -6,7 +6,8 @@
           label="Nombre"
           labelPlacement="floating"
           name="name" 
-          [(ngModel)]="name" 
+          [ngModel]="name()" 
+          (ngModelChange)="name.set($event)"
           required
           minlength="3"
         >
@@ -21,7 +22,8 @@
           labelPlacement="floating"
           type="text" 
           name="lastname" 
-          [(ngModel)]="lastname" 
+          [ngModel]="lastname()" 
+          (ngModelChange)="lastname.set($event)"
           required
           minlength="3"
         >
@@ -37,7 +39,8 @@
         labelPlacement="floating"
         type="email"
         name="email"
-        [(ngModel)]="email"
+        [ngModel]="email()"
+        (ngModelChange)="email.set($event)"
         required
         email
         minlength="5"
@@ -55,7 +58,8 @@
             fill="outline"
             multiple="true" 
             name="roles"
-            [(ngModel)]="roles"
+            [ngModel]="role()"
+            (ionChange)="role.set($event.detail.value)"
             required
             >
             @for (rol of totalRoles(); track rol) {
