@@ -10,9 +10,6 @@ import { User } from './model/user';
 import { IonicModule } from '@ionic/angular';
 import { UsuariosService } from './services/usuarios.service';
 
-const token = localStorage.getItem('token')
-const socket = new WebSocket("ws://localhost/backend/")
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -41,7 +38,16 @@ export class AppComponent {
   }
 
   async ngOnInit(){
-    
+
+    const token = this.mainStore.token();
+    const socket = new WebSocket('ws://localhost/backend/?token=' + token);
+
+    socket.addEventListener("open", (event) => {
+
+      console.log("Conexión establecida")
+
+    })
+
     socket.addEventListener("message", (event) => {
 
       if (event.data == 'userPhoto') {
