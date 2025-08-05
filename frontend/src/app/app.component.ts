@@ -48,8 +48,16 @@ export class AppComponent {
 
         console.log("Cambiar foto")
         
-        this.changeUserPhoto.set(true);
+        if (this.changeUserPhoto() === false) {
 
+          this.changeUserPhoto.set(true);
+
+        } else {
+
+          this.changeUserPhoto.set(false);
+
+        }
+        
         const newPhoto = this.apiUrl + 'photos/users/' + this.usuarioId();
         this.userPhoto.set(newPhoto);
 
