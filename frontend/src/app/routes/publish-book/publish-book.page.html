@@ -17,11 +17,7 @@
         <ion-textarea [(ngModel)]="book().description" name="description" required></ion-textarea>
       </ion-item>
 
-      <ion-item lines="none">
-        <ion-label class="section-label">Ubicación</ion-label>
-      </ion-item>
-
-      <ion-item style="--padding-start: 24px; font-size: 0.9rem;">
+      <ion-item style="--inner-padding-end: 16px;">
         <ion-label>Departamento</ion-label>
         <ion-select interface="popover" [(ngModel)]="departamento" (ionChange)="onDepartamentoChange()" name="departamento">
           @for (d of departamentos; track d) {
