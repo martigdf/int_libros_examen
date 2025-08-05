@@ -14,7 +14,8 @@ El sistema también incluye un **panel de administración** para la gestión gen
 
 **Todo lo realizado esta en main.**
 
-✅ Archivo .env-example con ejemplo de .env <br>
+✅ Archivo .env-example con ejemplo de .env 
+<br>
 
 ✅ Para levantar contenedores, ejecuta (en la terminal): 
 
@@ -38,30 +39,35 @@ npm run start
 <br>
 **Recordar tener configurado el .env**
 <br>
+
 ✅ Para poder visualizar la documentación swagger dirigirse a:
 
 ```bash
 http://localhost/backend/docs
 ```
 <br>
+
 ✅ Para visualizar en pgadmin la base de datos dirigirse a: 
 
 ```bash
 http://localhost:8080
 ```
 <br>
+
 ✅ Loguearse en pgadmin con los datos:
 ```bash
 username: admin@admin.com
 password: admin
 ```
 <br>
+
 ✅ Asegúrate de tener instaladas las dependencias con:
 
 ```bash
 npm install
 ```
 <br>
+
 **Las rutas creadas:**
 ```bash
 /login
