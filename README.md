@@ -1,15 +1,31 @@
 # int_libros
 
-## Iniciar el entorno de desarrollo
+**Descripción del Proyecto**
+Esta enfocado en la **gestión y publicación de libros**, donde los usuarios pueden:
+- **Publicar libros** para compartir con la comunidad.
+- **Solicitar préstamos** de libros publicados por otros usuarios.
+- **Aceptar o rechazar solicitudes** de préstamo de manera sencilla.
+- **Visualizar y gestionar** los libros que han publicado, incluyendo la opción de **eliminarlos** si es necesario.
+
+El sistema también incluye un **panel de administración** para la gestión general de usuarios y publicaciones.
+
+
+**Iniciar el entorno de desarrollo**
 
 Todo lo realizado esta en main.
 
 Archivo .env-example con ejemplo de .env 
 
-Para levantar el entorno de desarrollo, ejecuta (desde la carpeta Backend):
+Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Backend):
 
 ```bash
 npm run dev
+```
+
+Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Frontend):
+
+```bash
+npm run start
 ```
 
 Para levantar la base de datos usando docker, ejecuta (en la terminal):
@@ -23,7 +39,7 @@ docker-compose up --build
 Para poder visualizar la documentación swagger dirigirse a:
 
 ```bash
-http://localhost:3000/docs
+http://localhost/backend/docs
 ```
 
 Para visualizar en pgadmin la base de datos dirigirse a: 
@@ -50,12 +66,15 @@ Las rutas creadas:
 /register
 /home 
 /book/:id
-/menu-loans
-/menu-loans/loans-rece/:id
-/menu-loans/loans-reque/:id
-/user-profie
+/publish-book
+/my-books
+/myreque-list
+/myreceived-list
+/user-profile/:id
+
 /panel-admin
 /panel-admin/view-books
-/panel-admin/view-users
+/panel-admin/usuarios-listados
+/panel-admin/modify-user/:id
 ```
 ---
