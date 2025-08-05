@@ -16,6 +16,13 @@ El sistema también incluye un **panel de administración** para la gestión gen
 
 ✅ Archivo .env-example con ejemplo de .env 
 
+✅ Para levantar contenedores, ejecuta (en la terminal):
+
+```bash
+docker-compose up --build
+```
+
+
 ✅ Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Backend):
 
 ```bash
@@ -26,12 +33,6 @@ npm run dev
 
 ```bash
 npm run start
-```
-
-✅ Para levantar la base de datos usando docker, ejecuta (en la terminal):
-
-```bash
-docker-compose up --build
 ```
 
 **Recordar tener configurado el .env**
