@@ -1,7 +1,7 @@
 # int_libros
 
-**Descripción del Proyecto**
-Esta enfocado en la **gestión y publicación de libros**, donde los usuarios pueden:
+**Descripción resumida del Proyecto**
+: esta enfocado en la **gestión y publicación de libros**, donde los usuarios pueden:
 - **Publicar libros** para compartir con la comunidad.
 - **Solicitar préstamos** de libros publicados por otros usuarios.
 - **Aceptar o rechazar solicitudes** de préstamo de manera sencilla.
