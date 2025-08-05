@@ -10,25 +10,25 @@
 El sistema también incluye un **panel de administración** para la gestión general de usuarios y publicaciones.
 
 
-**Iniciar el entorno de desarrollo**
+## 🚀 **Iniciar el entorno de desarrollo**
 
-Todo lo realizado esta en main.
+**Todo lo realizado esta en main.**
 
-Archivo .env-example con ejemplo de .env 
+✅ Archivo .env-example con ejemplo de .env 
 
-Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Backend):
+✅ Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Backend):
 
 ```bash
 npm run dev
 ```
 
-Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Frontend):
+✅ Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Frontend):
 
 ```bash
 npm run start
 ```
 
-Para levantar la base de datos usando docker, ejecuta (en la terminal):
+✅ Para levantar la base de datos usando docker, ejecuta (en la terminal):
 
 ```bash
 docker-compose up --build
@@ -36,31 +36,31 @@ docker-compose up --build
 
 **Recordar tener configurado el .env**
 
-Para poder visualizar la documentación swagger dirigirse a:
+✅ Para poder visualizar la documentación swagger dirigirse a:
 
 ```bash
 http://localhost/backend/docs
 ```
 
-Para visualizar en pgadmin la base de datos dirigirse a: 
+✅ Para visualizar en pgadmin la base de datos dirigirse a: 
 
 ```bash
 http://localhost:8080
 ```
 
-Loguearse en pgadmin con los datos:
+✅ Loguearse en pgadmin con los datos:
 ```bash
 username: admin@admin.com
 password: admin
 ```
 
-Asegúrate de tener instaladas las dependencias con:
+✅ Asegúrate de tener instaladas las dependencias con:
 
 ```bash
 npm install
 ```
 
-Las rutas creadas: 
+**Las rutas creadas:**
 ```bash
 /login
 /register
