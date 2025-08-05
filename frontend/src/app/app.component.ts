@@ -30,24 +30,26 @@ export class AppComponent {
   
   public usuario = signal<User | null>(null);
   public usuarioId = computed(() => this.mainStore.usuario()?.id ?? '');
-  public userPhoto = signal<string | undefined>("https://ionicframework.com/docs/img/demos/avatar.svg")
+  public userPhoto = signal<string>("https://ionicframework.com/docs/img/demos/avatar.svg")
+  public changeUserPhoto = signal<boolean>(false);
 
   constructor() {
     this.router.events.subscribe(() => {
+      this.userPhoto.set(this.apiUrl + 'photos/users/' + this.mainStore.userId() || "https://ionicframework.com/docs/img/demos/avatar.svg")
       this.isHome.set(this.router.url === '/home');
     });
   }
 
   async ngOnInit(){
-
-    this.userPhoto.set(this.apiUrl + 'photos/users/' + this.usuarioId() || "https://ionicframework.com/docs/img/demos/avatar.svg")
-
+    
     socket.addEventListener("message", (event) => {
 
       if (event.data == 'userPhoto') {
 
         console.log("Cambiar foto")
         
+        this.changeUserPhoto.set(true);
+
         const newPhoto = this.apiUrl + 'photos/users/' + this.usuarioId();
         this.userPhoto.set(newPhoto);
 
