@@ -1,7 +1,7 @@
 import { Component, input, output, signal, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { PutUser, User } from 'src/app/model/user';
+import { UserPatch, User } from 'src/app/model/user';
 import { MainStoreService } from 'src/app/services/main-store.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserFormComponent{
   public email = signal('');
   public role = signal<'admin' | 'user'>('user');
 
-  public changed = output<PutUser>();
+  public changed = output<UserPatch>();
 
   ngOnInit() {
     const u = this.user();
@@ -39,7 +39,7 @@ export class UserFormComponent{
   }
 
   onSubmit(){
-    const payload : PutUser = {}
+    const payload : UserPatch = {}
     if (this.name()) payload.name = this.name();
     if (this.lastname()) payload.lastname = this.lastname();
     if (this.email() && this.email() !== this.user()?.email) {
