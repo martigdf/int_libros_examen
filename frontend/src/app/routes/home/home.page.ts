@@ -35,6 +35,8 @@ export class HomePage  implements OnInit {
   });
   
   async ngOnInit() {
+
+    this.allBooks.reload();
     
     const token = this.mainStore.token();
     const socket = new WebSocket('ws://localhost/backend/?token=' + token);

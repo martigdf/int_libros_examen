@@ -70,6 +70,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./routes/user-profile/user-profile.page').then((m) => m.UserProfilePage),
   },
+  {
+    path: 'novedades',
+    canActivate: [authenticatedGuard],
+    loadComponent: () =>
+      import('./routes/novedades/novedades.page').then((m) => m.NovedadesPage),
+  },
 
 
   // --- Rutas protegidas (solo para administradores) ---
@@ -97,5 +103,9 @@ export const routes: Routes = [
         loadComponent: () => import('./routes/protegida/modify-user/modify-user.page').then((m) => m.ModifyUserPage)
       }
     ]
+  },
+  {
+    path: 'novedades',
+    loadComponent: () => import('./routes/novedades/novedades.page').then( m => m.NovedadesPage)
   },
 ];

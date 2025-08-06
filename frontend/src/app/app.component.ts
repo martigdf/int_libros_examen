@@ -139,4 +139,9 @@ export class AppComponent {
     this.router.navigate(['/home']);
   }
 
+  novedades() {
+    this.router.navigate(['/novedades']);
+  }
+
+
 }

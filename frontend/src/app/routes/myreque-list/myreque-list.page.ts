@@ -15,6 +15,7 @@ import { IonicModule } from '@ionic/angular';
 export class MyrequeListPage implements OnInit {
 
   ngOnInit() {
+    this.sentRequests.reload();
   }
 
   ionViewWillEnter() {

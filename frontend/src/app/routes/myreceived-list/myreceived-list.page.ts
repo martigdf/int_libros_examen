@@ -21,7 +21,7 @@ export class MyreceivedListPage implements OnInit {
   acceptedRequests = signal<Request[]>([]);
   confirmados = signal<{ [key: number]: boolean }>({});
 
-  receivedRequests = resource<Request[], unknown>({
+  public receivedRequests = resource<Request[], unknown>({
     loader: async () => {
       const data = await this.requestService.getReceivedRequests();
       this.allReceived.set(data);
@@ -65,6 +65,7 @@ export class MyreceivedListPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.receivedRequests.reload();
   }
 
 }
