@@ -10,13 +10,14 @@ const root: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => 
       method: 'GET',
       url: '/',
       handler: async (req, reply) => {
+                console.log("rootHandlerROOT : ",fastify.userSockets);
 
         return { root: true }
 
       },
       wsHandler: async (socket: WebSocket & { userId?: number }, req) => {
 
-        console.log(fastify.userSockets)
+        console.log("wsHandler: ",fastify.userSockets);
 
         const token = (req.query as any).token;
 
@@ -29,19 +30,19 @@ const root: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<void> => 
 
         try {
 
-          const decoded = await fastify.jwt.verify<{ id: number }>(token);
+          const decoded = fastify.jwt.verify<{ id: number }>(token);
 
           if (decoded && typeof decoded.id === 'number') {
 
             const userId = decoded.id;
             socket.userId = userId;
 
-            //fastify.userSockets.set(userId, socket);
+            fastify.userSockets.set(userId, socket);
             console.log('Usuario ' + userId + ' conectado.');
             
             socket.on('close', () => {
               
-              //fastify.userSockets.delete(userId);
+              fastify.userSockets.delete(userId);
               console.log('Usuario ' + userId + ' desconectado.');
             
             });

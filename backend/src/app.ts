@@ -2,6 +2,7 @@ import * as path from 'node:path'
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload'
 import { FastifyPluginAsync } from 'fastify'
 import { fileURLToPath } from 'node:url'
+import { WebSocket } from '@fastify/websocket'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,10 +15,20 @@ export type AppOptions = {
 const options: AppOptions = {
 }
 
+declare module 'fastify' {
+  interface FastifyInstance {
+    userSockets: Map<number, WebSocket>;
+  }
+}
+
 const app: FastifyPluginAsync<AppOptions> = async (
   fastify,
   opts
 ): Promise<void> => {
+
+  
+  fastify.decorate("userSockets",new Map<number, WebSocket>());
+
   void fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'plugins'),
     options: opts,
