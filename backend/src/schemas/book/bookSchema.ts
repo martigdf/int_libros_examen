@@ -25,7 +25,7 @@ export const BookSchema = Type.Object({
             { description: 'Lista de géneros del libro' }
         )
     ,
-    date_published: Type.Optional(Type.String({ format: 'date', description: 'Fecha de publicación del libro' })),
+    creation_date: Type.Optional(Type.String({ format: 'date', description: 'Fecha de publicación del libro' })),
     location: Type.Optional(Type.String({ minLength: 5, maxLength: 100 })),
     state: Type.Union([
         Type.Literal("available"),

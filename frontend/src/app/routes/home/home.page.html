@@ -15,6 +15,7 @@
               <ion-label>
                 <h2>{{ book.name }}</h2>
                 <p>{{ book.author }}</p>
+                <p> <strong>Fecha de publicación: </strong>{{book.creation_date}}</p>
                 @if (book.genres && book.genres.length > 0) {
                   <p><strong>Géneros: </strong>{{ book.genres.join(', ') }}</p>
                 } @else {
@@ -32,8 +33,17 @@
                     Publicado por 
                     <ion-text
                       color="primary">
-                      {{ book.owner_username }}
+                      {{ book.owner_username }}:
                     </ion-text>
+                    <ion-text
+                      color="primary">
+                      {{ book.owner_name }}
+                    </ion-text>
+                    <ion-text
+                      color="primary">
+                      {{ book.owner_lastname }}
+                    </ion-text>
+      
                   </p>
                 }
               </ion-label>

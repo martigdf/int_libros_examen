@@ -14,7 +14,10 @@ export interface Book {
   genres?: string[];
   photo?: string;
   owner_id: number;
+  creation_date: string;
   owner_username?: string;
+  owner_name?: string;
+  owner_lastname?: string;
   publication?: Publication;
 }
 export interface BookPost {

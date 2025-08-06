@@ -22,7 +22,7 @@ const bookRoutes: FastifyPluginAsyncTypebox = async (fastify, opts): Promise<voi
     },
   handler: async (request, reply) => {
       const res = await query (
-        `SELECT b.id, b.name, b.author, b.description, b.state, b.location, b.owner_id,
+        `SELECT b.id, b.name, b.author, b.description, b.state, b.location, b.owner_id, b.creation_date,
           COALESCE(array_agg(g.name) FILTER (WHERE g.name IS NOT NULL), '{}') AS genres
         FROM books b
         LEFT JOIN books_genres bg ON b.id = bg.id_book

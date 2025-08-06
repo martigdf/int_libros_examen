@@ -65,8 +65,20 @@ export class UsuariosService {
     const user = await this.getById(userId);
 
     return user.username
+  }
 
+  async getNameById(userId: number) {
 
+    const user = await this.getById(userId);
+
+    return user.name
+  }
+
+  async getLastnameById(userId: number) {
+
+    const user = await this.getById(userId);
+
+    return user.lastname
   }
 
   // Metodo para verificar credenciales para directiva

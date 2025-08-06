@@ -49,7 +49,9 @@ export class BookService {
     for (const book of books) {
 
       book.photo = this.apiUrl + 'photos/books/' + book.id
-      book.owner_username = await this.usuariosService.getUsernameById(book.owner_id)
+      book.owner_username = await this.usuariosService.getUsernameById(book.owner_id),
+      book.owner_name = await this.usuariosService.getNameById(book.owner_id),
+      book.owner_lastname = await this.usuariosService.getLastnameById(book.owner_id)
 
       console.log(book.owner_username)
 
