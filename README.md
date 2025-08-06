@@ -22,20 +22,7 @@ El sistema también incluye un **panel de administración** para la gestión gen
 ```bash
 docker-compose up --build
 ```
-<br>
 
-✅ Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Backend):
-
-```bash
-npm run dev
-```
-<br>
-
-✅ Para levantar el entorno de desarrollo, ejecuta (desde el contenedor Frontend):
-
-```bash
-npm run start
-```
 <br>
 **Recordar tener configurado el .env**
 <br>
