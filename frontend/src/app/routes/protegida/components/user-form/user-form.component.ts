@@ -46,10 +46,7 @@ export class UserFormComponent{
       payload.email = this.email();
     }
     if (this.role() !== this.user()?.role) {
-      const selectedRole = this.totalRoles().find(role => role === this.role());
-      if (selectedRole === 'admin' || selectedRole === 'user') {
-        payload.role = selectedRole as 'admin' | 'user';
-      }
+      payload.role = this.role();
     }
     console.log("Payload enviado:", payload);
     this.changed.emit(payload);
