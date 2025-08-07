@@ -31,17 +31,30 @@ export class NovedadesPage implements OnInit {
   receiver_user_id = signal<number>(0);
   private route = inject(ActivatedRoute);
   requestResult = signal<RequestPost | null>(null);
+  public bookId = signal<string | null>(this.bookService.bookId());
 
   constructor() { }
 
-  public allBooksFiltered = resource<Book[], unknown>({
+  public allBooks = resource<Book[], unknown>({
     loader: async () => {
       const books = await this.bookService.getAllBooks();
-      this.booksSignal.set(books);
+      this.bookssSignal.set(books);
       return books;
     }
   });
 
+  public bookssSignal = resource<Book[], unknown>({
+  
+    loader : () => this.bookService.getAllBooks()
+    
+  });
+/*
+  get booksFiltrados(): Book[] {
+      const data = this.booksSignal.value();
+      if (!data) return [];
+      return data.filter(u => u.id !== this.bookId())
+  }
+*/
   loadBook = resource<Book, unknown>({
     loader : async () => {
 

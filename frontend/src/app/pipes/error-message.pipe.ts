@@ -22,6 +22,7 @@ export class ErrorMessagePipe implements PipeTransform {
       return "La contraseña debe contener al menos un número.";
     if (errors["passwordSpecial"]) 
       return "La contraseña debe contener al menos un carácter especial.";
+    if (errors["appuserFound"]) return "El usuario no encontrado.";
 
     return "Error desconocido";
   }

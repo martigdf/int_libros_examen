@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RequestsService } from 'src/app/services/request.service';
 import { Request } from 'src/app/model/request';  
 import { IonicModule } from '@ionic/angular';
+import { MainStoreService } from 'src/app/services/main-store.service';
 
 @Component({
   selector: 'app-myreceived-list',
@@ -15,6 +16,7 @@ import { IonicModule } from '@ionic/angular';
 export class MyreceivedListPage implements OnInit {
 
   private requestService = inject(RequestsService);
+  private mainStore = inject(MainStoreService);
 
   allReceived = signal<Request[]>([]);
   pendingReceived = signal<Request[]>([]);
@@ -31,12 +33,11 @@ export class MyreceivedListPage implements OnInit {
     }
   });
 
-  responderSolicitud(id: number, state: 'accepted' | 'declined') {
+  async responderSolicitud(id: number, state: 'accepted' | 'declined') {
     console.log(`🔹 Respondiendo solicitud ${id} con estado ${state}`);
     this.requestService.responderSolicitud(id, state)
       .then(resp => {
         console.log('Respuesta backend responderSolicitud:', resp);
-        this.receivedRequests.reload();
       })
       .catch(err => console.error('Error al responder solicitud:', err));
   }
@@ -47,7 +48,7 @@ export class MyreceivedListPage implements OnInit {
       const resp = await this.requestService.confirmPickup(id);
       console.log('Respuesta backend confirm-pickup:', resp);
       this.confirmados.update(prev => ({ ...prev, [id]: true }));
-      this.receivedRequests.reload();
+      this.receivedRequests.set(resp);
     } catch (err) {
       console.error('Error al confirmar retiro:', err);
     }
@@ -55,7 +56,8 @@ export class MyreceivedListPage implements OnInit {
 
   async confirmReturn(id: number) {
     try {
-      await this.requestService.confirmReturn(id);
+      const req = await this.requestService.confirmReturn(id);
+      this.receivedRequests.set(req);
       this.receivedRequests.reload();
     } catch (err) {
       console.error('Error al confirmar devolución:', err);
@@ -66,6 +68,25 @@ export class MyreceivedListPage implements OnInit {
 
   ngOnInit() {
     this.receivedRequests.reload();
+
+    const token = this.mainStore.token();
+    const socket = new WebSocket('ws://localhost/backend/?token=' + token);
+
+    socket.addEventListener("open", (event) => {
+
+      console.log("Conexión establecida")
+
+    })
+
+    socket.addEventListener("message", (event) => {
+
+      if (event.data == 'requests') {
+
+        this.receivedRequests.reload();
+
+      }
+      
+    })
   }
 
 }

@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
 
-  @for(book of allBooksFiltered.value(); track book.id) {
+  @for(book of allBooks.value(); track book.id) {
 
   <ion-grid class="ion-text-center">
         <ion-row class="ion-justify-content-center ion-align-items-center">
@@ -17,6 +17,7 @@
                 </ion-row>
                 <ion-card-title>{{ book.name }}</ion-card-title>
                 <ion-card-subtitle>por {{ book.author }}</ion-card-subtitle>
+                <p><strong>Fecha de publicación: </strong>{{book.creation_date}}</p>
               </ion-card-header>
 
               <ion-card-content>

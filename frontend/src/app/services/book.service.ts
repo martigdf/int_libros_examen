@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { inject } from '@angular/core';
@@ -20,6 +20,7 @@ export class BookService {
   private httpClient = inject(HttpClient);
   private apiUrl = environment.apiUrl;
   private usuariosService = inject(UsuariosService);
+   public bookId = signal<string | null>(null);
 
   constructor() { }
 
